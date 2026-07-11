@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elvora — Track Expenses. Save More. Achieve Goals.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════════
+       RESET & BASE
+    ═══════════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --purple:      #7c5cfc;
+      --purple-dark: #5e3fdd;
+      --purple-light:#a78bfa;
+      --purple-bg:   #f5f3ff;
+      --ink:         #1a1b35;
+      --muted:       #6b7280;
+      --border:      #e8e3ff;
+      --white:       #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--ink);
+      background: #fff;
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { max-width: 100%; }
+
+    /* ═══════════════════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════════════════ */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(124,92,252,0.08);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+    }
+
+    .nav-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .nav-logo-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #8b6cf7, #6049e8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: #4b4d6e;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--purple); }
+
+    .btn-login {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 40px;
+      padding: 0 22px;
+      background: var(--purple);
+      color: #fff;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background 0.15s, transform 0.14s;
+    }
+    .btn-login:hover { background: var(--purple-dark); transform: translateY(-1px); }
+    .btn-login .arrow { font-size: 16px; }
+
+    /* ═══════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: calc(100vh - 64px);
+      display: flex;
+      align-items: center;
+      padding: 60px 40px 80px;
+      background: linear-gradient(140deg, #fdfcff 0%, #f5f3ff 50%, #eeeaff 100%);
+    }
+
+    /* decorative blobs */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -180px;
+      width: 560px; height: 560px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,92,252,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -140px;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(167,139,250,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Hero left ── */
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(124,92,252,0.1);
+      border: 1px solid rgba(124,92,252,0.2);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--purple);
+      margin-bottom: 24px;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--purple);
+    }
+
+    .hero h1 {
+      font-size: clamp(38px, 5vw, 54px);
+      font-weight: 900;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .purple { color: var(--purple); }
+
+    .hero-sub {
+      font-size: 15.5px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 420px;
+      margin-bottom: 36px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 36px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 48px;
+      padding: 0 26px;
+      background: var(--purple);
+      color: #fff;
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 700;
+      transition: background 0.15s, transform 0.14s, box-shadow 0.15s;
+      box-shadow: 0 6px 20px rgba(124,92,252,0.32);
+    }
+    .btn-primary:hover {
+      background: var(--purple-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(124,92,252,0.4);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 48px;
+      padding: 0 20px;
+      color: var(--ink);
+      font-size: 14.5px;
+      font-weight: 600;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: rgba(255,255,255,0.7);
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-ghost:hover { border-color: var(--purple); color: var(--purple); }
+
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .avatars {
+      display: flex;
+    }
+    .avatars span {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-left: -10px;
+      flex-shrink: 0;
+    }
+    .avatars span:first-child { margin-left: 0; }
+    .avatars .av1 { background: #8b6cf7; }
+    .avatars .av2 { background: #f472b6; }
+    .avatars .av3 { background: #34d399; }
+    .avatars .av4 { background: #fb923c; }
+
+    .trust-text { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .trust-text strong { color: var(--ink); font-weight: 700; }
+
+    /* ── Hero right — Dashboard card ── */
+    .hero-visual {
+      position: relative;
+    }
+
+    .dashboard-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 24px 80px rgba(124,92,252,0.18), 0 4px 16px rgba(0,0,0,0.06);
+      overflow: hidden;
+      position: relative;
+      z-index: 2;
+    }
+
+    .dash-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: #fff;
+      border-bottom: 1px solid #f0eeff;
+    }
+    .dash-logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .dash-logo-box {
+      width: 22px; height: 22px;
+      border-radius: 5px;
+      background: linear-gradient(135deg,#8b6cf7,#6049e8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #fff;
+      font-weight: 800;
+    }
+    .dash-title { font-size: 14px; font-weight: 700; color: var(--ink); }
+
+    .dash-body { padding: 16px; }
+
+    .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .stat-chip {
+      background: #fafafa;
+      border: 1px solid #f0eeff;
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+    .stat-chip .label { font-size: 9.5px; color: #9ca3af; margin-bottom: 3px; }
+    .stat-chip .val {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+    .stat-chip.green .val { color: #10b981; }
+
+    .dash-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    /* Mini chart */
+    .mini-chart-box {
+      background: #fafafa;
+      border: 1px solid #f0eeff;
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .chart-header span { font-size: 9px; color: #9ca3af; }
+    .chart-tabs {
+      display: flex; gap: 4px;
+    }
+    .chart-tab {
+      font-size: 8px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #9ca3af;
+      cursor: pointer;
+    }
+    .chart-tab.active { background: var(--purple); color: #fff; }
+    .mini-chart { width: 100%; height: 56px; }
+
+    /* Donut */
+    .donut-box {
+      background: #fafafa;
+      border: 1px solid #f0eeff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .donut-label { font-size: 9px; color: #9ca3af; margin-bottom: 6px; }
+
+    /* Transactions */
+    .dash-transactions {
+      background: #fafafa;
+      border: 1px solid #f0eeff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .tx-header {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .tx-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .tx-left { display: flex; align-items: center; gap: 7px; }
+    .tx-icon {
+      width: 24px; height: 24px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+    .tx-name { font-size: 9.5px; font-weight: 600; color: var(--ink); }
+    .tx-date { font-size: 8.5px; color: #9ca3af; }
+    .tx-amt  { font-size: 10px; font-weight: 700; }
+    .tx-neg  { color: #ef4444; }
+    .tx-pos  { color: #10b981; }
+
+    /* Floating wallet */
+    .hero-wallet {
+      position: absolute;
+      bottom: -28px; right: -24px;
+      width: 90px; height: 90px;
+      background: linear-gradient(135deg,#8b6cf7,#6049e8);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 32px rgba(124,92,252,0.35);
+      z-index: 3;
+    }
+    .hero-wallet svg { width: 44px; height: 44px; }
+
+    /* Floating pill */
+    .hero-pill {
+      position: absolute;
+      top: 20px; right: -30px;
+      background: #fff;
+      border-radius: 30px;
+      padding: 8px 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 3;
+    }
+    .hero-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; }
+
+    /* ═══════════════════════════════════════════════
+       SECTION COMMONS
+    ═══════════════════════════════════════════════ */
+    .section { padding: 88px 40px; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--purple);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+
+    .section-heading {
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.25;
+      margin-bottom: 14px;
+    }
+    .section-heading .purple { color: var(--purple); }
+
+    .section-sub {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 52px;
+    }
+
+    .text-center { text-align: center; }
+
+    /* ═══════════════════════════════════════════════
+       FEATURES
+    ═══════════════════════════════════════════════ */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 52px;
+    }
+
+    .feat-card {
+      background: #fff;
+      border: 1px solid #ede9ff;
+      border-radius: 20px;
+      padding: 32px 24px 28px;
+      text-align: center;
+      transition: box-shadow 0.2s, transform 0.18s;
+      box-shadow: 0 2px 12px rgba(124,92,252,0.04);
+    }
+    .feat-card:hover {
+      box-shadow: 0 12px 36px rgba(124,92,252,0.12);
+      transform: translateY(-4px);
+    }
+
+    .feat-icon {
+      width: 64px; height: 64px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 28px;
+    }
+    .feat-icon.pink    { background: #fff0f3; }
+    .feat-icon.rose    { background: #fff0f3; }
+    .feat-icon.green   { background: #f0fdf4; }
+    .feat-icon.blue    { background: #eff6ff; }
+
+    .feat-title {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .feat-desc { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+
+    /* ═══════════════════════════════════════════════
+       HOW IT WORKS
+    ═══════════════════════════════════════════════ */
+    .hiw { background: var(--purple-bg); }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 52px;
+      position: relative;
+    }
+
+    /* dashed connector */
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 90px; left: calc(16.66% + 20px);
+      right: calc(16.66% + 20px);
+      height: 2px;
+      background: repeating-linear-gradient(
+              90deg,
+              var(--purple-light) 0, var(--purple-light) 8px,
+              transparent 8px, transparent 18px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .step-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 24px 28px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(124,92,252,0.07);
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-num {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--purple);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .step-illustration {
+      width: 100%;
+      height: 130px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* ═══════════════════════════════════════════════
+       CTA / BENEFITS SECTION
+    ═══════════════════════════════════════════════ */
+    .benefits {
+      background: linear-gradient(130deg, #1a1535 0%, #2d1f72 60%, #3a1fa8 100%);
+      color: #fff;
+    }
+
+    .benefits-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .benefits-tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--purple-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+
+    .benefits h2 {
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .benefits h2 .purple { color: var(--purple-light); }
+
+    .benefits-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    .benefits-stats {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .stat-block { display: flex; align-items: center; gap: 12px; }
+    .stat-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(124,92,252,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+    }
+    .stat-val {
+      font-size: 22px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+    }
+    .stat-label { font-size: 12px; color: rgba(255,255,255,0.55); }
+
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 48px;
+      padding: 0 26px;
+      background: #fff;
+      color: var(--purple);
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 800;
+      transition: transform 0.14s, box-shadow 0.15s;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.28); }
+
+    /* Wallet illustration */
+    .benefits-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ═══════════════════════════════════════════════
+       TESTIMONIALS
+    ═══════════════════════════════════════════════ */
+    .testimonials { background: #fdfcff; }
+
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 52px;
+    }
+
+    .testi-card {
+      background: #fff;
+      border: 1px solid #ede9ff;
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 2px 12px rgba(124,92,252,0.05);
+      transition: box-shadow 0.2s, transform 0.18s;
+    }
+    .testi-card:hover {
+      box-shadow: 0 12px 36px rgba(124,92,252,0.1);
+      transform: translateY(-4px);
+    }
+
+    .quote-icon {
+      font-size: 36px;
+      color: var(--purple);
+      line-height: 1;
+      margin-bottom: 14px;
+      font-family: Georgia, serif;
+    }
+
+    .testi-text {
+      font-size: 14px;
+      color: #4b4d6e;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .testi-stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 16px;
+    }
+    .testi-stars span { color: #fbbf24; font-size: 14px; }
+
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .author-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .author-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+    .author-role { font-size: 12px; color: var(--muted); }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER CTA BANNER
+    ═══════════════════════════════════════════════ */
+    .footer-cta {
+      background: linear-gradient(130deg, #1a1535 0%, #2d1f72 60%, #3a1fa8 100%);
+      padding: 52px 40px;
+    }
+
+    .footer-cta-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .footer-cta-left { display: flex; align-items: center; gap: 18px; }
+
+    .footer-cta-ebox {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .footer-cta h3 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .footer-cta p {
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .footer-bar {
+      background: #10102a;
+      padding: 18px 40px;
+    }
+
+    .footer-bar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,0.4); }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.8); }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 860px) {
+      .hero-inner          { grid-template-columns: 1fr; text-align: center; }
+      .hero-sub            { margin: 0 auto 36px; }
+      .hero-ctas           { justify-content: center; }
+      .hero-trust          { justify-content: center; }
+      .hero-visual         { display: none; }
+      .steps-grid          { grid-template-columns: 1fr; }
+      .steps-grid::before  { display: none; }
+      .testi-grid          { grid-template-columns: 1fr; }
+      .benefits-inner      { grid-template-columns: 1fr; }
+      .benefits-visual     { display: none; }
+      .footer-cta-inner    { flex-direction: column; text-align: center; }
+      .footer-bar-inner    { flex-direction: column; gap: 12px; }
+    }
+
+    @media (max-width: 640px) {
+      .navbar              { padding: 0 18px; }
+      .nav-links           { display: none; }
+      .section             { padding: 60px 18px; }
+      .features-grid       { grid-template-columns: 1fr; }
+      .hero                { padding: 44px 18px 60px; }
+      .footer-cta          { padding: 44px 18px; }
+      .footer-bar          { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════ -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-box">E</div>
+      Elvora
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#hiw">How It Works</a></li>
+      <li><a href="#benefits">Benefits</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#features">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="login" class="btn-login">
+      Login <span class="arrow">→</span>
+    </a>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+
+    <!-- Left -->
+    <div class="hero-left">
+      <div class="hero-badge">Smart Expense Tracking</div>
+      <h1>
+        Track Expenses.<br>
+        Save More.<br>
+        <span class="purple">Achieve Goals.</span>
+      </h1>
+      <p class="hero-sub">
+        Elvora helps you take control of your finances with smart tracking,
+        insightful reports, and budgeting tools — all in one place.
+      </p>
+      <div class="hero-ctas">
+        <a href="login" class="btn-primary">Login to Get Started &nbsp;→</a>
+        <a href="#hiw" class="btn-ghost">&#9654; See How It Works &nbsp;→</a>
+      </div>
+      <div class="hero-trust">
+        <div class="avatars">
+          <span class="av1">A</span>
+          <span class="av2">P</span>
+          <span class="av3">R</span>
+          <span class="av4">S</span>
+        </div>
+        <p class="trust-text">Trusted by <strong>10,000+</strong> users worldwide</p>
+      </div>
+    </div>
+
+    <!-- Right — Dashboard mock -->
+    <div class="hero-visual">
+      <div class="hero-pill">
+        <span class="dot"></span> Live Sync Active
+      </div>
+
+      <div class="dashboard-card">
+        <!-- Topbar -->
+        <div class="dash-topbar">
+          <div class="dash-logo">
+            <div class="dash-logo-box">E</div>
+            Elvora
+          </div>
+          <div class="dash-title">Dashboard</div>
+        </div>
+
+        <div class="dash-body">
+          <!-- Stats row -->
+          <div class="dash-stats">
+            <div class="stat-chip">
+              <div class="label">Total Balance</div>
+              <div class="val">₹1,45,330.50</div>
+            </div>
+            <div class="stat-chip green">
+              <div class="label">Income</div>
+              <div class="val">₹2,35,400</div>
+            </div>
+            <div class="stat-chip">
+              <div class="label">Expenses</div>
+              <div class="val">₹90,169.50</div>
+            </div>
+          </div>
+
+          <!-- Chart + Donut -->
+          <div class="dash-grid">
+            <div class="mini-chart-box">
+              <div class="chart-header">
+                <span>Overview</span>
+                <div class="chart-tabs">
+                  <span class="chart-tab">Week</span>
+                  <span class="chart-tab active">Month</span>
+                  <span class="chart-tab">Year</span>
+                </div>
+              </div>
+              <!-- SVG line chart -->
+              <svg class="mini-chart" viewBox="0 0 200 56" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#8b6cf7" stop-opacity="0.25"/>
+                    <stop offset="100%" stop-color="#8b6cf7" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0 45 C20 42 35 20 55 22 C75 24 85 38 105 30 C125 22 138 10 160 14 C180 18 195 28 200 24"
+                      fill="none" stroke="#8b6cf7" stroke-width="2.2" stroke-linecap="round"/>
+                <path d="M0 45 C20 42 35 20 55 22 C75 24 85 38 105 30 C125 22 138 10 160 14 C180 18 195 28 200 24 L200 56 L0 56Z"
+                      fill="url(#cg)"/>
+                <circle cx="160" cy="14" r="3.5" fill="#8b6cf7"/>
+              </svg>
+            </div>
+
+            <div class="donut-box">
+              <div class="donut-label">Top Categories</div>
+              <!-- SVG donut -->
+              <svg width="80" height="80" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="28" fill="none" stroke="#ede9ff" stroke-width="14"/>
+                <circle cx="40" cy="40" r="28" fill="none" stroke="#8b6cf7" stroke-width="14"
+                        stroke-dasharray="70 106" stroke-dashoffset="-20" stroke-linecap="round"/>
+                <circle cx="40" cy="40" r="28" fill="none" stroke="#f472b6" stroke-width="14"
+                        stroke-dasharray="38 138" stroke-dashoffset="-90" stroke-linecap="round"/>
+                <circle cx="40" cy="40" r="28" fill="none" stroke="#34d399" stroke-width="14"
+                        stroke-dasharray="22 154" stroke-dashoffset="-128" stroke-linecap="round"/>
+                <text x="40" y="44" text-anchor="middle" font-size="10" font-weight="800"
+                      fill="#1a1b35" font-family="Inter,sans-serif">65%</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Recent Transactions -->
+          <div class="dash-transactions">
+            <div class="tx-header">Recent Transactions</div>
+            <div class="tx-row">
+              <div class="tx-left">
+                <div class="tx-icon" style="background:#fff0f3;">🛒</div>
+                <div>
+                  <div class="tx-name">Grocery Shopping</div>
+                  <div class="tx-date">Today, 11:42 AM</div>
+                </div>
+              </div>
+              <div class="tx-amt tx-neg">-₹3,400</div>
+            </div>
+            <div class="tx-row">
+              <div class="tx-left">
+                <div class="tx-icon" style="background:#f0fdf4;">💰</div>
+                <div>
+                  <div class="tx-name">Salary Credit</div>
+                  <div class="tx-date">Jul 01, 2026</div>
+                </div>
+              </div>
+              <div class="tx-amt tx-pos">+₹95,000</div>
+            </div>
+            <div class="tx-row" style="margin-bottom:0">
+              <div class="tx-left">
+                <div class="tx-icon" style="background:#eff6ff;">⚡</div>
+                <div>
+                  <div class="tx-name">Electricity Bill</div>
+                  <div class="tx-date">Jun 28, 2026</div>
+                </div>
+              </div>
+              <div class="tx-amt tx-neg">-₹1,895</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating wallet badge -->
+      <div class="hero-wallet">
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="12" width="36" height="24" rx="6" fill="rgba(255,255,255,0.25)" stroke="rgba(255,255,255,0.6)" stroke-width="2"/>
+          <rect x="4" y="8" width="28" height="6" rx="3" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+          <rect x="28" y="20" width="12" height="10" rx="3" fill="rgba(255,255,255,0.35)"/>
+          <circle cx="33" cy="25" r="2.5" fill="rgba(255,255,255,0.9)"/>
+        </svg>
+      </div>
+    </div><!-- /hero-visual -->
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     FEATURES
+═══════════════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="text-center">
+      <span class="section-tag">Why Choose Elvora?</span>
+      <h2 class="section-heading">
+        Everything You Need to<br>
+        Manage <span class="purple">Your Money</span>
+      </h2>
+      <p class="section-sub">
+        Powerful features designed to help you track, analyze,
+        and optimize your finances effortlessly.
+      </p>
+    </div>
+
+    <div class="features-grid">
+
+      <div class="feat-card">
+        <div class="feat-icon pink">
+          <!-- Wallet icon -->
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="3" y="10" width="26" height="18" rx="5" fill="#fda4af"/>
+            <rect x="3" y="7" width="20" height="5" rx="2.5" fill="#fb7185"/>
+            <rect x="21" y="14" width="8" height="7" rx="2" fill="#fff" opacity=".7"/>
+            <circle cx="24.5" cy="17.5" r="1.8" fill="#f43f5e"/>
+          </svg>
+        </div>
+        <h3 class="feat-title">Track Expenses Easily</h3>
+        <p class="feat-desc">Record and categorize your expenses in seconds.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon rose">
+          <!-- Pie chart icon -->
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="12" fill="#ffe4e6"/>
+            <path d="M16 16 L16 4 A12 12 0 0 1 28 16 Z" fill="#f43f5e"/>
+            <path d="M16 16 L28 16 A12 12 0 0 1 8 26 Z" fill="#fb7185"/>
+            <path d="M16 16 L8 26 A12 12 0 0 1 16 4 Z" fill="#fda4af"/>
+          </svg>
+        </div>
+        <h3 class="feat-title">Insightful Reports</h3>
+        <p class="feat-desc">Get clear insights with beautiful charts and reports.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon green">
+          <!-- Budget icon -->
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="4" y="18" width="6" height="10" rx="2" fill="#6ee7b7"/>
+            <rect x="13" y="12" width="6" height="16" rx="2" fill="#10b981"/>
+            <rect x="22" y="6" width="6" height="22" rx="2" fill="#059669"/>
+            <path d="M6 10 L14 6 L22 9" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="feat-title">Budget &amp; Save</h3>
+        <p class="feat-desc">Set budgets, track progress, and save more.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon blue">
+          <!-- Target / goal icon -->
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="12" stroke="#93c5fd" stroke-width="2" fill="none"/>
+            <circle cx="16" cy="16" r="7"  stroke="#3b82f6" stroke-width="2" fill="none"/>
+            <circle cx="16" cy="16" r="3"  fill="#3b82f6"/>
+            <line x1="16" y1="4"  x2="16" y2="7"  stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+            <line x1="16" y1="25" x2="16" y2="28" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+            <line x1="4"  y1="16" x2="7"  y2="16" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+            <line x1="25" y1="16" x2="28" y2="16" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="feat-title">Achieve Goals</h3>
+        <p class="feat-desc">Create financial goals and achieve them step by step.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     HOW IT WORKS
+═══════════════════════════════════════════════ -->
+<section class="section hiw" id="hiw">
+  <div class="section-inner">
+    <div class="text-center">
+      <span class="section-tag">How It Works</span>
+      <h2 class="section-heading">
+        Simple Steps to <span class="purple">Financial Freedom</span>
+      </h2>
+    </div>
+
+    <div class="steps-grid">
+
+      <!-- Step 1 -->
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-illustration">
+          <svg width="90" height="110" viewBox="0 0 90 110" fill="none">
+            <!-- Form card -->
+            <rect x="10" y="10" width="70" height="88" rx="12" fill="#fff" stroke="#ede9ff" stroke-width="1.5"/>
+            <rect x="22" y="28" width="46" height="8" rx="4" fill="#ede9ff"/>
+            <rect x="22" y="44" width="46" height="8" rx="4" fill="#ede9ff"/>
+            <rect x="22" y="60" width="32" height="8" rx="4" fill="#ede9ff"/>
+            <!-- Check circle -->
+            <circle cx="68" cy="82" r="14" fill="#8b6cf7"/>
+            <path d="M61 82 L66 87 L75 77" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="step-title">Sign Up</h3>
+        <p class="step-desc">Create your account in just a few seconds.</p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-illustration">
+          <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
+            <!-- Receipt card -->
+            <rect x="20" y="8" width="70" height="90" rx="12" fill="#fff" stroke="#ede9ff" stroke-width="1.5"/>
+            <!-- Income row -->
+            <rect x="30" y="24" width="26" height="6" rx="3" fill="#dcfce7"/>
+            <rect x="72" y="24" width="10" height="6" rx="3" fill="#86efac"/>
+            <!-- Label -->
+            <text x="30" y="22" font-size="7" fill="#9ca3af" font-family="Inter,sans-serif">Income</text>
+            <text x="58" y="22" font-size="8" font-weight="700" fill="#10b981" font-family="Inter,sans-serif">₹2,35,400</text>
+            <!-- Expense row -->
+            <rect x="30" y="48" width="26" height="6" rx="3" fill="#fee2e2"/>
+            <rect x="72" y="48" width="10" height="6" rx="3" fill="#fca5a5"/>
+            <text x="30" y="46" font-size="7" fill="#9ca3af" font-family="Inter,sans-serif">Expense</text>
+            <text x="58" y="46" font-size="8" font-weight="700" fill="#ef4444" font-family="Inter,sans-serif">-₹1,950</text>
+            <!-- Plus button -->
+            <circle cx="55" cy="82" r="14" fill="#8b6cf7"/>
+            <line x1="55" y1="76" x2="55" y2="88" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="49" y1="82" x2="61" y2="82" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="step-title">Add Transactions</h3>
+        <p class="step-desc">Add your income and expenses effortlessly.</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-illustration">
+          <svg width="100" height="110" viewBox="0 0 100 110" fill="none">
+            <!-- Chart bars -->
+            <rect x="10" y="70" width="14" height="32" rx="4" fill="#c4b5fd"/>
+            <rect x="30" y="50" width="14" height="52" rx="4" fill="#a78bfa"/>
+            <rect x="50" y="30" width="14" height="72" rx="4" fill="#8b6cf7"/>
+            <rect x="70" y="14" width="14" height="88" rx="4" fill="#7c3aed"/>
+            <!-- Trend arrow -->
+            <path d="M15 62 L36 44 L56 26 L76 12" stroke="#34d399" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="76" cy="12" r="4.5" fill="#34d399"/>
+          </svg>
+        </div>
+        <h3 class="step-title">Track &amp; Grow</h3>
+        <p class="step-desc">Track, analyze, and grow your savings.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     BENEFITS / CTA
+═══════════════════════════════════════════════ -->
+<section class="section benefits" id="benefits">
+  <div class="benefits-inner">
+
+    <div>
+      <span class="benefits-tag">Take Control Today</span>
+      <h2>
+        Smart Planning for a<br>
+        <span class="purple">Better Tomorrow</span>
+      </h2>
+      <p class="benefits-sub">
+        Join thousands of users who are already managing their finances smarter with Elvora.
+      </p>
+
+      <div class="benefits-stats">
+        <div class="stat-block">
+          <div class="stat-icon">👥</div>
+          <div>
+            <div class="stat-val">10,000+</div>
+            <div class="stat-label">Happy Users</div>
+          </div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-icon">💸</div>
+          <div>
+            <div class="stat-val">₹50Cr+</div>
+            <div class="stat-label">Transactions Tracked</div>
+          </div>
+        </div>
+      </div>
+
+      <a href="login" class="btn-white">Login Now &nbsp;→</a>
+    </div>
+
+    <!-- Wallet illustration -->
+    <div class="benefits-visual">
+      <svg width="340" height="280" viewBox="0 0 340 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Shadow -->
+        <ellipse cx="170" cy="268" rx="110" ry="10" fill="rgba(0,0,0,0.25)"/>
+
+        <!-- Coins stack -->
+        <ellipse cx="90" cy="210" rx="36" ry="10" fill="#c084fc" opacity=".7"/>
+        <rect x="54" y="188" width="72" height="22" rx="5" fill="#a855f7"/>
+        <ellipse cx="90" cy="188" rx="36" ry="10" fill="#d8b4fe"/>
+        <rect x="54" y="170" width="72" height="18" rx="5" fill="#9333ea"/>
+        <ellipse cx="90" cy="170" rx="36" ry="10" fill="#e9d5ff"/>
+
+        <!-- Plant -->
+        <rect x="270" y="180" width="8" height="60" rx="4" fill="#86efac"/>
+        <ellipse cx="257" cy="175" rx="18" ry="22" fill="#4ade80" opacity=".85" transform="rotate(-15 257 175)"/>
+        <ellipse cx="283" cy="168" rx="16" ry="20" fill="#22c55e" opacity=".85" transform="rotate(12 283 168)"/>
+        <ellipse cx="274" cy="155" rx="14" ry="18" fill="#16a34a" opacity=".8" transform="rotate(-5 274 155)"/>
+
+        <!-- Main wallet body -->
+        <rect x="100" y="90" width="180" height="140" rx="22" fill="url(#wg)"/>
+        <rect x="100" y="90" width="180" height="140" rx="22"
+              fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+
+        <!-- Wallet flap -->
+        <rect x="100" y="90" width="180" height="60" rx="22" fill="rgba(255,255,255,0.1)"/>
+
+        <!-- Card slot -->
+        <rect x="220" y="136" width="56" height="44" rx="10"
+              fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <circle cx="244" cy="158" r="8" fill="rgba(255,255,255,0.3)"/>
+
+        <!-- Dollar sign -->
+        <text x="152" y="180" font-size="48" font-weight="900" fill="rgba(255,255,255,0.2)"
+              font-family="Inter,sans-serif">₹</text>
+
+        <!-- Sparkles -->
+        <text x="80"  y="100" font-size="16" fill="rgba(216,180,254,0.7)">✦</text>
+        <text x="300" y="112" font-size="12" fill="rgba(216,180,254,0.6)">✦</text>
+        <text x="310" y="180" font-size="10" fill="rgba(216,180,254,0.5)">✦</text>
+        <text x="70"  y="160" font-size="10" fill="rgba(216,180,254,0.5)">+</text>
+
+        <defs>
+          <linearGradient id="wg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%"   stop-color="#9333ea"/>
+            <stop offset="100%" stop-color="#6d28d9"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════════════ -->
+<section class="section testimonials" id="testimonials">
+  <div class="section-inner">
+    <div class="text-center">
+      <span class="section-tag">What Our Users Say</span>
+      <h2 class="section-heading">
+        Loved by <span class="purple">Thousands</span>
+      </h2>
+    </div>
+
+    <div class="testi-grid">
+
+      <div class="testi-card">
+        <div class="quote-icon">"</div>
+        <p class="testi-text">
+          Elvora has completely changed the way I manage my money. The insights are amazing and so easy to understand!
+        </p>
+        <div class="testi-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <div class="testi-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#8b6cf7,#6049e8);">A</div>
+          <div>
+            <div class="author-name">Ankit Sharma</div>
+            <div class="author-role">Software Engineer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="quote-icon">"</div>
+        <p class="testi-text">
+          Finally, an expense tracker that is both powerful and beautiful. Highly recommended!
+        </p>
+        <div class="testi-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <div class="testi-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#f472b6,#ec4899);">P</div>
+          <div>
+            <div class="author-name">Priya Mehta</div>
+            <div class="author-role">Marketing Manager</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="quote-icon">"</div>
+        <p class="testi-text">
+          The budgeting feature helped me save more and achieve my financial goals faster.
+        </p>
+        <div class="testi-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <div class="testi-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#34d399,#059669);">R</div>
+          <div>
+            <div class="author-name">Rahul Verma</div>
+            <div class="author-role">Business Owner</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER CTA BANNER
+═══════════════════════════════════════════════ -->
+<div class="footer-cta">
+  <div class="footer-cta-inner">
+    <div class="footer-cta-left">
+      <div class="footer-cta-ebox">E</div>
+      <div>
+        <h3>Ready to Take Control of Your Finances?</h3>
+        <p>Login now and start your journey towards financial freedom.</p>
+      </div>
+    </div>
+    <a href="login" class="btn-primary" style="white-space:nowrap; flex-shrink:0;">
+      Login to Get Started &nbsp;→
+    </a>
+  </div>
+</div>
+
+<div class="footer-bar">
+  <div class="footer-bar-inner">
+    <p class="footer-copy">© 2026 Elvora. All rights reserved.</p>
+    <ul class="footer-links">
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">Contact Us</a></li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>

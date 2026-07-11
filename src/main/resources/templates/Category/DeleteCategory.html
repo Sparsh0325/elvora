@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Category</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" th:if="${session.role == 'ADMIN'}" th:href="@{/css/AdminNavbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'ADMIN'}" th:href="@{/css/AdminTopbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'ADMIN'}" th:href="@{/css/AdminDarkMode.css}">
+    <link rel="stylesheet" th:if="${session.role == 'USER'}" th:href="@{/css/UserNavbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'USER'}" th:href="@{/css/UserTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin/DeleteCategory.css}">
+</head>
+
+<body>
+
+<th:block th:if="${session.role == 'ADMIN'}">
+    <div th:replace="~{Admin/AdminNavbar :: adminNavbar}"></div>
+</th:block>
+<th:block th:if="${session.role == 'USER'}">
+    <div th:replace="~{User/UserNavbar :: userNavbar}"></div>
+</th:block>
+
+<div class="admin-main">
+
+    <th:block th:if="${session.role == 'ADMIN'}">
+        <div th:replace="~{Admin/AdminTopbar :: adminTopbar}"></div>
+    </th:block>
+    <th:block th:if="${session.role == 'USER'}">
+        <div th:replace="~{User/UserTopbar :: userTopbar}"></div>
+    </th:block>
+
+    <main class="admin-content">
+
+        <!-- ===== Page header ===== -->
+        <div class="del-page-header">
+            <nav class="breadcrumb">
+                <a th:href="@{/dashboard}" class="bc-link">Dashboard</a>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <a th:href="@{/category/showall}" class="bc-link">Categories</a>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <span class="bc-current">Delete Category</span>
+            </nav>
+            <h1>Delete Category</h1>
+            <p class="del-page-sub">This action will permanently remove the category and all its associated data.</p>
+        </div>
+
+        <!-- ===== Centered confirmation card ===== -->
+        <div class="del-card-wrapper">
+            <div class="del-card">
+
+                <!-- Decorative floating dots -->
+                <span class="fd fd-tl"></span>
+                <span class="fd fd-tr"></span>
+                <span class="fd fd-ml"></span>
+                <span class="fd fd-mr"></span>
+                <span class="fd fd-bl"></span>
+                <span class="fd fd-br"></span>
+
+                <!-- Trash illustration -->
+                <div class="del-illustration">
+                    <div class="del-icon-circle">
+                        <!-- Trash SVG -->
+                        <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Lid -->
+                            <rect x="10" y="10" width="32" height="5" rx="2.5" fill="#ef4444"/>
+                            <rect x="20" y="6"  width="12" height="6"  rx="2"   fill="#ef4444"/>
+                            <!-- Body -->
+                            <rect x="13" y="17" width="26" height="26" rx="4" fill="#ef4444"/>
+                            <!-- Lines inside bin -->
+                            <line x1="20" y1="22" x2="20" y2="37" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+                            <line x1="26" y1="22" x2="26" y2="37" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+                            <line x1="32" y1="22" x2="32" y2="37" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <!-- Warning badge overlapping bottom-right of circle -->
+                    <div class="del-warn-badge">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                </div>
+
+                <!-- Heading -->
+                <h2 class="del-heading">Are you sure?</h2>
+                <p class="del-sub">
+                    You are about to delete the category below. This action cannot be undone<br>
+                    and all related data will be permanently removed.
+                </p>
+
+                <!-- Info rows -->
+                <div class="del-info-table">
+
+                    <div class="del-info-row">
+                        <div class="del-info-left">
+                            <span class="dil-icon dil-icon-id">
+                                <i class="fa-regular fa-id-badge"></i>
+                            </span>
+                            <span class="dil-label">Category ID</span>
+                        </div>
+                        <span class="dil-value" th:text="${category.category_id}">—</span>
+                    </div>
+
+                    <div class="del-info-row">
+                        <div class="del-info-left">
+                            <span class="dil-icon dil-icon-name">
+                                <i class="fa-regular fa-folder-open"></i>
+                            </span>
+                            <span class="dil-label">Category Name</span>
+                        </div>
+                        <span class="dil-value dil-value-bold" th:text="${category.category_name}">—</span>
+                    </div>
+
+                    <div class="del-info-row del-info-row-last">
+                        <div class="del-info-left">
+                            <span class="dil-icon dil-icon-user">
+                                <i class="fa-regular fa-user"></i>
+                            </span>
+                            <span class="dil-label">Created By</span>
+                        </div>
+                        <span class="dil-value" th:text="${category.created_by}">—</span>
+                    </div>
+
+                </div>
+
+                <!-- Warning note -->
+                <div class="del-note">
+                    <i class="fa-solid fa-triangle-exclamation del-note-icon"></i>
+                    <p class="del-note-text">
+                        <strong>Please note:</strong> If this category is used in any products or records,
+                        they may also be affected.
+                    </p>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="del-actions">
+                    <a th:href="@{/category/showall}" class="btn-cancel">
+                        Cancel
+                    </a>
+                    <form method="post" th:action="@{/category/delete}" style="display:inline;">
+                        <input type="hidden" name="category_id" th:value="${category.category_id}">
+                        <button type="submit" class="btn-delete">
+                            <i class="fa-solid fa-trash-can"></i>
+                            Delete Category
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

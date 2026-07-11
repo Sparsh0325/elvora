@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Set Monthly Budget – Elvora</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/UserNavbar.css}">
+    <link rel="stylesheet" th:href="@{/css/UserTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/UserDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin/CategoryRegistration.css}">
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div th:replace="~{User/UserNavbar :: userNavbar}"></div>
+
+<div class="admin-main">
+
+    <!-- Topbar -->
+    <div th:replace="~{User/UserTopbar :: userTopbar}"></div>
+
+    <main class="admin-content">
+
+        <!-- Page Header -->
+        <div class="page-titles">
+            <h1>Set Monthly Budget</h1>
+            <p>Establish a monthly limit to regulate and monitor your expenditures</p>
+        </div>
+
+        <!-- Layout Grid -->
+        <div class="reg-layout">
+
+            <!-- LEFT: Form Card -->
+            <div class="reg-card">
+
+                <div class="reg-card-header">
+                    <div class="reg-card-icon">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                    <div>
+                        <p class="reg-card-title">Budget Allocation</p>
+                        <p class="reg-card-sub">Define the limit for the selected time duration</p>
+                    </div>
+                </div>
+
+                <!-- Error Warning -->
+                <div th:if="${param.exists}" style="background: #fef2f2; border: 1px solid #fca5a5; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; color: #b91c1c; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Budget already exists for this month and year. Please edit the existing budget.</span>
+                </div>
+
+                <!-- Form -->
+                <form th:action="@{/budget/add}" th:object="${budgetDto}" method="post" class="reg-form">
+
+                    <!-- Budget Amount -->
+                    <div class="form-group">
+                        <label class="form-label">Budget Amount (₹) <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-wallet input-icon"></i>
+                            <input type="number" step="0.01" th:field="*{amount}" class="form-input" placeholder="e.g. 25000" required>
+                        </div>
+                    </div>
+
+                    <!-- Select Month -->
+                    <div class="form-group">
+                        <label class="form-label">Select Month <span class="required">*</span></label>
+                        <div class="select-wrapper">
+                            <i class="fa-regular fa-calendar select-left-icon"></i>
+                            <select th:field="*{month}" class="form-select" required>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down select-arrow"></i>
+                        </div>
+                    </div>
+
+                    <!-- Year -->
+                    <div class="form-group">
+                        <label class="form-label">Select Year <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-clock-rotate-left input-icon"></i>
+                            <input type="number" th:field="*{year}" class="form-input" placeholder="e.g. 2026" required>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="form-actions">
+                        <a th:href="@{/budget/show}" class="btn-cancel">Cancel</a>
+                        <button type="submit" class="btn-submit">
+                            <i class="fa-solid fa-check"></i>
+                            Set Budget
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- RIGHT: Illustration Panel -->
+            <div class="reg-illustration-panel">
+                <span class="il-dot il-dot-tl"></span>
+                <span class="il-dot il-dot-tr"></span>
+                <span class="il-dot il-dot-ml"></span>
+                <span class="il-dot il-dot-br"></span>
+
+                <!-- Vault SVG -->
+                <svg class="il-folder-svg" viewBox="0 0 180 160" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="90" cy="140" rx="55" ry="8" fill="#c4b5f4" opacity="0.3"/>
+                    <rect x="45" y="40" width="90" height="90" rx="16" fill="#a78bfa"/>
+                    <rect x="52" y="47" width="76" height="76" rx="10" fill="#7c3aed"/>
+                    <circle cx="90" cy="85" r="24" fill="#a78bfa" stroke="#c4b5f4" stroke-width="3"/>
+                    <circle cx="90" cy="85" r="14" fill="#5b21b6"/>
+                    <circle cx="90" cy="85" r="4" fill="#fde047"/>
+                </svg>
+
+                <h3 class="il-title">Budget Control</h3>
+                <p class="il-desc">Setting a monthly budget enables better financial discipline and builds long term savings habits.</p>
+
+                <ul class="il-features">
+                    <li>
+                        <span class="il-feat-icon"><i class="fa-solid fa-piggy-bank"></i></span>
+                        Prevent overspending habits
+                    </li>
+                    <li>
+                        <span class="il-feat-icon"><i class="fa-solid fa-chart-pie"></i></span>
+                        Track savings dynamically
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

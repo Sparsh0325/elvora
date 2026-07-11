@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" th:if="${session.role == 'ADMIN'}" th:href="@{/css/AdminNavbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'ADMIN'}" th:href="@{/css/AdminTopbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'ADMIN'}" th:href="@{/css/AdminDarkMode.css}">
+    <link rel="stylesheet" th:if="${session.role == 'USER'}" th:href="@{/css/UserNavbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'USER'}" th:href="@{/css/UserTopbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'USER'}" th:href="@{/css/UserDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin/EditUser.css}">
+</head>
+
+<body>
+
+<th:block th:if="${session.role == 'ADMIN'}">
+    <div th:replace="~{Admin/AdminNavbar :: adminNavbar}"></div>
+</th:block>
+<th:block th:if="${session.role == 'USER'}">
+    <div th:replace="~{User/UserNavbar :: userNavbar}"></div>
+</th:block>
+
+<div class="admin-main">
+
+    <th:block th:if="${session.role == 'ADMIN'}">
+        <div th:replace="~{Admin/AdminTopbar :: adminTopbar}"></div>
+    </th:block>
+    <th:block th:if="${session.role == 'USER'}">
+        <div th:replace="~{User/UserTopbar :: userTopbar}"></div>
+    </th:block>
+
+    <main class="admin-content">
+
+        <!-- ===== Page header ===== -->
+        <div class="eu-page-header">
+            <nav class="breadcrumb">
+                <a th:if="${session.role == 'ADMIN'}" th:href="@{/admin/home}" class="bc-link">Dashboard</a>
+                <a th:if="${session.role == 'USER'}" th:href="@{/user/home}" class="bc-link">Dashboard</a>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <a th:if="${session.role == 'ADMIN'}" th:href="@{/admin/user/showall}" class="bc-link">Users</a>
+                <span th:if="${session.role == 'USER'}" class="bc-link">Profile</span>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <span class="bc-current">Edit User</span>
+            </nav>
+            <h1>Edit User Profile</h1>
+            <p class="eu-page-sub">Update user information and manage account details</p>
+        </div>
+
+        <!-- ===== Two-column layout ===== -->
+        <div class="eu-layout">
+
+            <!-- ══════════════════════════════════════
+                 LEFT: Form Card
+                 ══════════════════════════════════════ -->
+            <div class="eu-form-card">
+
+                <form th:action="${session.role == 'ADMIN'} ? @{/admin/user/edit} : @{/user/edit}" method="post" id="editUserForm">
+
+                    <!-- Hidden user_id for POST binding -->
+                    <input type="hidden" name="user_id" th:value="${user.user_id}">
+
+                    <!-- ── Section 1: User Information ── -->
+                    <div class="eu-section">
+                        <div class="eu-section-header">
+                            <div class="eu-section-icon">
+                                <i class="fa-solid fa-circle-user"></i>
+                            </div>
+                            <div>
+                                <p class="eu-section-title">User Information</p>
+                            </div>
+                        </div>
+
+                        <!-- Row 1: Full Name + Address -->
+                        <div class="eu-fields-row">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-regular fa-user input-icon"></i>
+                                    <input type="text"
+                                           id="nameInput"
+                                           name="name"
+                                           class="form-input"
+                                           placeholder="Enter full name"
+                                           th:value="${user.name}"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-location-dot input-icon"></i>
+                                    <input type="text"
+                                           id="addressInput"
+                                           name="address"
+                                           class="form-input"
+                                           placeholder="Enter address"
+                                           th:value="${user.address}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 2: Contact + Role (decorative) -->
+                        <div class="eu-fields-row">
+                            <div class="form-group">
+                                <label class="form-label">Contact Number</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-phone input-icon"></i>
+                                    <input type="number"
+                                           id="contactInput"
+                                           name="contact"
+                                           class="form-input"
+                                           placeholder="Enter contact number"
+                                           th:value="${user.contact}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Role</label>
+                                <div class="input-wrapper select-wrapper">
+                                    <i class="fa-solid fa-shield-halved input-icon"></i>
+                                    <select class="form-input form-select" disabled>
+                                        <option>User</option>
+                                        <option>Admin</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down select-arrow"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 3: Email + Status (decorative) -->
+                        <div class="eu-fields-row">
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-regular fa-envelope input-icon"></i>
+                                    <input type="email"
+                                           id="emailInput"
+                                           name="email"
+                                           class="form-input"
+                                           th:value="${user.email}"
+                                           readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Status</label>
+                                <div class="input-wrapper select-wrapper">
+                                    <span class="status-dot"></span>
+                                    <select class="form-input form-select status-select" disabled>
+                                        <option>Active</option>
+                                        <option>Inactive</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down select-arrow"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /section 1 -->
+
+                    <!-- ── Divider ── -->
+                    <div class="eu-divider"></div>
+
+                    <!-- ── Section 2: Change Password ── -->
+                    <div class="eu-section">
+                        <div class="eu-section-header">
+                            <div class="eu-section-icon eu-section-icon-indigo">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <div>
+                                <p class="eu-section-title">Change Password</p>
+                                <p class="eu-section-sub">Leave blank if you don't want to change</p>
+                            </div>
+                        </div>
+
+                        <!-- Row: New Password + Confirm Password -->
+                        <div class="eu-fields-row">
+                            <div class="form-group">
+                                <label class="form-label">New Password</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-lock input-icon"></i>
+                                    <input type="password"
+                                           id="newPassword"
+                                           name="newPassword"
+                                           class="form-input"
+                                           placeholder="Enter new password">
+                                    <button type="button" class="eye-btn" data-target="newPassword">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Confirm Password</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-lock input-icon"></i>
+                                    <input type="password"
+                                           id="confirmPassword"
+                                           name="confirmPassword"
+                                           class="form-input"
+                                           placeholder="Confirm new password">
+                                    <button type="button" class="eye-btn" data-target="confirmPassword">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security tip box -->
+                        <div class="security-tip">
+                            <div class="security-tip-icon">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <p class="security-tip-title">Security Tip</p>
+                                <p class="security-tip-body">
+                                    Use a strong password with at least 8 characters
+                                    including letters, numbers &amp; symbols.
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- /section 2 -->
+
+                    <!-- ── Form action buttons ── -->
+                    <div class="eu-form-actions">
+                        <a href="javascript:history.back()" class="eu-btn-cancel">Cancel</a>
+                        <button type="submit" class="eu-btn-submit">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Update User
+                        </button>
+                    </div>
+
+                </form>
+            </div><!-- /eu-form-card -->
+
+
+            <!-- ══════════════════════════════════════
+                 RIGHT: Profile Preview Card
+                 ══════════════════════════════════════ -->
+            <div class="eu-preview-card">
+
+                <!-- Preview header -->
+                <div class="pv-header">
+                    <div class="pv-header-icon">
+                        <i class="fa-solid fa-circle-user"></i>
+                    </div>
+                    <div>
+                        <p class="pv-header-title">User Profile Preview</p>
+                    </div>
+                    <!-- Floating sparkles -->
+                    <span class="pv-sparkle sp-1">✦</span>
+                    <span class="pv-sparkle sp-2">✦</span>
+                    <span class="pv-sparkle sp-3">+</span>
+                </div>
+
+                <p class="pv-intro-text">
+                    Here's how the user profile<br>information will appear.
+                </p>
+
+                <!-- 3-D illustration -->
+                <div class="pv-illustration">
+                    <svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"
+                         class="pv-svg">
+
+                        <!-- Shadow -->
+                        <ellipse cx="110" cy="155" rx="75" ry="8"
+                                 fill="rgba(117,87,246,0.12)"/>
+
+                        <!-- ── ID Card ── -->
+                        <rect x="20" y="30" width="130" height="105" rx="14"
+                              fill="#fff" opacity="0.92"/>
+                        <rect x="20" y="30" width="130" height="105" rx="14"
+                              fill="none" stroke="#e9e3ff" stroke-width="1.5"/>
+                        <!-- Card top strip -->
+                        <rect x="20" y="30" width="130" height="36" rx="14"
+                              fill="#7557f6"/>
+                        <rect x="20" y="52" width="130" height="14" fill="#7557f6"/>
+
+                        <!-- Avatar on card -->
+                        <circle cx="85" cy="68" r="22" fill="#fff"
+                                stroke="#e9e3ff" stroke-width="2"/>
+                        <circle cx="85" cy="63" r="9" fill="#c4b5fd"/>
+                        <path d="M63 92 Q63 80 85 80 Q107 80 107 92"
+                              fill="#ddd6fe" opacity="0.8"/>
+
+                        <!-- Checkmark badge -->
+                        <circle cx="125" cy="95" r="14" fill="#7557f6"/>
+                        <polyline points="119,95 123,100 131,90"
+                                  fill="none" stroke="#fff"
+                                  stroke-width="2.5" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+
+                        <!-- Card text lines -->
+                        <rect x="55" y="95" width="52" height="6" rx="3"
+                              fill="#e9e3ff"/>
+                        <rect x="62" y="106" width="38" height="4" rx="2"
+                              fill="#ddd6fe"/>
+                        <rect x="30" y="118" width="110" height="3" rx="1.5"
+                              fill="#f3f0ff"/>
+                        <rect x="40" y="125" width="90" height="3" rx="1.5"
+                              fill="#f3f0ff"/>
+
+                        <!-- ── Right plant ── -->
+                        <rect x="165" y="115" width="30" height="36" rx="6"
+                              fill="#e9e3ff"/>
+                        <rect x="168" y="110" width="24" height="8" rx="3"
+                              fill="#c4b5fd"/>
+                        <!-- Stem -->
+                        <line x1="180" y1="112" x2="180" y2="80"
+                              stroke="#4ade80" stroke-width="2"/>
+                        <!-- Leaves -->
+                        <ellipse cx="167" cy="82" rx="10" ry="15"
+                                 fill="#4ade80" opacity="0.75"
+                                 transform="rotate(-30 167 82)"/>
+                        <ellipse cx="193" cy="80" rx="10" ry="15"
+                                 fill="#22c55e" opacity="0.75"
+                                 transform="rotate(30 193 80)"/>
+                        <ellipse cx="174" cy="72" rx="8" ry="12"
+                                 fill="#86efac" opacity="0.7"
+                                 transform="rotate(-10 174 72)"/>
+
+                        <!-- ── Person silhouette (right of card) ── -->
+                        <circle cx="165" cy="36" r="16" fill="#c4b5fd"
+                                opacity="0.6"/>
+                        <circle cx="165" cy="31" r="7" fill="#9b7cff"
+                                opacity="0.8"/>
+                        <path d="M149 52 Q149 44 165 44 Q181 44 181 52"
+                              fill="#c4b5fd" opacity="0.7"/>
+
+                        <!-- Sparkles -->
+                        <text x="10"  y="25" font-size="10"
+                              fill="rgba(117,87,246,0.4)">✦</text>
+                        <text x="195" y="50" font-size="8"
+                              fill="rgba(117,87,246,0.3)">✦</text>
+                        <text x="5"   y="80" font-size="14"
+                              fill="rgba(117,87,246,0.2)">+</text>
+
+                    </svg>
+                </div>
+
+                <!-- ── Avatar + Name ── -->
+                <div class="pv-user-info">
+                    <div class="pv-avatar">
+                        <i class="fa-solid fa-user pv-avatar-icon"></i>
+                        <span class="pv-avatar-online"></span>
+                    </div>
+                    <p class="pv-user-name" id="pvName">User</p>
+                    <span class="pv-role-badge">User</span>
+                </div>
+
+                <!-- ── Meta row: Contact / Email / Location ── -->
+                <div class="pv-meta-row">
+                    <div class="pv-meta-item">
+                        <i class="fa-solid fa-phone pv-meta-icon"></i>
+                        <div>
+                            <p class="pv-meta-label">Contact</p>
+                            <p class="pv-meta-value" id="pvContact">—</p>
+                        </div>
+                    </div>
+                    <div class="pv-meta-item">
+                        <i class="fa-regular fa-envelope pv-meta-icon"></i>
+                        <div>
+                            <p class="pv-meta-label">Email</p>
+                            <p class="pv-meta-value" id="pvEmail">—</p>
+                        </div>
+                    </div>
+                    <div class="pv-meta-item">
+                        <i class="fa-solid fa-location-dot pv-meta-icon"></i>
+                        <div>
+                            <p class="pv-meta-label">Location</p>
+                            <p class="pv-meta-value" id="pvAddress">—</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Account Overview ── -->
+                <div class="pv-overview">
+                    <div class="pv-overview-header">
+                        <div class="pv-overview-title-row">
+                            <i class="fa-solid fa-chart-bar pv-ov-icon"></i>
+                            <p class="pv-overview-title">Account Overview</p>
+                        </div>
+                        <a th:href="${session.role == 'ADMIN'} ? @{/admin/user/showall} : @{/user/home}" class="pv-view-details">View Details</a>
+                    </div>
+
+                    <div class="pv-stats-grid">
+                        <div class="pv-stat">
+                            <p class="pv-stat-label">Total Transactions</p>
+                            <p class="pv-stat-value">24</p>
+                            <p class="pv-stat-sub">This Month</p>
+                        </div>
+                        <div class="pv-stat pv-stat-purple">
+                            <p class="pv-stat-label">Total Expenses</p>
+                            <p class="pv-stat-value pv-stat-value-purple">₹90,169.50</p>
+                            <p class="pv-stat-sub">This Month</p>
+                        </div>
+                        <div class="pv-stat pv-stat-amber">
+                            <p class="pv-stat-label">Budget Utilized</p>
+                            <p class="pv-stat-value pv-stat-value-amber">68%</p>
+                            <p class="pv-stat-sub">This Month</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Footer ── -->
+                <div class="pv-footer">
+                    <div class="pv-footer-item">
+                        <i class="fa-regular fa-calendar pv-footer-icon"></i>
+                        <div>
+                            <p class="pv-footer-label">Member Since</p>
+                            <p class="pv-footer-value">July 01, 2026</p>
+                        </div>
+                    </div>
+                    <div class="pv-footer-item">
+                        <i class="fa-solid fa-rotate pv-footer-icon"></i>
+                        <div>
+                            <p class="pv-footer-label">Last Updated</p>
+                            <p class="pv-footer-value" id="pvLastUpdated">—</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /eu-preview-card -->
+
+        </div><!-- /eu-layout -->
+
+    </main>
+</div>
+
+<script>
+    /* =====================================================
+       LIVE PREVIEW — mirrors form inputs into the right panel
+    ===================================================== */
+    (function () {
+
+        /* Set "Last Updated" to current time */
+        const now = new Date();
+        const opts = { month: 'long', day: '2-digit', year: 'numeric' };
+        const timeStr = now.toLocaleTimeString('en-US',
+            { hour: '2-digit', minute: '2-digit' });
+        document.getElementById('pvLastUpdated').textContent =
+            now.toLocaleDateString('en-US', opts) + ', ' + timeStr;
+
+        /* Wire inputs → preview */
+        function wire(inputId, previewId, fallback) {
+            const inp = document.getElementById(inputId);
+            const out = document.getElementById(previewId);
+            if (!inp || !out) return;
+
+            function update() {
+                const val = inp.value.trim();
+                out.textContent = val || fallback;
+            }
+            inp.addEventListener('input', update);
+            update(); // initialise from pre-filled Thymeleaf value
+        }
+
+        wire('nameInput',    'pvName',    'User');
+        wire('contactInput', 'pvContact', '—');
+        wire('emailInput',   'pvEmail',   '—');
+        wire('addressInput', 'pvAddress', '—');
+
+        /* ── Eye-toggle buttons ── */
+        document.querySelectorAll('.eye-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const inp = document.getElementById(this.dataset.target);
+                if (!inp) return;
+                const isText = inp.type === 'text';
+                inp.type = isText ? 'password' : 'text';
+                const ico = this.querySelector('i');
+                ico.classList.toggle('fa-eye',        isText);
+                ico.classList.toggle('fa-eye-slash', !isText);
+            });
+        });
+
+    })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add New User</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/AdminNavbar.css}">
+    <link rel="stylesheet" th:href="@{/css/AdminTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/AdminDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin/UserRegistration.css}">
+</head>
+
+<body>
+
+<div th:replace="~{Admin/AdminNavbar :: adminNavbar}"></div>
+
+<div class="admin-main">
+
+    <div th:replace="~{Admin/AdminTopbar :: adminTopbar}"></div>
+
+    <main class="admin-content">
+
+        <!-- ===== Page header ===== -->
+        <div class="page-header">
+            <nav class="breadcrumb">
+                <a th:href="@{/admin/home}" class="bc-link">Dashboard</a>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <a th:href="@{/admin/user/showall}" class="bc-link">Users</a>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <span class="bc-current">Add User</span>
+            </nav>
+            <h1>Add New User</h1>
+            <p class="page-sub">Create a new user account and grant access to the platform</p>
+        </div>
+
+        <!-- ===== Two-column layout ===== -->
+        <form method="post" th:action="@{/admin/user/register}" id="userForm">
+            <div class="reg-layout">
+
+                <!-- ========== LEFT: form panels ========== -->
+                <div class="reg-left">
+
+                    <!-- ---- Section 1: User Information ---- -->
+                    <div class="form-card">
+                        <div class="card-header">
+                            <div class="card-icon card-icon-purple">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div>
+                                <p class="card-title">User Information</p>
+                                <p class="card-sub">Basic details about the new user</p>
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Full Name <span class="req">*</span></label>
+                                <input type="text"
+                                       name="name"
+                                       id="inputName"
+                                       class="form-input"
+                                       placeholder="Enter full name"
+                                       required
+                                       oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address <span class="req">*</span></label>
+                                <input type="email"
+                                       name="email"
+                                       id="inputEmail"
+                                       class="form-input"
+                                       placeholder="Enter email address"
+                                       required
+                                       oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Contact Number <span class="req">*</span></label>
+                                <input type="number"
+                                       name="contact"
+                                       id="inputContact"
+                                       class="form-input"
+                                       placeholder="Enter contact number"
+                                       required
+                                       oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Address <span class="req">*</span></label>
+                                <input type="text"
+                                       name="address"
+                                       id="inputAddress"
+                                       class="form-input"
+                                       placeholder="Enter full address"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ---- Section 2: Account Security ---- -->
+                    <div class="form-card">
+                        <div class="card-header">
+                            <div class="card-icon card-icon-blue">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <p class="card-title">Account Security</p>
+                                <p class="card-sub">Set a secure password for the account</p>
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Password <span class="req">*</span></label>
+                                <div class="input-eye-wrap">
+                                    <input type="password"
+                                           name="password"
+                                           id="inputPassword"
+                                           class="form-input"
+                                           placeholder="Enter password"
+                                           required
+                                           oninput="checkStrength(this.value); checkMatch()">
+                                    <button type="button" class="eye-btn" onclick="toggleEye('inputPassword', this)">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+                                <!-- Strength bar -->
+                                <div class="strength-wrap">
+                                    <div class="strength-bar">
+                                        <div class="strength-fill" id="strengthFill"></div>
+                                    </div>
+                                    <span class="strength-label" id="strengthLabel">Password strength: <strong id="strengthText">—</strong></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Confirm Password <span class="req">*</span></label>
+                                <div class="input-eye-wrap">
+                                    <input type="password"
+                                           id="inputConfirm"
+                                           class="form-input"
+                                           placeholder="Confirm password"
+                                           required
+                                           oninput="checkMatch()">
+                                    <button type="button" class="eye-btn" onclick="toggleEye('inputConfirm', this)">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+                                <p class="match-hint" id="matchHint"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ---- Section 3: Role & Permissions ---- -->
+                    <div class="form-card">
+                        <div class="card-header">
+                            <div class="card-icon card-icon-indigo">
+                                <i class="fa-solid fa-user-shield"></i>
+                            </div>
+                            <div>
+                                <p class="card-title">Role &amp; Permissions</p>
+                                <p class="card-sub">Assign a role and configure access permissions</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group role-group">
+                            <label class="form-label">Role <span class="req">*</span></label>
+                            <div class="select-wrap">
+                                <select name="role" id="inputRole" class="form-select" required onchange="updatePreview()">
+                                    <option value="" disabled selected>Select user role</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="User">User</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down select-arrow"></i>
+                            </div>
+                        </div>
+
+                        <p class="perm-heading">Permissions</p>
+
+                        <div class="perm-grid">
+
+                            <label class="perm-card perm-checked">
+                                <input type="checkbox" class="perm-cb" checked>
+                                <div class="perm-check-box checked">
+                                    <i class="fa-solid fa-check perm-check-icon"></i>
+                                </div>
+                                <div class="perm-icon-wrap perm-icon-purple">
+                                    <i class="fa-solid fa-gauge-high"></i>
+                                </div>
+                                <div class="perm-text">
+                                    <span class="perm-title">Dashboard Access</span>
+                                    <span class="perm-desc">View dashboard and analytics</span>
+                                </div>
+                            </label>
+
+                            <label class="perm-card perm-checked">
+                                <input type="checkbox" class="perm-cb" checked>
+                                <div class="perm-check-box checked">
+                                    <i class="fa-solid fa-check perm-check-icon"></i>
+                                </div>
+                                <div class="perm-icon-wrap perm-icon-blue">
+                                    <i class="fa-solid fa-users"></i>
+                                </div>
+                                <div class="perm-text">
+                                    <span class="perm-title">User Management</span>
+                                    <span class="perm-desc">Add, edit and manage users</span>
+                                </div>
+                            </label>
+
+                            <label class="perm-card perm-checked">
+                                <input type="checkbox" class="perm-cb" checked>
+                                <div class="perm-check-box checked">
+                                    <i class="fa-solid fa-check perm-check-icon"></i>
+                                </div>
+                                <div class="perm-icon-wrap perm-icon-green">
+                                    <i class="fa-solid fa-chart-bar"></i>
+                                </div>
+                                <div class="perm-text">
+                                    <span class="perm-title">Reports Access</span>
+                                    <span class="perm-desc">View and export reports</span>
+                                </div>
+                            </label>
+
+                            <label class="perm-card">
+                                <input type="checkbox" class="perm-cb">
+                                <div class="perm-check-box">
+                                    <i class="fa-solid fa-check perm-check-icon"></i>
+                                </div>
+                                <div class="perm-icon-wrap perm-icon-amber">
+                                    <i class="fa-solid fa-tags"></i>
+                                </div>
+                                <div class="perm-text">
+                                    <span class="perm-title">Category Management</span>
+                                    <span class="perm-desc">Manage categories and items</span>
+                                </div>
+                            </label>
+
+                            <label class="perm-card">
+                                <input type="checkbox" class="perm-cb">
+                                <div class="perm-check-box">
+                                    <i class="fa-solid fa-check perm-check-icon"></i>
+                                </div>
+                                <div class="perm-icon-wrap perm-icon-indigo">
+                                    <i class="fa-solid fa-gear"></i>
+                                </div>
+                                <div class="perm-text">
+                                    <span class="perm-title">Settings Access</span>
+                                    <span class="perm-desc">Manage system settings</span>
+                                </div>
+                            </label>
+
+                            <label class="perm-card">
+                                <input type="checkbox" class="perm-cb">
+                                <div class="perm-check-box">
+                                    <i class="fa-solid fa-check perm-check-icon"></i>
+                                </div>
+                                <div class="perm-icon-wrap perm-icon-red">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </div>
+                                <div class="perm-text">
+                                    <span class="perm-title">Delete Access</span>
+                                    <span class="perm-desc">Delete records and data</span>
+                                </div>
+                            </label>
+
+                        </div>
+                    </div>
+
+                    <!-- ---- Action buttons ---- -->
+                    <div class="form-actions">
+                        <a th:href="@{/admin/user/showall}" class="btn-cancel">Cancel</a>
+                        <button type="submit" class="btn-submit">
+                            <i class="fa-solid fa-user-plus"></i>
+                            Create User
+                        </button>
+                    </div>
+
+                </div><!-- /reg-left -->
+
+                <!-- ========== RIGHT: live preview card ========== -->
+                <div class="reg-right">
+                    <div class="preview-card">
+                        <div class="preview-header-wrap">
+                            <p class="preview-card-title">
+                                <i class="fa-regular fa-eye"></i>
+                                User Overview Preview
+                            </p>
+                            <p class="preview-card-sub">This is how the user profile will look after creation</p>
+                        </div>
+
+                        <!-- Purple banner + avatar -->
+                        <div class="preview-banner">
+                            <div class="preview-avatar">
+                                <i class="fa-solid fa-user preview-avatar-icon"></i>
+                            </div>
+                        </div>
+
+                        <!-- Name + badge -->
+                        <div class="preview-identity">
+                            <p class="preview-name" id="previewName">Full Name</p>
+                            <span class="preview-badge">New User</span>
+                        </div>
+
+                        <!-- Contact info -->
+                        <div class="preview-contact">
+                            <span id="previewEmail" class="preview-email">email@example.com</span>
+                            <span class="preview-dot">•</span>
+                            <span id="previewContact" class="preview-phone">+91 9876543210</span>
+                        </div>
+                        <p class="preview-address">
+                            <i class="fa-solid fa-location-dot preview-loc-icon"></i>
+                            <span>Jaipur, Rajasthan</span>
+                        </p>
+
+                        <div class="preview-divider"></div>
+
+                        <!-- Info rows -->
+                        <div class="preview-info-rows">
+                            <div class="preview-row">
+                                <span class="preview-row-label">Role</span>
+                                <span class="preview-row-val preview-tag preview-tag-role" id="previewRole">New Role</span>
+                            </div>
+                            <div class="preview-row">
+                                <span class="preview-row-label">Status</span>
+                                <span class="preview-row-val preview-tag preview-tag-active">Active</span>
+                            </div>
+                            <div class="preview-row">
+                                <span class="preview-row-label">Joined On</span>
+                                <span class="preview-row-val" id="previewDate">—</span>
+                            </div>
+                            <div class="preview-row">
+                                <span class="preview-row-label">Permissions</span>
+                                <span class="preview-row-val preview-tag preview-tag-perm" id="previewPerms">6 Modules Access</span>
+                            </div>
+                        </div>
+
+                        <div class="preview-divider"></div>
+
+                        <!-- Secure access note -->
+                        <div class="preview-secure-note">
+                            <div class="secure-icon-wrap">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <p class="secure-title">Secure &amp; Controlled Access</p>
+                                <p class="secure-body">New users will receive an email with login credentials and instructions to access the platform securely.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- /reg-right -->
+
+            </div>
+        </form>
+
+    </main>
+</div>
+
+<script>
+    /* ======================================================
+       LIVE PREVIEW UPDATES
+    ====================================================== */
+    function updatePreview() {
+        const name    = document.getElementById('inputName').value.trim();
+        const email   = document.getElementById('inputEmail').value.trim();
+        const contact = document.getElementById('inputContact').value.trim();
+        const address = document.getElementById('inputAddress').value.trim();
+        const role    = document.getElementById('inputRole').value;
+
+        document.getElementById('previewName').textContent    = name    || 'Full Name';
+        document.getElementById('previewEmail').textContent   = email   || 'email@example.com';
+        document.getElementById('previewContact').textContent = contact ? '+' + contact : '+91 9876543210';
+        document.getElementById('previewRole').textContent    = role    || 'New Role';
+
+        const addrEl = document.querySelector('.preview-address span');
+        if (addrEl) addrEl.textContent = address || 'Jaipur, Rajasthan';
+    }
+
+    /* Inject today's date on load + sync initial permission count */
+    (function () {
+        const now = new Date();
+        const opts = { month: 'short', day: 'numeric', year: 'numeric' };
+        document.getElementById('previewDate').textContent =
+            now.toLocaleDateString('en-US', opts);
+
+        /* Sync permission badge to actual pre-checked boxes */
+        const count = document.querySelectorAll('.perm-cb:checked').length;
+        document.getElementById('previewPerms').textContent = count + ' Modules Access';
+    })();
+
+    /* Update permissions badge count */
+    document.querySelectorAll('.perm-cb').forEach(cb => {
+        cb.addEventListener('change', function () {
+            const card = this.closest('.perm-card');
+            const box  = card.querySelector('.perm-check-box');
+            if (this.checked) {
+                card.classList.add('perm-checked');
+                box.classList.add('checked');
+            } else {
+                card.classList.remove('perm-checked');
+                box.classList.remove('checked');
+            }
+            const count = document.querySelectorAll('.perm-cb:checked').length;
+            document.getElementById('previewPerms').textContent = count + ' Modules Access';
+        });
+    });
+
+    /* ======================================================
+       PASSWORD STRENGTH
+    ====================================================== */
+    function checkStrength(val) {
+        const fill  = document.getElementById('strengthFill');
+        const label = document.getElementById('strengthText');
+        let score = 0;
+        if (val.length >= 8)             score++;
+        if (/[A-Z]/.test(val))           score++;
+        if (/[0-9]/.test(val))           score++;
+        if (/[^A-Za-z0-9]/.test(val))    score++;
+
+        const levels = [
+            { pct: '0%',   color: 'transparent', text: '—'        },
+            { pct: '25%',  color: '#ef4444',      text: 'Weak'     },
+            { pct: '50%',  color: '#f59e0b',      text: 'Fair'     },
+            { pct: '75%',  color: '#3b82f6',      text: 'Good'     },
+            { pct: '100%', color: '#10b981',      text: 'Strong'   }
+        ];
+        const lvl = val.length === 0 ? levels[0] : levels[score] || levels[4];
+        fill.style.width       = lvl.pct;
+        fill.style.background  = lvl.color;
+        label.textContent      = lvl.text;
+        label.style.color      = lvl.color;
+    }
+
+    /* ======================================================
+       CONFIRM PASSWORD MATCH
+    ====================================================== */
+    function checkMatch() {
+        const pw      = document.getElementById('inputPassword').value;
+        const confirm = document.getElementById('inputConfirm').value;
+        const hint    = document.getElementById('matchHint');
+        if (!confirm) { hint.textContent = ''; return; }
+        if (pw === confirm) {
+            hint.textContent = '✓ Passwords match';
+            hint.className   = 'match-hint match-ok';
+        } else {
+            hint.textContent = '✗ Passwords do not match';
+            hint.className   = 'match-hint match-err';
+        }
+    }
+
+    /* ======================================================
+       EYE TOGGLE
+    ====================================================== */
+    function toggleEye(inputId, btn) {
+        const inp  = document.getElementById(inputId);
+        const icon = btn.querySelector('i');
+        if (inp.type === 'password') {
+            inp.type = 'text';
+            icon.className = 'fa-regular fa-eye-slash';
+        } else {
+            inp.type = 'password';
+            icon.className = 'fa-regular fa-eye';
+        }
+    }
+</script>
+
+</body>
+</html>

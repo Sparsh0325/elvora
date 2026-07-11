@@ -1,0 +1,365 @@
+/* =========================================================
+   DELETE CATEGORY PAGE
+   Depends on variables from AdminNavbar.css:
+     --purple, --purple-dark, --purple-light, --purple-lighter,
+     --ink, --muted, --border, --sidebar-width, --topbar-height
+   ========================================================= */
+
+/* ---- Danger palette (scoped to this page) ---- */
+:root {
+    --danger:        #ef4444;
+    --danger-dark:   #dc2626;
+    --danger-light:  #fee2e2;
+    --danger-lighter:#fff1f1;
+    --warn-bg:       #fffbeb;
+    --warn-border:   #fde68a;
+    --warn-text:     #92400e;
+    --warn-icon:     #f59e0b;
+}
+
+.admin-content {
+    padding: 24px 32px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ======================================================
+   PAGE HEADER + BREADCRUMB
+   ====================================================== */
+.del-page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.bc-link {
+    font-size: 12.5px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+.bc-link:hover { color: var(--danger); }
+
+.bc-sep {
+    font-size: 9px;
+    color: #c3c3d6;
+}
+
+.bc-current {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--danger);
+}
+
+.del-page-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ink);
+    margin: 0;
+}
+
+.del-page-sub {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin: 0;
+}
+
+/* ======================================================
+   CARD WRAPPER — centers the card horizontally
+   ====================================================== */
+.del-card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* ======================================================
+   MAIN CONFIRMATION CARD
+   ====================================================== */
+.del-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 44px 48px 40px;
+    width: 100%;
+    max-width: 580px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ======================================================
+   FLOATING DECORATIVE DOTS
+   ====================================================== */
+.fd {
+    position: absolute;
+    border-radius: 50%;
+}
+
+/* Pink / rose dots scattered around the card */
+.fd-tl { width: 12px; height: 12px; top: 28px;  left: 36px;  background: #fca5a5; opacity: 0.5; }
+.fd-tr { width: 10px; height: 10px; top: 20px;  right: 52px; background: #fcd4d4; border: 2px solid #fca5a5; opacity: 0.7; }
+.fd-ml { width:  8px; height:  8px; top: 50%;   left: 24px;  background: #fde8e8; border: 2px solid #fca5a5; opacity: 0.6; transform: translateY(-50%); }
+.fd-mr { width: 14px; height: 14px; top: 42%;   right: 20px; background: #fef2f2; border: 2px solid #fca5a5; opacity: 0.55; }
+.fd-bl { width: 11px; height: 11px; bottom: 36px; left: 42px; background: #fde8e8; border: 2px solid #fca5a5; opacity: 0.5; }
+.fd-br { width:  9px; height:  9px; bottom: 24px; right: 38px; background: #fca5a5; opacity: 0.4; }
+
+/* ======================================================
+   TRASH ILLUSTRATION
+   ====================================================== */
+.del-illustration {
+    position: relative;
+    width: 112px;
+    height: 112px;
+    margin-bottom: 24px;
+}
+
+.del-icon-circle {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    background: var(--danger-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Warning triangle badge — overlaps bottom-right of the circle */
+.del-warn-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -4px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+.del-warn-badge i {
+    font-size: 20px;
+    color: var(--warn-icon);
+}
+
+/* ======================================================
+   HEADING & SUBTITLE
+   ====================================================== */
+.del-heading {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--ink);
+    margin: 0 0 10px;
+}
+
+.del-sub {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin: 0 0 28px;
+}
+
+/* ======================================================
+   INFO TABLE  (Category ID / Name / Created By)
+   ====================================================== */
+.del-info-table {
+    width: 100%;
+    border: 1px solid #f5d0d0;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    background: #fff;
+}
+
+.del-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid #f5d0d0;
+    gap: 12px;
+}
+
+.del-info-row-last {
+    border-bottom: none;
+}
+
+.del-info-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Colored icon boxes */
+.dil-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.dil-icon-id {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.dil-icon-name {
+    background: #fce7f3;
+    color: #db2777;
+}
+
+.dil-icon-user {
+    background: #fce7f3;
+    color: #db2777;
+}
+
+.dil-label {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+}
+
+.dil-value {
+    font-size: 14px;
+    color: var(--muted);
+    text-align: right;
+    word-break: break-word;
+}
+
+.dil-value-bold {
+    font-weight: 700;
+    color: var(--ink);
+}
+
+/* ======================================================
+   WARNING NOTE  (yellow banner)
+   ====================================================== */
+.del-note {
+    width: 100%;
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 28px;
+    text-align: left;
+}
+
+.del-note-icon {
+    color: var(--warn-icon);
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.del-note-text {
+    font-size: 13px;
+    color: var(--warn-text);
+    margin: 0;
+    line-height: 1.55;
+}
+
+.del-note-text strong {
+    font-weight: 700;
+}
+
+/* ======================================================
+   ACTION BUTTONS
+   ====================================================== */
+.del-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+}
+
+/* Cancel — outlined */
+.btn-cancel {
+    height: 48px;
+    padding: 0 30px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.btn-cancel:hover {
+    background: #f9f9fb;
+    border-color: #c5bfe0;
+    color: var(--ink);
+}
+
+/* Delete — red filled */
+.btn-delete {
+    height: 48px;
+    padding: 0 28px;
+    border-radius: 12px;
+    border: none;
+    background: var(--danger);
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.38);
+    transition: background 0.18s, box-shadow 0.18s;
+}
+
+.btn-delete:hover {
+    background: var(--danger-dark);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.48);
+}
+
+/* ======================================================
+   RESPONSIVE
+   ====================================================== */
+@media (max-width: 640px) {
+    .del-card {
+        padding: 36px 24px 32px;
+    }
+
+    .del-actions {
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+
+    .btn-cancel,
+    .btn-delete {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .del-sub br { display: none; }
+}

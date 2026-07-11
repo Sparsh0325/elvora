@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Monthly Report – Elvora</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/UserNavbar.css}">
+    <link rel="stylesheet" th:href="@{/css/UserTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/UserDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/User/Reports.css}">
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div th:replace="~{User/UserNavbar :: userNavbar}"></div>
+
+<div class="admin-main">
+
+    <!-- Topbar -->
+    <div th:replace="~{User/UserTopbar :: userTopbar}"></div>
+
+    <main class="admin-content">
+
+        <!-- Page Header -->
+        <div class="report-header-panel">
+            <h1>Monthly Expense Report</h1>
+            <p>Review and analyze your categorized transaction logs on a monthly basis</p>
+        </div>
+
+        <!-- Filter Card -->
+        <div class="filter-card-wrap">
+            <form th:action="@{/report/monthly}" method="get" class="filter-form-row">
+                <div class="form-group-item">
+                    <label>Select Month</label>
+                    <select name="month" class="filter-select-field">
+                        <option value="1" th:selected="${month == 1}">January</option>
+                        <option value="2" th:selected="${month == 2}">February</option>
+                        <option value="3" th:selected="${month == 3}">March</option>
+                        <option value="4" th:selected="${month == 4}">April</option>
+                        <option value="5" th:selected="${month == 5}">May</option>
+                        <option value="6" th:selected="${month == 6}">June</option>
+                        <option value="7" th:selected="${month == 7}">July</option>
+                        <option value="8" th:selected="${month == 8}">August</option>
+                        <option value="9" th:selected="${month == 9}">September</option>
+                        <option value="10" th:selected="${month == 10}">October</option>
+                        <option value="11" th:selected="${month == 11}">November</option>
+                        <option value="12" th:selected="${month == 12}">December</option>
+                    </select>
+                </div>
+                <div class="form-group-item">
+                    <label>Select Year</label>
+                    <input type="number" name="year" th:value="${year}" class="filter-input-field" placeholder="e.g. 2026">
+                </div>
+                <button type="submit" class="submit-filter-btn">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    Generate Report
+                </button>
+            </form>
+        </div>
+
+        <!-- Summary Title Bar -->
+        <div class="summary-title-bar">
+            <h2>
+                <i class="fa-regular fa-calendar-check" style="color: var(--purple); margin-right: 6px;"></i>
+                <span th:text="${monthName}"></span>
+                <span th:text="${year}"></span>
+                Report
+            </h2>
+        </div>
+
+        <!-- 3 Stat Cards -->
+        <div class="report-stats-grid">
+            <div class="report-stat-item">
+                <div>
+                    <span class="report-stat-label">Monthly Budget</span>
+                    <p class="report-stat-value" th:text="'₹' + ${#numbers.formatDecimal(monthlyBudget, 1, 'COMMA', 0, 'POINT')}">₹0</p>
+                </div>
+                <div class="report-stat-icon">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+            </div>
+
+            <div class="report-stat-item">
+                <div>
+                    <span class="report-stat-label">Total Expense</span>
+                    <p class="report-stat-value" style="color: #ef4444;" th:text="'₹' + ${#numbers.formatDecimal(monthlyExpense, 1, 'COMMA', 0, 'POINT')}">₹0</p>
+                </div>
+                <div class="report-stat-icon" style="color: #ef4444; background: #fee2e2;">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+            </div>
+
+            <div class="report-stat-item">
+                <div>
+                    <span class="report-stat-label">Remaining Budget</span>
+                    <p class="report-stat-value" style="color: #059669;" th:text="'₹' + ${#numbers.formatDecimal(monthlyRemaining, 1, 'COMMA', 0, 'POINT')}">₹0</p>
+                </div>
+                <div class="report-stat-icon" style="color: #059669; background: #d1fae5;">
+                    <i class="fa-solid fa-vault"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Details Table Card -->
+        <div class="report-table-section">
+            <h3>Expense Details</h3>
+            <table class="report-data-table">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="transaction : ${transactions}">
+                    <td th:text="${#temporals.format(transaction.date, 'dd MMM yyyy')}">15 Jul 2026</td>
+                    <td>
+                        <span class="category-badge-tag" th:text="${transaction.category.category_name}">Food</span>
+                    </td>
+                    <td style="font-weight: 800; color: #ef4444;" th:text="'-₹' + ${#numbers.formatDecimal(transaction.amount, 1, 'COMMA', 0, 'POINT')}">-₹0</td>
+                    <td th:text="${transaction.description}">Lunch out</td>
+                </tr>
+
+                <!-- Empty state -->
+                <tr th:if="${transactions.isEmpty()}">
+                    <td colspan="4">
+                        <div class="empty-report-card">
+                            <i class="fa-regular fa-face-meh"></i>
+                            <p>No transaction logs found for this month.</p>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

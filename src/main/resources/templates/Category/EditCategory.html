@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Category</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" th:if="${session.role == 'ADMIN'}" th:href="@{/css/AdminNavbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'ADMIN'}" th:href="@{/css/AdminTopbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'ADMIN'}" th:href="@{/css/AdminDarkMode.css}">
+    <link rel="stylesheet" th:if="${session.role == 'USER'}" th:href="@{/css/UserNavbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'USER'}" th:href="@{/css/UserTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin/EditCategory.css}">
+</head>
+
+<body>
+
+<th:block th:if="${session.role == 'ADMIN'}">
+    <div th:replace="~{Admin/AdminNavbar :: adminNavbar}"></div>
+</th:block>
+<th:block th:if="${session.role == 'USER'}">
+    <div th:replace="~{User/UserNavbar :: userNavbar}"></div>
+</th:block>
+
+<div class="admin-main">
+
+    <th:block th:if="${session.role == 'ADMIN'}">
+        <div th:replace="~{Admin/AdminTopbar :: adminTopbar}"></div>
+    </th:block>
+    <th:block th:if="${session.role == 'USER'}">
+        <div th:replace="~{User/UserTopbar :: userTopbar}"></div>
+    </th:block>
+
+    <main class="admin-content">
+
+        <!-- ===== Page header ===== -->
+        <div class="edit-page-header">
+            <nav class="breadcrumb">
+                <a th:href="@{/dashboard}" class="bc-link">Dashboard</a>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <a th:href="@{/category/showall}" class="bc-link">Categories</a>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <span class="bc-current">Edit Category</span>
+            </nav>
+            <h1>Edit Category</h1>
+            <p class="edit-page-sub">Update your category details and keep everything organized</p>
+        </div>
+
+        <!-- ===== Main two-column row ===== -->
+        <div class="edit-layout">
+
+            <!-- ---- LEFT: form card ---- -->
+            <div class="edit-card">
+
+                <div class="edit-card-header">
+                    <div class="edit-card-icon">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </div>
+                    <div>
+                        <p class="edit-card-title">Category Information</p>
+                        <p class="edit-card-sub">Make changes to your category details below</p>
+                    </div>
+                </div>
+
+                <form th:action="@{/category/edit}" method="post" class="edit-form" id="editForm">
+
+                    <!-- Hidden fields -->
+                    <input type="hidden" name="category_id"  th:value="${category.category_id}">
+                    <input type="hidden" name="created_by"   th:value="${category.created_by}">
+
+                    <!-- Category Name -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            Category Name <span class="required">*</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-pen-to-square input-icon"></i>
+                            <input type="text"
+                                   id="categoryNameInput"
+                                   name="category_name"
+                                   class="form-input"
+                                   placeholder="Enter category name"
+                                   th:value="${category.category_name}"
+                                   required>
+                        </div>
+                        <p class="form-hint">Choose a unique and descriptive name for the category.</p>
+                    </div>
+
+                    <!-- Category Icon (decorative) -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            Category Icon <span class="optional">(Optional)</span>
+                        </label>
+                        <p class="form-sub-label">Select an icon to represent this category</p>
+                        <div class="select-wrapper">
+                            <i class="fa-solid fa-shirt select-left-icon" id="iconPreviewLeft"></i>
+                            <select class="form-select" id="iconSelect" name="category_icon">
+                                <option value="shirt"       selected>Shirt</option>
+                                <option value="tag">🏷️  Tag</option>
+                                <option value="star">⭐  Star</option>
+                                <option value="heart">❤️  Heart</option>
+                                <option value="bolt">⚡  Bolt</option>
+                                <option value="box">📦  Box</option>
+                                <option value="leaf">🌿  Leaf</option>
+                                <option value="gem">💎  Gem</option>
+                                <option value="fire">🔥  Fire</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down select-arrow"></i>
+                        </div>
+                    </div>
+
+                    <!-- Category Color (decorative) -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            Category Color <span class="optional">(Optional)</span>
+                        </label>
+                        <p class="form-sub-label">Pick a color to easily identify this category</p>
+                        <div class="color-picker">
+                            <label class="color-swatch" style="--swatch:#ef4444" title="Red">
+                                <input type="radio" name="category_color" value="#ef4444">
+                                <i class="fa-solid fa-check swatch-check"></i>
+                            </label>
+                            <label class="color-swatch" style="--swatch:#f97316" title="Orange">
+                                <input type="radio" name="category_color" value="#f97316">
+                                <i class="fa-solid fa-check swatch-check"></i>
+                            </label>
+                            <label class="color-swatch" style="--swatch:#eab308" title="Yellow">
+                                <input type="radio" name="category_color" value="#eab308">
+                                <i class="fa-solid fa-check swatch-check"></i>
+                            </label>
+                            <label class="color-swatch" style="--swatch:#22c55e" title="Green">
+                                <input type="radio" name="category_color" value="#22c55e">
+                                <i class="fa-solid fa-check swatch-check"></i>
+                            </label>
+                            <label class="color-swatch" style="--swatch:#06b6d4" title="Cyan">
+                                <input type="radio" name="category_color" value="#06b6d4">
+                                <i class="fa-solid fa-check swatch-check"></i>
+                            </label>
+                            <label class="color-swatch checked" style="--swatch:#7c5cff" title="Purple">
+                                <input type="radio" name="category_color" value="#7c5cff" checked>
+                                <i class="fa-solid fa-check swatch-check"></i>
+                            </label>
+                            <label class="color-swatch" style="--swatch:#9ca3af" title="Gray">
+                                <input type="radio" name="category_color" value="#9ca3af">
+                                <i class="fa-solid fa-check swatch-check"></i>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="form-actions">
+                        <a th:href="@{/category/showall}" class="btn-cancel">Cancel</a>
+                        <button type="submit" class="btn-submit">
+                            <i class="fa-solid fa-check"></i>
+                            Update Category
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- ---- RIGHT: preview card ---- -->
+            <div class="preview-card">
+
+                <div class="preview-header">
+                    <p class="preview-title">Category Preview</p>
+                    <p class="preview-sub">Here's how your category will look</p>
+                </div>
+
+                <!-- Decorative dots -->
+                <span class="pv-dot pv-dot-tr"></span>
+                <span class="pv-dot pv-dot-mr"></span>
+                <span class="pv-dot pv-dot-bl"></span>
+
+                <!-- Icon circle -->
+                <div class="preview-icon-circle" id="previewCircle">
+                    <i class="fa-solid fa-shirt"></i>
+                </div>
+
+                <!-- Category name live preview -->
+                <p class="preview-name" id="previewName"
+                   th:text="${category.category_name}">Category Name</p>
+
+                <span class="preview-status">
+                    <span class="pv-dot-green"></span>
+                    Active Category
+                </span>
+
+                <div class="preview-divider"></div>
+
+                <p class="preview-benefits-title">Category Benefits</p>
+                <ul class="preview-benefits">
+                    <li>
+                        <span class="pb-icon"><i class="fa-regular fa-bookmark"></i></span>
+                        Helps organize similar items
+                    </li>
+                    <li>
+                        <span class="pb-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        Makes it easy to find and manage
+                    </li>
+                    <li>
+                        <span class="pb-icon"><i class="fa-solid fa-chart-bar"></i></span>
+                        Improves reporting and insights
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <!-- ===== Bottom info banner ===== -->
+        <div class="info-banner">
+
+            <div class="info-banner-left">
+                <div class="info-banner-icon">
+                    <i class="fa-regular fa-lightbulb"></i>
+                </div>
+                <div>
+                    <p class="info-banner-title">Keep it Organized</p>
+                    <p class="info-banner-sub">Well-defined categories help you maintain better organization and get accurate insights.</p>
+                </div>
+            </div>
+
+            <div class="info-banner-illustration">
+                <span class="ib-dot ib-dot-tl"></span>
+                <span class="ib-dot ib-dot-br"></span>
+
+                <svg class="ib-folder" viewBox="0 0 140 120" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="72" cy="114" rx="44" ry="6" fill="#c4b5f4" opacity="0.3"/>
+                    <rect x="30" y="50" width="86" height="60" rx="10" fill="#c4b5f4"/>
+                    <path d="M30 58 Q30 50 40 50 L64 50 Q72 50 74 58 Z" fill="#a78bfa"/>
+                    <rect x="22" y="58" width="96" height="54" rx="10" fill="#a78bfa"/>
+                    <rect x="44" y="28" width="40" height="52"
+                          rx="5" fill="#fff" opacity="0.92"
+                          transform="rotate(-10 64 54)"/>
+                    <line x1="52" y1="44" x2="78" y2="40"
+                          stroke="#ddd6fe" stroke-width="2.5" stroke-linecap="round"
+                          transform="rotate(-10 64 54)"/>
+                    <line x1="52" y1="52" x2="78" y2="48"
+                          stroke="#ddd6fe" stroke-width="2.5" stroke-linecap="round"
+                          transform="rotate(-10 64 54)"/>
+                    <rect x="60" y="24" width="38" height="48"
+                          rx="5" fill="#ede9fe" opacity="0.88"
+                          transform="rotate(8 79 48)"/>
+                    <circle cx="112" cy="32" r="9"  fill="#f9a8d4" opacity="0.9"/>
+                    <circle cx="112" cy="32" r="5"  fill="#fff"    opacity="0.75"/>
+                </svg>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+<script>
+    /* ---- Live preview: category name ---- */
+    const nameInput   = document.getElementById('categoryNameInput');
+    const previewName = document.getElementById('previewName');
+
+    if (nameInput && previewName) {
+        nameInput.addEventListener('input', () => {
+            previewName.textContent = nameInput.value.trim() || 'Category Name';
+        });
+    }
+
+    /* ---- Color swatch interactivity ---- */
+    document.querySelectorAll('.color-swatch input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('checked'));
+            if (radio.checked) {
+                const swatch = radio.closest('.color-swatch');
+                swatch.classList.add('checked');
+                // Update the preview icon circle colour
+                const circle = document.getElementById('previewCircle');
+                if (circle) circle.style.background = getComputedStyle(swatch).getPropertyValue('--swatch').trim();
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

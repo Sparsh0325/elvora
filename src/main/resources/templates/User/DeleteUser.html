@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete User</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" th:if="${session.role == 'ADMIN'}" th:href="@{/css/AdminNavbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'ADMIN'}" th:href="@{/css/AdminTopbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'ADMIN'}" th:href="@{/css/AdminDarkMode.css}">
+    <link rel="stylesheet" th:if="${session.role == 'USER'}" th:href="@{/css/UserNavbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'USER'}" th:href="@{/css/UserTopbar.css}">
+    <link rel="stylesheet" th:if="${session.role == 'USER'}" th:href="@{/css/UserDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin/DeleteUser.css}">
+</head>
+<body>
+
+<th:block th:if="${session.role == 'ADMIN'}">
+    <div th:replace="~{Admin/AdminNavbar :: adminNavbar}"></div>
+</th:block>
+<th:block th:if="${session.role == 'USER'}">
+    <div th:replace="~{User/UserNavbar :: userNavbar}"></div>
+</th:block>
+
+<div class="admin-main">
+    <th:block th:if="${session.role == 'ADMIN'}">
+        <div th:replace="~{Admin/AdminTopbar :: adminTopbar}"></div>
+    </th:block>
+    <th:block th:if="${session.role == 'USER'}">
+        <div th:replace="~{User/UserTopbar :: userTopbar}"></div>
+    </th:block>
+
+    <main class="admin-content">
+
+        <!-- ═══════════════════════════════════
+             PAGE HEADER
+             ═══════════════════════════════════ -->
+        <div class="du-page-header">
+            <h1>Delete User</h1>
+            <nav class="breadcrumb">
+                <a th:if="${session.role == 'ADMIN'}" th:href="@{/admin/home}" class="bc-link">Dashboard</a>
+                <a th:if="${session.role == 'USER'}" th:href="@{/user/home}" class="bc-link">Dashboard</a>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <a th:if="${session.role == 'ADMIN'}" th:href="@{/admin/user/showall}" class="bc-link">Users</a>
+                <span th:if="${session.role == 'USER'}" class="bc-link">Profile</span>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <span class="bc-current">Delete User</span>
+            </nav>
+        </div>
+
+        <!-- ═══════════════════════════════════
+             FULL-WIDTH AMBER WARNING BANNER
+             ═══════════════════════════════════ -->
+        <div class="du-alert-banner">
+            <div class="du-alert-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <span class="du-alert-text">
+                You are about to permanently delete this user account and all associated data.
+            </span>
+        </div>
+
+        <!-- ═══════════════════════════════════
+             TWO-COLUMN LAYOUT
+             ═══════════════════════════════════ -->
+        <div class="du-layout">
+
+            <!-- ══════════════════════════════════════
+                 LEFT: User Information Card
+                 ══════════════════════════════════════ -->
+            <div class="du-info-card">
+
+                <!-- Purple hero header -->
+                <div class="du-hero">
+                    <!-- Decorative wavy blob -->
+                    <div class="du-hero-blob"></div>
+
+                    <!-- Left: avatar + name -->
+                    <div class="du-hero-left">
+                        <div class="du-avatar">
+                            <span class="du-avatar-letter"
+                                  th:text="${user.name != null && !#strings.isEmpty(user.name)
+                                             ? #strings.toUpperCase(#strings.substring(user.name,0,1))
+                                             : 'U'}">U</span>
+                        </div>
+                        <div class="du-hero-meta">
+                            <div class="du-name-row">
+                                <p class="du-user-name" th:text="${user.name}">User Name</p>
+                                <span class="du-status-badge">Active</span>
+                                <!-- sparkle -->
+                                <span class="du-sparkle">✦</span>
+                            </div>
+                            <p class="du-user-id">
+                                User ID: #<span th:text="${user.user_id}">0</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right: 3D shield illustration -->
+                    <div class="du-hero-right">
+                        <svg class="du-shield-svg" viewBox="0 0 100 110"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <!-- Shield body -->
+                            <path d="M50 5 L90 22 L90 55 Q90 85 50 105 Q10 85 10 55 L10 22 Z"
+                                  fill="url(#shieldGrad)" opacity="0.9"/>
+                            <!-- Shield highlight -->
+                            <path d="M50 12 L83 27 L83 55 Q83 80 50 98"
+                                  fill="none" stroke="rgba(255,255,255,0.35)"
+                                  stroke-width="3" stroke-linecap="round"/>
+                            <!-- Person icon inside -->
+                            <circle cx="50" cy="42" r="11" fill="rgba(255,255,255,0.9)"/>
+                            <path d="M29 72 Q29 58 50 58 Q71 58 71 72"
+                                  fill="rgba(255,255,255,0.9)"/>
+                            <defs>
+                                <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%"   stop-color="#8b6cf7"/>
+                                    <stop offset="100%" stop-color="#6049e8"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div><!-- /du-hero -->
+
+                <!-- ── Section label ── -->
+                <div class="du-section-header">
+                    <span class="du-section-icon"><i class="fa-solid fa-circle-user"></i></span>
+                    <p class="du-section-title">User Details</p>
+                </div>
+
+                <!-- ── Info rows ── -->
+                <div class="du-info-rows">
+
+                    <div class="du-info-row">
+                        <div class="du-info-left">
+                            <span class="du-info-icon"><i class="fa-regular fa-user"></i></span>
+                            <span class="du-info-label">Full Name</span>
+                        </div>
+                        <span class="du-info-value" th:text="${user.name}">—</span>
+                    </div>
+
+                    <div class="du-info-row">
+                        <div class="du-info-left">
+                            <span class="du-info-icon"><i class="fa-regular fa-envelope"></i></span>
+                            <span class="du-info-label">Email Address</span>
+                        </div>
+                        <span class="du-info-value" th:text="${user.email}">—</span>
+                    </div>
+
+                    <div class="du-info-row">
+                        <div class="du-info-left">
+                            <span class="du-info-icon"><i class="fa-solid fa-phone"></i></span>
+                            <span class="du-info-label">Contact Number</span>
+                        </div>
+                        <span class="du-info-value" th:text="${user.contact}">—</span>
+                    </div>
+
+                    <div class="du-info-row">
+                        <div class="du-info-left">
+                            <span class="du-info-icon"><i class="fa-solid fa-location-dot"></i></span>
+                            <span class="du-info-label">Address</span>
+                        </div>
+                        <span class="du-info-value" th:text="${user.address}">—</span>
+                    </div>
+
+                    <div class="du-info-row">
+                        <div class="du-info-left">
+                            <span class="du-info-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                            <span class="du-info-label">Role</span>
+                        </div>
+                        <span class="du-role-badge">User</span>
+                    </div>
+
+                    <div class="du-info-row">
+                        <div class="du-info-left">
+                            <span class="du-info-icon"><i class="fa-regular fa-calendar"></i></span>
+                            <span class="du-info-label">Joined On</span>
+                        </div>
+                        <span class="du-info-value">Jul 05, 2026 10:23 AM</span>
+                    </div>
+
+                    <div class="du-info-row du-info-row-last">
+                        <div class="du-info-left">
+                            <span class="du-info-icon"><i class="fa-solid fa-circle-dot"></i></span>
+                            <span class="du-info-label">Last Active</span>
+                        </div>
+                        <span class="du-info-value">Today, 09:15 AM</span>
+                    </div>
+
+                </div><!-- /du-info-rows -->
+
+                <!-- ── Blue info note ── -->
+                <div class="du-info-note">
+                    <div class="du-info-note-icon">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </div>
+                    <p class="du-info-note-text">
+                        All user data including transactions, budgets, reports, and activity logs
+                        <span class="du-info-note-strong">will be permanently deleted.
+                        This action cannot be undone.</span>
+                    </p>
+                </div>
+
+            </div><!-- /du-info-card -->
+
+
+            <!-- ══════════════════════════════════════
+                 RIGHT: Confirmation Card
+                 ══════════════════════════════════════ -->
+            <div class="du-confirm-card">
+
+                <!-- Illustration -->
+                <div class="du-illustration">
+                    <svg viewBox="0 0 320 230" xmlns="http://www.w3.org/2000/svg"
+                         class="du-trash-svg">
+
+                        <!-- Ground shadow -->
+                        <ellipse cx="155" cy="222" rx="90" ry="8"
+                                 fill="rgba(239,68,68,0.15)"/>
+
+                        <!-- ── Trash can body ── -->
+                        <rect x="72" y="100" width="152" height="118" rx="18" fill="#f87171"/>
+                        <rect x="72" y="100" width="152" height="118" rx="18"
+                              fill="url(#bodyGrad2)" opacity="0.45"/>
+
+                        <!-- Vertical lines -->
+                        <line x1="116" y1="118" x2="112" y2="200"
+                              stroke="#ef4444" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+                        <line x1="148" y1="118" x2="148" y2="200"
+                              stroke="#ef4444" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+                        <line x1="180" y1="118" x2="184" y2="200"
+                              stroke="#ef4444" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+
+                        <!-- Lid base -->
+                        <rect x="58"  y="82"  width="188" height="26" rx="13" fill="#ef4444"/>
+                        <!-- Handle bar -->
+                        <rect x="118" y="60"  width="60"  height="26" rx="13" fill="#ef4444"/>
+                        <!-- Handle cutout -->
+                        <rect x="130" y="67"  width="38"  height="13" rx="6"
+                              fill="#fca5a5" opacity="0.45"/>
+
+                        <!-- Lid tilted open -->
+                        <rect x="44"  y="54" width="140" height="24" rx="12" fill="#fb7185"
+                              transform="rotate(-20 82 66)"/>
+                        <rect x="88"  y="32" width="56"  height="24" rx="12" fill="#fb7185"
+                              transform="rotate(-20 82 40)"/>
+
+                        <!-- Paper 1 -->
+                        <rect x="164" y="36" width="56" height="70" rx="7"
+                              fill="#fff" opacity="0.92" transform="rotate(15 180 68)"/>
+                        <line x1="172" y1="50" x2="208" y2="50" stroke="#fca5a5"
+                              stroke-width="2.5" stroke-linecap="round"
+                              transform="rotate(15 190 50)"/>
+                        <line x1="172" y1="60" x2="208" y2="60" stroke="#fca5a5"
+                              stroke-width="2.5" stroke-linecap="round"
+                              transform="rotate(15 190 60)"/>
+                        <line x1="172" y1="70" x2="194" y2="70" stroke="#fca5a5"
+                              stroke-width="2" stroke-linecap="round"
+                              transform="rotate(15 183 70)"/>
+
+                        <!-- Paper 2 -->
+                        <rect x="190" y="14" width="48" height="60" rx="7"
+                              fill="#fff" opacity="0.85" transform="rotate(26 214 42)"/>
+                        <line x1="198" y1="28" x2="228" y2="28" stroke="#fca5a5"
+                              stroke-width="2.5" stroke-linecap="round"
+                              transform="rotate(26 213 28)"/>
+                        <line x1="198" y1="38" x2="228" y2="38" stroke="#fca5a5"
+                              stroke-width="2.5" stroke-linecap="round"
+                              transform="rotate(26 213 38)"/>
+
+                        <!-- !! Red exclamation badge !! -->
+                        <circle cx="100" cy="198" r="28" fill="#fff"/>
+                        <circle cx="100" cy="198" r="24" fill="#ef4444"/>
+                        <text x="100" y="207" text-anchor="middle"
+                              font-size="26" font-weight="900"
+                              fill="#fff" font-family="Arial,sans-serif">!</text>
+
+                        <!-- Leaf right -->
+                        <path d="M264 218 Q282 196 270 178" fill="none"
+                              stroke="#fca5a5" stroke-width="3" stroke-linecap="round"/>
+                        <ellipse cx="272" cy="176" rx="14" ry="21"
+                                 fill="#fca5a5" opacity="0.55"
+                                 transform="rotate(28 272 176)"/>
+                        <path d="M278 218 Q294 200 283 185" fill="none"
+                              stroke="#fb7185" stroke-width="2.5" stroke-linecap="round"/>
+                        <ellipse cx="284" cy="183" rx="11" ry="17"
+                                 fill="#fb7185" opacity="0.45"
+                                 transform="rotate(18 284 183)"/>
+
+                        <!-- Small circles left -->
+                        <circle cx="46" cy="178" r="8" fill="#fca5a5" opacity="0.5"/>
+                        <circle cx="34" cy="156" r="5" fill="#fb7185" opacity="0.4"/>
+
+                        <!-- Sparkles / diamonds -->
+                        <text x="30"  y="96"  font-size="13" fill="rgba(244,63,94,0.35)">✦</text>
+                        <text x="268" y="78"  font-size="10" fill="rgba(244,63,94,0.3)">✦</text>
+                        <text x="262" y="110" font-size="16" fill="rgba(244,63,94,0.2)">✦</text>
+                        <text x="32"  y="136" font-size="9"  fill="rgba(244,63,94,0.25)">✦</text>
+                        <text x="290" y="140" font-size="12" fill="rgba(244,63,94,0.22)">✦</text>
+
+                        <defs>
+                            <linearGradient id="bodyGrad2" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%"   stop-color="#fff" stop-opacity="0.28"/>
+                                <stop offset="100%" stop-color="#dc2626" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div><!-- /du-illustration -->
+
+                <!-- Confirmation text -->
+                <h2 class="du-confirm-title">Are you absolutely sure?</h2>
+                <p class="du-confirm-sub">
+                    This will permanently delete
+                    <strong th:text="${user.name}">"User Name"</strong>
+                    and all associated data from the system.
+                </p>
+
+                <!-- Consequences list -->
+                <div class="du-consequences">
+                    <p class="du-consequences-title">This action will:</p>
+                    <ul class="du-consequences-list">
+                        <li>
+                            <span class="du-con-icon"><i class="fa-solid fa-user-slash"></i></span>
+                            Delete user profile and personal information
+                        </li>
+                        <li>
+                            <span class="du-con-icon"><i class="fa-solid fa-user-slash"></i></span>
+                            Remove all transactions and financial records
+                        </li>
+                        <li>
+                            <span class="du-con-icon"><i class="fa-solid fa-user-slash"></i></span>
+                            Delete budgets and category allocations
+                        </li>
+                        <li>
+                            <span class="du-con-icon"><i class="fa-solid fa-user-slash"></i></span>
+                            Remove activity logs and reports
+                        </li>
+                        <li>
+                            <span class="du-con-icon"><i class="fa-solid fa-user-slash"></i></span>
+                            This action is permanent and cannot be undone
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="du-confirm-actions">
+                    <a th:if="${session.role == 'ADMIN'}" th:href="@{/admin/user/showall}" class="du-btn-cancel">
+                        <i class="fa-solid fa-xmark"></i>
+                        Cancel
+                    </a>
+                    <a th:if="${session.role == 'USER'}" th:href="@{/user/profile}" class="du-btn-cancel">
+                        <i class="fa-solid fa-xmark"></i>
+                        Cancel
+                    </a>
+                    <form method="post"
+                          th:action="${session.role == 'ADMIN'} ? @{/admin/user/delete} : @{/user/delete}"
+                          style="display:contents;">
+                        <input type="hidden" name="user_id" th:value="${user.user_id}">
+                        <button type="submit" class="du-btn-delete">
+                            <i class="fa-solid fa-trash-can"></i>
+                            Delete User
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Secure note -->
+                <p class="du-secure-note">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    This action is secure and irreversible
+                </p>
+
+            </div><!-- /du-confirm-card -->
+
+        </div><!-- /du-layout -->
+
+    </main>
+</div>
+
+</body>
+</html>

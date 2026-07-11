@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Admin Profile</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          th:href="@{/css/AdminNavbar.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/AdminTopbar.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/AdminDarkMode.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/Admin/AdminProfile.css}">
+
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<div th:replace="~{Admin/AdminNavbar :: adminNavbar}">
+</div>
+
+<div class="admin-main">
+
+    <!-- ================= TOPBAR (fixed, shared across pages) ================= -->
+    <div th:replace="~{Admin/AdminTopbar :: adminTopbar}">
+    </div>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="admin-content">
+
+        <!-- ---- Page title ---- -->
+        <div class="page-titles">
+            <h1>Admin Profile</h1>
+            <p>Manage your personal information and account settings</p>
+        </div>
+
+        <!-- ---- Profile hero card ---- -->
+        <section class="profile-hero">
+
+            <div class="deco-dot d1"></div>
+            <div class="deco-dot d2"></div>
+            <div class="deco-dot d3"></div>
+
+            <div class="hero-menu" aria-label="More options">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+
+            <div class="hero-left">
+
+                <div class="avatar-ring">
+                    <div class="avatar-lg" th:text="${#strings.substring(admin.adminname,0,1)}">
+                        A
+                        <span class="status-dot"></span>
+                    </div>
+                </div>
+
+                <div class="hero-info">
+                    <h2 th:text="${admin.adminname}">Admin Name</h2>
+                    <span class="badge">Administrator</span>
+
+                    <ul>
+                        <li>
+                            <i class="fa-regular fa-envelope"></i>
+                            <span th:text="${admin.email}">admin@mail.com</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone"></i>
+                            <span th:text="${admin.contact}">0000000000</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span th:text="${admin.address}">Address</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="hero-right">
+
+                <div class="stat-col">
+                    <div class="stat-row">
+                        <span class="stat-label">Account Status</span>
+                        <span class="status-pill">Active</span>
+                    </div>
+                    <div class="stat-row">
+                        <div>
+                            <div class="stat-label">Member since</div>
+                            <div class="stat-value">July 2026</div>
+                        </div>
+                        <div class="stat-icon"><i class="fa-regular fa-calendar"></i></div>
+                    </div>
+                </div>
+
+                <div class="stat-divider"></div>
+
+                <div class="stat-col">
+                    <div class="stat-row">
+                        <span class="stat-label">Role</span>
+                    </div>
+                    <div class="stat-value accent" style="margin-top: -10px;">Administrator</div>
+                    <div class="stat-row">
+                        <div>
+                            <div class="stat-label">Access Level</div>
+                            <div class="stat-value">Full Access</div>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ---- Personal information + Security ---- -->
+        <section class="grid-2">
+
+            <!-- Personal information -->
+            <div class="info-card">
+
+                <div class="card-head">
+                    <div class="head-left">
+                        <div class="card-icon"><i class="fa-regular fa-user"></i></div>
+                        <div>
+                            <h3>Personal Information</h3>
+                            <p>Your personal details and contact information</p>
+                        </div>
+                    </div>
+
+                    <a class="btn-outline"
+                       th:href="@{/admin/edit(email=${admin.email})}">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Edit Profile
+                    </a>
+                </div>
+
+                <div class="detail-row">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="detail-label">Full Name</span>
+                    <span class="detail-value" th:text="${admin.adminname}">Admin Name</span>
+                </div>
+
+                <div class="detail-row">
+                    <i class="fa-regular fa-envelope"></i>
+                    <span class="detail-label">Email Address</span>
+                    <span class="detail-value" th:text="${admin.email}">admin@mail.com</span>
+                </div>
+
+                <div class="detail-row">
+                    <i class="fa-solid fa-phone"></i>
+                    <span class="detail-label">Contact Number</span>
+                    <span class="detail-value" th:text="${admin.contact}">0000000000</span>
+                </div>
+
+                <div class="detail-row">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span class="detail-label">Address</span>
+                    <span class="detail-value" th:text="${admin.address}">Address</span>
+                </div>
+
+            </div>
+
+            <!-- Security -->
+            <div class="info-card">
+
+                <div class="card-head">
+                    <div class="head-left">
+                        <div class="card-icon"><i class="fa-solid fa-lock"></i></div>
+                        <div>
+                            <h3>Security</h3>
+                            <p>Manage your password and account security</p>
+                        </div>
+                    </div>
+
+                    <a class="btn-outline" th:href="@{/admin/changePassword}">
+                        <i class="fa-solid fa-key"></i>
+                        Change Password
+                    </a>
+                </div>
+
+                <div class="security-body">
+
+                    <div class="sec-dot s1"></div>
+                    <div class="sec-dot s2"></div>
+                    <div class="sec-dot s3"></div>
+                    <div class="sec-dot s4"></div>
+
+                    <div class="shield-wrap">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+
+                    <h4>Your account is secure</h4>
+                    <p class="last-change">Last password change: Never</p>
+
+                    <p class="security-note">
+                        <a th:href="@{/admin/changePassword}">Update your password</a>
+                        regularly to keep your account safe.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ---- Recent activity ---- -->
+        <section class="activity-card">
+
+            <div class="card-head">
+                <div class="head-left">
+                    <div class="card-icon"><i class="fa-solid fa-wave-square"></i></div>
+                    <div>
+                        <h3>Recent Activity</h3>
+                        <p>Overview of your recent account activity</p>
+                    </div>
+                </div>
+
+                <a class="btn-outline" href="#">
+                    View All Activity
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="activity-list">
+
+                <div class="activity-item">
+                    <div class="activity-icon success">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </div>
+                    <div class="activity-text">
+                        <div class="a-title">Login Successful</div>
+                        <div class="a-sub">Logged in to your account</div>
+                    </div>
+                    <div class="activity-time">
+                        <strong>Today, 12:45 PM</strong>
+                        192.168.1.1
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon info">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </div>
+                    <div class="activity-text">
+                        <div class="a-title">Profile Updated</div>
+                        <div class="a-sub">Your profile information was updated</div>
+                    </div>
+                    <div class="activity-time">
+                        <strong>Jul 08, 2026</strong>
+                        10:30 AM
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

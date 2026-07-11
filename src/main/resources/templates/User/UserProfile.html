@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile – Elvora</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/UserNavbar.css}">
+    <link rel="stylesheet" th:href="@{/css/UserTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/UserDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin/AdminProfile.css}">
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div th:replace="~{User/UserNavbar :: userNavbar}"></div>
+
+<div class="admin-main">
+
+    <!-- Topbar -->
+    <div th:replace="~{User/UserTopbar :: userTopbar}"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-content">
+
+        <!-- Page title -->
+        <div class="page-titles">
+            <h1>User Profile</h1>
+            <p>Manage your personal information and account settings</p>
+        </div>
+
+        <!-- Profile hero card -->
+        <section class="profile-hero">
+
+            <div class="deco-dot d1"></div>
+            <div class="deco-dot d2"></div>
+            <div class="deco-dot d3"></div>
+
+            <div class="hero-menu" aria-label="More options">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+
+            <div class="hero-left">
+
+                <div class="avatar-ring">
+                    <div class="avatar-lg" th:text="${user.name != null && !#strings.isEmpty(user.name) ? #strings.substring(user.name,0,1).toUpperCase() : 'U'}">
+                        U
+                        <span class="status-dot"></span>
+                    </div>
+                </div>
+
+                <div class="hero-info">
+                    <h2 th:text="${user.name}">User Name</h2>
+                    <span class="badge">User</span>
+
+                    <ul>
+                        <li>
+                            <i class="fa-regular fa-envelope"></i>
+                            <span th:text="${user.email}">user@mail.com</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone"></i>
+                            <span th:text="${user.contact}">0000000000</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span th:text="${user.address}">Address</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="hero-right">
+
+                <div class="stat-col">
+                    <div class="stat-row">
+                        <span class="stat-label">Account Status</span>
+                        <span class="status-pill">Active</span>
+                    </div>
+                    <div class="stat-row">
+                        <div>
+                            <div class="stat-label">Member since</div>
+                            <div class="stat-value" th:text="${user.createdAt != null ? #temporals.format(user.createdAt, 'MMM yyyy') : 'July 2026'}">July 2026</div>
+                        </div>
+                        <div class="stat-icon"><i class="fa-regular fa-calendar"></i></div>
+                    </div>
+                </div>
+
+                <div class="stat-divider"></div>
+
+                <div class="stat-col">
+                    <div class="stat-row">
+                        <span class="stat-label">Role</span>
+                    </div>
+                    <div class="stat-value accent" style="margin-top: -10px;">User</div>
+                    <div class="stat-row">
+                        <div>
+                            <div class="stat-label">Access Level</div>
+                            <div class="stat-value">Standard Access</div>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Personal information + Security -->
+        <section class="grid-2">
+
+            <!-- Personal information -->
+            <div class="info-card">
+
+                <div class="card-head">
+                    <div class="head-left">
+                        <div class="card-icon"><i class="fa-regular fa-user"></i></div>
+                        <div>
+                            <h3>Personal Information</h3>
+                            <p>Your personal details and contact information</p>
+                        </div>
+                    </div>
+
+                    <a class="btn-outline" th:href="@{/user/edit}">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Edit Profile
+                    </a>
+                </div>
+
+                <div class="detail-row">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="detail-label">Full Name</span>
+                    <span class="detail-value" th:text="${user.name}">User Name</span>
+                </div>
+
+                <div class="detail-row">
+                    <i class="fa-regular fa-envelope"></i>
+                    <span class="detail-label">Email Address</span>
+                    <span class="detail-value" th:text="${user.email}">user@mail.com</span>
+                </div>
+
+                <div class="detail-row">
+                    <i class="fa-solid fa-phone"></i>
+                    <span class="detail-label">Contact Number</span>
+                    <span class="detail-value" th:text="${user.contact}">0000000000</span>
+                </div>
+
+                <div class="detail-row">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span class="detail-label">Address</span>
+                    <span class="detail-value" th:text="${user.address}">Address</span>
+                </div>
+
+            </div>
+
+            <!-- Security -->
+            <div class="info-card">
+
+                <div class="card-head">
+                    <div class="head-left">
+                        <div class="card-icon"><i class="fa-solid fa-lock"></i></div>
+                        <div>
+                            <h3>Security</h3>
+                            <p>Manage your password and account security</p>
+                        </div>
+                    </div>
+
+                    <a class="btn-outline" th:href="@{/user/changePassword}">
+                        <i class="fa-solid fa-key"></i>
+                        Change Password
+                    </a>
+                </div>
+
+                <div class="security-body">
+
+                    <div class="sec-dot s1"></div>
+                    <div class="sec-dot s2"></div>
+                    <div class="sec-dot s3"></div>
+                    <div class="sec-dot s4"></div>
+
+                    <div class="shield-wrap">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+
+                    <h4>Your account is secure</h4>
+                    <p class="last-change" th:text="'Last Active: ' + ${user.lastActiveAt != null ? #temporals.format(user.lastActiveAt, 'dd MMM yyyy, hh:mm a') : 'Today'}">Last Active: Today</p>
+
+                    <p class="security-note">
+                        <a th:href="@{/user/changePassword}">Update your password</a>
+                        regularly to keep your account safe.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Recent activity -->
+        <section class="activity-card">
+
+            <div class="card-head">
+                <div class="head-left">
+                    <div class="card-icon"><i class="fa-solid fa-wave-square"></i></div>
+                    <div>
+                        <h3>Recent Activity</h3>
+                        <p>Overview of your recent account activity</p>
+                    </div>
+                </div>
+
+                <a class="btn-outline" href="#">
+                    View All Activity
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="activity-list">
+
+                <div class="activity-item">
+                    <div class="activity-icon success">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </div>
+                    <div class="activity-text">
+                        <div class="a-title">Login Successful</div>
+                        <div class="a-sub">Logged in to your account</div>
+                    </div>
+                    <div class="activity-time">
+                        <strong th:text="${user.lastActiveAt != null ? #temporals.format(user.lastActiveAt, 'hh:mm a') : 'Today, 12:45 PM'}">Today, 12:45 PM</strong>
+                        Active Session
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon info">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </div>
+                    <div class="activity-text">
+                        <div class="a-title">Profile Checked</div>
+                        <div class="a-sub">Viewed profile dashboard information</div>
+                    </div>
+                    <div class="activity-time">
+                        <strong>Today</strong>
+                        Just Now
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

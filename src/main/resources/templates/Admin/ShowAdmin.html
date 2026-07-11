@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>All Admins</title>
+</head>
+
+<body>
+
+<h1>All Admins</h1>
+
+<table border="1">
+
+    <thead>
+
+    <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Contact</th>
+        <th>Email</th>
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+    <tr th:each="admin : ${admins}">
+
+        <td th:text="${admin.adminname}"></td>
+
+        <td th:text="${admin.address}"></td>
+
+        <td th:text="${admin.contact}"></td>
+
+        <td th:text="${admin.email}"></td>
+
+    </tr>
+
+    </tbody>
+
+</table>
+
+<br>
+
+<a href="/admin/register">
+    Register New Admin
+</a>
+
+</body>
+
+</html>

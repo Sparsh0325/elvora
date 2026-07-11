@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Expense – Elvora</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/UserNavbar.css}">
+    <link rel="stylesheet" th:href="@{/css/UserTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/UserDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin/DeleteCategory.css}">
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div th:replace="~{User/UserNavbar :: userNavbar}"></div>
+
+<div class="admin-main">
+
+    <!-- Topbar -->
+    <div th:replace="~{User/UserTopbar :: userTopbar}"></div>
+
+    <main class="admin-content">
+
+        <!-- Page Header -->
+        <div class="del-page-header">
+            <div class="breadcrumb">
+                <a th:href="@{/expense/showall}" class="bc-link">Expense History</a>
+                <span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span>
+                <span class="bc-current">Delete Expense</span>
+            </div>
+            <h1>Delete Expense</h1>
+            <p class="del-page-sub">Confirm the deletion of this transaction expenditure</p>
+        </div>
+
+        <!-- Confirm Card Wrapper -->
+        <div class="del-card-wrapper">
+
+            <div class="del-card">
+
+                <div class="warning-ring">
+                    <div class="warning-icon">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </div>
+                </div>
+
+                <h2 class="del-card-title-text" style="color: var(--danger); font-size: 20px; font-weight: 800; margin-top: 18px;">
+                    Are you sure?
+                </h2>
+                <p class="del-card-desc" style="color: var(--muted); font-size: 13.5px; line-height: 1.5; margin: 8px 0 24px;">
+                    This action is permanent and cannot be undone. The selected expense record will be permanently deleted from your logs.
+                </p>
+
+                <!-- Target Item Card -->
+                <div class="target-item-card" style="width: 100%; border: 1.5px solid var(--border); background: var(--danger-lighter); border-radius: 14px; padding: 18px; text-align: left; margin-bottom: 24px; display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase;">Expense Details</span>
+                        <span style="font-size:12px; font-weight:800; color:#ef4444;" th:text="'-₹' + ${#numbers.formatDecimal(transaction.amount, 1, 'COMMA', 2, 'POINT')}">-₹0.00</span>
+                    </div>
+                    <div style="margin-top:4px;">
+                        <strong style="font-size:14px; color:var(--ink);" th:text="${transaction.description}">Dinner with friends</strong>
+                        <p style="font-size:12px; color:var(--muted); margin:4px 0 0;" th:text="'Category: ' + ${transaction.category.category_name} + ' • Date: ' + ${#temporals.format(transaction.date, 'dd MMM yyyy')}">Category: Food</p>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <form th:action="@{/expense/delete}" method="post" style="width:100%; display:flex; gap:12px;">
+                    <input type="hidden" name="transaction_id" th:value="${transaction.transaction_id}">
+
+                    <a th:href="@{/expense/showall}" class="btn-back" style="flex:1; display:flex; align-items:center; justify-content:center; border: 1px solid var(--border); border-radius:10px; text-decoration:none; color:var(--ink); height:42px; font-weight:700; background:#fff;">Cancel</a>
+                    <button type="submit" class="btn-delete-confirm" style="flex:1.2; height:42px; background:var(--danger); border:none; border-radius:10px; color:#fff; font-weight:700; cursor:pointer;">Yes, Delete Record</button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>All Users</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/AdminNavbar.css}">
+    <link rel="stylesheet" th:href="@{/css/AdminTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/AdminDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin/ShowUser.css}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+<div th:replace="~{Admin/AdminNavbar :: adminNavbar}"></div>
+
+<div class="admin-main">
+
+    <div th:replace="~{Admin/AdminTopbar :: adminTopbar}"></div>
+
+    <main class="admin-content">
+
+        <!-- ===== Page header ===== -->
+        <div class="su-page-header">
+            <nav class="breadcrumb">
+                <a th:href="@{/admin/home}" class="bc-link">Dashboard</a>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <span class="bc-link">Users</span>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <span class="bc-current">All Users</span>
+            </nav>
+            <h1>All Users</h1>
+            <p class="su-page-sub">Manage and view all registered users on the platform</p>
+        </div>
+
+        <!-- ===== 4 stat cards ===== -->
+        <div class="stat-cards">
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-purple">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="stat-body">
+                    <p class="stat-label">Total Users</p>
+                    <p class="stat-value" id="totalCount"
+                       th:text="${users.size()}">0</p>
+                    <p class="stat-trend trend-up">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                        <span>12.5%</span>
+                        <span class="trend-sub">vs last month</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-blue">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+                <div class="stat-body">
+                    <p class="stat-label">New This Month</p>
+                    <p class="stat-value">—</p>
+                    <p class="stat-trend trend-up">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                        <span>18.4%</span>
+                        <span class="trend-sub">vs last month</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-green">
+                    <i class="fa-solid fa-user-check"></i>
+                </div>
+                <div class="stat-body">
+                    <p class="stat-label">Active Users</p>
+                    <p class="stat-value" th:text="${users.size()}">0</p>
+                    <p class="stat-trend trend-up">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                        <span>9.7%</span>
+                        <span class="trend-sub">vs last month</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-red">
+                    <i class="fa-solid fa-user-xmark"></i>
+                </div>
+                <div class="stat-body">
+                    <p class="stat-label">Inactive Users</p>
+                    <p class="stat-value">0</p>
+                    <p class="stat-trend trend-down">
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                        <span>6.3%</span>
+                        <span class="trend-sub">vs last month</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== Charts row ===== -->
+        <div class="charts-row">
+
+            <!-- Line chart: Registrations Over Time -->
+            <div class="chart-card chart-line">
+                <div class="chart-card-header">
+                    <p class="chart-title">User Registrations Over Time</p>
+                    <span class="chart-period-badge">This Month</span>
+                </div>
+                <div class="chart-canvas-wrap">
+                    <canvas id="lineChart" height="130"></canvas>
+                </div>
+            </div>
+
+            <!-- Donut: Users by Status -->
+            <div class="chart-card chart-donut">
+                <p class="chart-title">Users by Status</p>
+                <div class="donut-wrap">
+                    <canvas id="statusDonut" width="170" height="170"></canvas>
+                    <div class="donut-center">
+                        <span class="donut-label">Total</span>
+                        <span class="donut-value" id="statusTotal"
+                              th:text="${users.size()}">0</span>
+                    </div>
+                </div>
+                <ul class="donut-legend">
+                    <li>
+                        <span class="legend-dot" style="background:#7557f6;"></span>
+                        <span class="legend-label">Active Users</span>
+                        <span class="legend-pct" id="activePct">100%</span>
+                    </li>
+                    <li>
+                        <span class="legend-dot" style="background:#ef4444;"></span>
+                        <span class="legend-label">Inactive Users</span>
+                        <span class="legend-pct">0%</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Donut: Users by Role -->
+            <div class="chart-card chart-donut">
+                <p class="chart-title">Users by Role</p>
+                <div class="donut-wrap">
+                    <canvas id="roleDonut" width="170" height="170"></canvas>
+                    <div class="donut-center">
+                        <span class="donut-label">Total</span>
+                        <span class="donut-value" th:text="${users.size()}">0</span>
+                    </div>
+                </div>
+                <ul class="donut-legend">
+                    <li>
+                        <span class="legend-dot" style="background:#7557f6;"></span>
+                        <span class="legend-label">Admin</span>
+                        <span class="legend-pct">15%</span>
+                    </li>
+                    <li>
+                        <span class="legend-dot" style="background:#f59e0b;"></span>
+                        <span class="legend-label">User</span>
+                        <span class="legend-pct">85%</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- ===== Search + Add User row ===== -->
+        <div class="table-toolbar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text"
+                       id="searchInput"
+                       class="search-input"
+                       placeholder="Search user..."
+                       oninput="filterTable()">
+            </div>
+            <div class="toolbar-right">
+                <button type="button" class="btn-filters">
+                    <i class="fa-solid fa-sliders"></i>
+                    Filters
+                </button>
+                <a th:href="@{/admin/user/register}" class="btn-add-user">
+                    <i class="fa-solid fa-plus"></i>
+                    Add User
+                </a>
+            </div>
+        </div>
+
+        <!-- ===== Users table ===== -->
+        <section class="users-table-panel">
+
+            <table class="users-table" id="usersTable">
+                <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody id="usersTableBody">
+
+                <tr th:each="user : ${users}" class="user-row">
+
+                    <!-- User ID -->
+                    <td><span class="id-badge" th:text="${user.user_id}"></span></td>
+
+                    <!-- Name with avatar -->
+                    <td>
+                        <div class="user-name-cell">
+                            <div class="user-avatar"
+                                 th:attr="data-initial=${#strings.substring(user.name, 0, 1).toUpperCase()}">
+                                <span th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}"></span>
+                            </div>
+                            <span class="user-full-name" th:text="${user.name}"></span>
+                        </div>
+                    </td>
+
+                    <!-- Email -->
+                    <td class="email-cell" th:text="${user.email}"></td>
+
+                    <!-- Contact -->
+                    <td th:text="${user.contact}"></td>
+
+                    <!-- Address -->
+                    <td th:text="${user.address}"></td>
+
+                    <!-- Status (decorative — no field in model) -->
+                    <td>
+                        <span class="status-badge status-active">
+                            <span class="status-dot"></span>
+                            Active
+                        </span>
+                    </td>
+
+                    <!-- Actions -->
+                    <td class="actions-cell">
+
+                        <a th:href="@{/admin/user/edit(user_id=${user.user_id})}"
+                           class="action-btn edit-btn"
+                           title="Edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+
+                        <a th:href="@{/admin/user/delete(user_id=${user.user_id})}"
+                           class="action-btn delete-btn"
+                           title="Delete">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                <!-- Empty state -->
+                <tr th:if="${users.isEmpty()}" id="emptyRow">
+                    <td colspan="7" class="empty-row">
+                        <i class="fa-regular fa-face-meh empty-icon"></i>
+                        <p>No users found.</p>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <!-- Table footer: count + pagination -->
+            <div class="table-footer">
+
+                <span class="footer-count" id="footerCount">
+                    Showing 1 to
+                    <span th:text="${users.size()}">0</span>
+                    of
+                    <span th:text="${users.size()}">0</span>
+                    users
+                </span>
+
+                <div class="pagination">
+                    <button class="page-btn page-nav" disabled title="Previous">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button class="page-btn page-active">1</button>
+                    <button class="page-btn page-nav" disabled title="Next">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <div class="per-page-select">
+                    <span>10 / page</span>
+                    <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+</div>
+
+<!-- ===== Thymeleaf passes total user count to JS ===== -->
+<div id="userCountData"
+     th:attr="data-total=${users.size()}"
+     style="display:none;"></div>
+
+<script th:inline="javascript">
+    /* ===========================================================
+       Read total count injected by Thymeleaf
+    =========================================================== */
+    const totalUsers = parseInt(
+        document.getElementById('userCountData').dataset.total || '0', 10
+    );
+
+    /* ===========================================================
+       LINE CHART — User Registrations Over Time
+    =========================================================== */
+    (function () {
+        const ctx = document.getElementById('lineChart').getContext('2d');
+
+        const gradient = ctx.createLinearGradient(0, 0, 0, 130);
+        gradient.addColorStop(0,   'rgba(117, 87, 246, 0.22)');
+        gradient.addColorStop(1,   'rgba(117, 87, 246, 0)');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jul 01','Jul 02','Jul 03','Jul 04','Jul 05','Jul 06','Jul 07','Jul 08'],
+                datasets: [{
+                    label: 'Users Added',
+                    data: [10, 18, 14, 22, 28, 20, 24, 16],
+                    borderColor: '#7557f6',
+                    borderWidth: 2.5,
+                    backgroundColor: gradient,
+                    pointBackgroundColor: '#7557f6',
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#17152d',
+                        titleFont: { family: 'Inter', size: 12, weight: '600' },
+                        bodyFont:  { family: 'Inter', size: 12 },
+                        padding: 10,
+                        cornerRadius: 8,
+                        callbacks: {
+                            title: (items) => items[0].label,
+                            label: (item) => ` Users Added: ${item.raw}`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            font: { family: 'Inter', size: 11 },
+                            color: '#817b9d'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#f0edff' },
+                        ticks: {
+                            font: { family: 'Inter', size: 11 },
+                            color: '#817b9d'
+                        }
+                    }
+                }
+            }
+        });
+    })();
+
+    /* ===========================================================
+       DONUT — Users by Status
+    =========================================================== */
+    (function () {
+        const active   = totalUsers;
+        const inactive = 0;
+        const ctx = document.getElementById('statusDonut').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Active Users', 'Inactive Users'],
+                datasets: [{
+                    data: [active || 1, inactive],
+                    backgroundColor: ['#7557f6', '#ef4444'],
+                    borderWidth: 0,
+                    hoverOffset: 6
+                }]
+            },
+            options: {
+                cutout: '72%',
+                responsive: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#17152d',
+                        bodyFont: { family: 'Inter', size: 12 },
+                        padding: 10,
+                        cornerRadius: 8
+                    }
+                }
+            }
+        });
+
+        const pctEl = document.getElementById('activePct');
+        if (pctEl && totalUsers > 0) {
+            pctEl.textContent = (active / totalUsers * 100).toFixed(1) + '%';
+        }
+    })();
+
+    /* ===========================================================
+       DONUT — Users by Role
+    =========================================================== */
+    (function () {
+        const ctx = document.getElementById('roleDonut').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Admin', 'User'],
+                datasets: [{
+                    data: [15, 85],
+                    backgroundColor: ['#7557f6', '#f59e0b'],
+                    borderWidth: 0,
+                    hoverOffset: 6
+                }]
+            },
+            options: {
+                cutout: '72%',
+                responsive: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#17152d',
+                        bodyFont: { family: 'Inter', size: 12 },
+                        padding: 10,
+                        cornerRadius: 8
+                    }
+                }
+            }
+        });
+    })();
+
+    /* ===========================================================
+       CLIENT-SIDE SEARCH FILTER
+    =========================================================== */
+    function filterTable() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const rows  = document.querySelectorAll('#usersTableBody .user-row');
+
+        let visible = 0;
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            if (text.includes(query)) {
+                row.style.display = '';
+                visible++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        const fc = document.getElementById('footerCount');
+        if (fc) {
+            fc.innerHTML = `Showing <strong>${visible}</strong> of <strong>${rows.length}</strong> users`;
+        }
+    }
+</script>
+
+</body>
+</html>

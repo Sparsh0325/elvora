@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Expense History – Elvora</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/UserNavbar.css}">
+    <link rel="stylesheet" th:href="@{/css/UserTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/UserDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/User/ShowExpense.css}">
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div th:replace="~{User/UserNavbar :: userNavbar}"></div>
+
+<div class="admin-main">
+
+    <!-- Topbar -->
+    <div th:replace="~{User/UserTopbar :: userTopbar}"></div>
+
+    <main class="admin-content">
+
+        <!-- Header -->
+        <div class="expense-header-row">
+            <div class="page-titles">
+                <h1>Expense History</h1>
+                <p>Track, manage, and overview all your transaction expenditures</p>
+            </div>
+            <a th:href="@{/expense/add}" class="btn-add-expense">
+                <i class="fa-solid fa-plus"></i>
+                Add Expense
+            </a>
+        </div>
+
+        <!-- 3 Stat Cards -->
+        <div class="stat-cards-grid">
+            <div class="stat-card-item">
+                <div>
+                    <span class="stat-card-label">Total Expenditures</span>
+                    <p class="stat-card-value" th:text="'₹' + ${#numbers.formatDecimal(totalExpense, 1, 'COMMA', 0, 'POINT')}">₹0</p>
+                </div>
+                <div class="stat-card-icon">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+            </div>
+
+            <div class="stat-card-item">
+                <div>
+                    <span class="stat-card-label">Number of Entries</span>
+                    <p class="stat-card-value" th:text="${expenses.size()}">0</p>
+                </div>
+                <div class="stat-card-icon" style="color: #2563eb; background: #dbeafe;">
+                    <i class="fa-solid fa-receipt"></i>
+                </div>
+            </div>
+
+            <div class="stat-card-item">
+                <div>
+                    <span class="stat-card-label">Highest Expense</span>
+                    <p class="stat-card-value" th:text="'₹' + ${#numbers.formatDecimal(maxExpense, 1, 'COMMA', 0, 'POINT')}">₹0</p>
+                </div>
+                <div class="stat-card-icon" style="color: #d97706; background: #fef3c7;">
+                    <i class="fa-solid fa-fire-flame-curved"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Toolbar -->
+        <div class="toolbar-container">
+            <div class="search-box-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon" style="color: var(--purple);"></i>
+                <input type="text"
+                       id="expenseSearchInput"
+                       class="search-input-field"
+                       placeholder="Search expense description or category..."
+                       oninput="filterExpensesTable()">
+            </div>
+        </div>
+
+        <!-- Table Grid -->
+        <div class="table-panel-wrap">
+            <table class="custom-data-table" id="expensesTable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="expensesTableBody">
+                <tr th:each="expense : ${expenses}" class="expense-row">
+                    <td th:text="${expense.transaction_id}" class="id-badge-cell">1</td>
+                    <td>
+                        <span class="category-tag-cell tag-purple" th:text="${expense.category.category_name}">Food</span>
+                    </td>
+                    <td style="font-weight: 800; color: #ef4444;" th:text="'-₹' + ${#numbers.formatDecimal(expense.amount, 1, 'COMMA', 0, 'POINT')}">-₹0</td>
+                    <td th:text="${#temporals.format(expense.date, 'dd MMM yyyy')}">15 Jul 2026</td>
+                    <td th:text="${expense.description}">Lunch at Cafe</td>
+                    <td>
+                        <div class="action-buttons-cell">
+                            <a th:href="@{/expense/edit(id=${expense.transaction_id})}" class="action-icon-btn" title="Edit">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                            <a th:href="@{/expense/delete(id=${expense.transaction_id})}" class="action-icon-btn btn-delete" title="Delete">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Empty state -->
+                <tr th:if="${expenses.isEmpty()}" id="emptyExpensesRow">
+                    <td colspan="6">
+                        <div class="empty-state-card">
+                            <i class="fa-regular fa-face-meh"></i>
+                            <p>No expense transactions found.</p>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+</div>
+
+<script>
+    function filterExpensesTable() {
+        const query = document.getElementById('expenseSearchInput').value.toLowerCase();
+        const rows  = document.querySelectorAll('#expensesTableBody .expense-row');
+        let visible = 0;
+
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            if (text.includes(query)) {
+                row.style.display = '';
+                visible++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        const emptyRow = document.getElementById('emptyExpensesRow');
+        if (emptyRow) {
+            emptyRow.style.display = (visible === 0 && rows.length > 0) ? '' : 'none';
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<header th:fragment="adminTopbar"
+        class="admin-topbar">
+
+    <button type="button"
+            class="topbar-icon-btn"
+            aria-label="Search">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+    </button>
+
+    <button type="button"
+            class="topbar-icon-btn"
+            aria-label="Notifications">
+
+        <i class="fa-regular fa-bell"></i>
+
+        <span class="notif-dot">1</span>
+
+    </button>
+
+    <a th:href="@{/admin/profile(email=${session.email})}"
+       class="topbar-user">
+
+        <div class="avatar-sm"
+             th:text="${session.displayName != null && !#strings.isEmpty(session.displayName) ? #strings.substring(session.displayName, 0, 1).toUpperCase() : 'A'}">
+            A
+        </div>
+
+        <div class="user-meta">
+
+            <strong th:text="${session.displayName != null ? session.displayName : 'Admin'}">
+                Admin
+            </strong>
+
+            <span th:text="${session.email}">
+                admin@mail.com
+            </span>
+
+        </div>
+
+        <i class="fa-solid fa-chevron-down"></i>
+
+    </a>
+
+</header>
+
+</body>
+
+</html>

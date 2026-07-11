@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/AdminNavbar.css}">
+    <link rel="stylesheet" th:href="@{/css/AdminTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/AdminDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin/AdminHome.css}">
+</head>
+
+<body>
+
+<div th:replace="~{Admin/AdminNavbar :: adminNavbar}"></div>
+
+<div class="admin-main">
+
+    <div th:replace="~{Admin/AdminTopbar :: adminTopbar}"></div>
+
+    <main class="admin-content">
+
+        <!-- ===== 3-column home grid ===== -->
+        <div class="home-grid">
+
+            <!-- ══════════════════════════════
+                 LEFT COLUMN — Recent Activity
+                 ══════════════════════════════ -->
+            <aside class="list-card">
+                <div class="list-card-header">
+                    <h3 class="list-card-title">Recent Users</h3>
+                    <a th:href="@{/admin/user/showall}" class="list-card-link">View all</a>
+                </div>
+
+                <p class="list-card-sub">Latest registered accounts</p>
+
+                <!-- Activity rows (static demo — wire to model list in controller) -->
+                <div class="activity-list">
+
+                    <div class="act-row">
+                        <div class="act-avatar av-purple">JD</div>
+                        <div class="act-body">
+                            <p class="act-name">John Doe</p>
+                            <p class="act-meta">john@example.com</p>
+                        </div>
+                        <span class="act-badge badge-admin">Admin</span>
+                    </div>
+
+                    <div class="act-row act-row-active">
+                        <div class="act-avatar av-blue">SM</div>
+                        <div class="act-body">
+                            <p class="act-name">Sara Miller</p>
+                            <p class="act-meta">sara@example.com</p>
+                        </div>
+                        <span class="act-badge badge-user">User</span>
+                    </div>
+
+                    <div class="act-row">
+                        <div class="act-avatar av-green">RK</div>
+                        <div class="act-body">
+                            <p class="act-name">Raj Kumar</p>
+                            <p class="act-meta">raj@example.com</p>
+                        </div>
+                        <span class="act-badge badge-user">User</span>
+                    </div>
+
+                    <div class="act-row">
+                        <div class="act-avatar av-amber">NP</div>
+                        <div class="act-body">
+                            <p class="act-name">Nina Patel</p>
+                            <p class="act-meta">nina@example.com</p>
+                        </div>
+                        <span class="act-badge badge-user">User</span>
+                    </div>
+
+                    <div class="act-row">
+                        <div class="act-avatar av-rose">AL</div>
+                        <div class="act-body">
+                            <p class="act-name">Alex Lee</p>
+                            <p class="act-meta">alex@example.com</p>
+                        </div>
+                        <span class="act-badge badge-admin">Admin</span>
+                    </div>
+
+                    <div class="act-row">
+                        <div class="act-avatar av-teal">MR</div>
+                        <div class="act-body">
+                            <p class="act-name">Maria Rossi</p>
+                            <p class="act-meta">maria@example.com</p>
+                        </div>
+                        <span class="act-badge badge-user">User</span>
+                    </div>
+
+                    <div class="act-row">
+                        <div class="act-avatar av-purple">KW</div>
+                        <div class="act-body">
+                            <p class="act-name">Kevin Wang</p>
+                            <p class="act-meta">kevin@example.com</p>
+                        </div>
+                        <span class="act-badge badge-user">User</span>
+                    </div>
+
+                </div>
+
+                <div class="list-card-footer">
+                    <a th:href="@{/admin/user/register}" class="list-footer-btn">
+                        <i class="fa-solid fa-user-plus"></i>
+                        Add New User
+                    </a>
+                    <a th:href="@{/admin/user/showall}" class="list-footer-btn list-footer-btn-ghost">
+                        Manage Users
+                    </a>
+                </div>
+            </aside>
+
+
+            <!-- ══════════════════════════════
+                 CENTER COLUMN — Hero + Stats
+                 ══════════════════════════════ -->
+            <div class="center-col">
+
+                <!-- Hero Banner -->
+                <div class="hero-banner">
+
+                    <!-- Background orbs -->
+                    <span class="orb orb-1"></span>
+                    <span class="orb orb-2"></span>
+                    <span class="orb orb-3"></span>
+
+                    <!-- Text content -->
+                    <div class="hero-content">
+                        <p class="hero-eyebrow">
+                            <i class="fa-solid fa-bolt"></i>
+                            Elvora Admin Panel
+                        </p>
+                        <h2 class="hero-title">
+                            Manage your platform<br>with ease &amp; clarity.
+                        </h2>
+                        <p class="hero-sub">
+                            Monitor users, oversee categories and keep your
+                            platform running smoothly — all from one place.
+                        </p>
+                        <div class="hero-actions">
+                            <a th:href="@{/admin/user/register}" class="hero-cta-primary">
+                                <i class="fa-solid fa-plus"></i>
+                                Add New User
+                            </a>
+                            <a th:href="@{/admin/user/showall}" class="hero-cta-ghost">
+                                View Users
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Illustration -->
+                    <div class="hero-illustration">
+                        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg"
+                             class="hero-svg">
+
+                            <!-- Ground shadow -->
+                            <ellipse cx="150" cy="268" rx="100" ry="10"
+                                     fill="rgba(0,0,0,0.12)"/>
+
+                            <!-- ── Arch frame ── -->
+                            <!-- Arch base pillars -->
+                            <rect x="80"  y="110" width="32" height="155" rx="6"
+                                  fill="#c4b5fd" opacity="0.6"/>
+                            <rect x="188" y="110" width="32" height="155" rx="6"
+                                  fill="#c4b5fd" opacity="0.6"/>
+                            <!-- Arch top (semi-circle) -->
+                            <path d="M80 115 Q80 50 150 50 Q220 50 220 115 Z"
+                                  fill="#ddd6fe" opacity="0.55"/>
+                            <!-- Arch inner door dark -->
+                            <rect x="96" y="115" width="108" height="150" rx="4"
+                                  fill="#17152d" opacity="0.55"/>
+                            <!-- Arch inner top -->
+                            <path d="M96 118 Q96 65 150 65 Q204 65 204 118 Z"
+                                  fill="#17152d" opacity="0.55"/>
+
+                            <!-- Door panels (lighter) -->
+                            <rect x="102" y="150" width="42" height="60" rx="3"
+                                  fill="rgba(255,255,255,0.08)"/>
+                            <rect x="156" y="150" width="42" height="60" rx="3"
+                                  fill="rgba(255,255,255,0.08)"/>
+                            <!-- Door knob -->
+                            <circle cx="152" cy="192" r="4" fill="rgba(255,255,255,0.5)"/>
+
+                            <!-- Window fanlight panes -->
+                            <line x1="150" y1="68" x2="150" y2="114"
+                                  stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                            <line x1="117" y1="80" x2="150" y2="114"
+                                  stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                            <line x1="183" y1="80" x2="150" y2="114"
+                                  stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+
+                            <!-- Lantern above door -->
+                            <rect x="143" y="30" width="14" height="18" rx="3"
+                                  fill="#fbbf24" opacity="0.85"/>
+                            <rect x="146" y="22" width="8" height="10" rx="2"
+                                  fill="#f59e0b" opacity="0.9"/>
+                            <!-- Glow -->
+                            <circle cx="150" cy="38" r="12"
+                                    fill="#fbbf24" opacity="0.15"/>
+
+                            <!-- ── Left plant ── -->
+                            <!-- Pot -->
+                            <path d="M38 240 L47 210 L65 210 L74 240 Z" fill="#e9e3ff"/>
+                            <rect x="42" y="205" width="28" height="8" rx="3"
+                                  fill="#c4b5fd"/>
+                            <!-- Stems & leaves -->
+                            <line x1="56" y1="210" x2="56" y2="175"
+                                  stroke="#4ade80" stroke-width="2"/>
+                            <path d="M56 190 Q40 172 45 155" fill="none"
+                                  stroke="#22c55e" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M56 182 Q70 168 66 152" fill="none"
+                                  stroke="#4ade80" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M56 175 Q44 162 50 148" fill="none"
+                                  stroke="#86efac" stroke-width="2" stroke-linecap="round"/>
+                            <!-- Leaf fills -->
+                            <ellipse cx="42" cy="153" rx="9" ry="14"
+                                     fill="#4ade80" opacity="0.7"
+                                     transform="rotate(-30 42 153)"/>
+                            <ellipse cx="68" cy="151" rx="9" ry="14"
+                                     fill="#22c55e" opacity="0.7"
+                                     transform="rotate(30 68 151)"/>
+                            <ellipse cx="49" cy="147" rx="7" ry="11"
+                                     fill="#86efac" opacity="0.7"
+                                     transform="rotate(-10 49 147)"/>
+
+                            <!-- ── Right plant ── -->
+                            <path d="M226 240 L235 210 L253 210 L262 240 Z" fill="#e9e3ff"/>
+                            <rect x="230" y="205" width="28" height="8" rx="3"
+                                  fill="#c4b5fd"/>
+                            <line x1="244" y1="210" x2="244" y2="178"
+                                  stroke="#4ade80" stroke-width="2"/>
+                            <path d="M244 195 Q228 178 234 162" fill="none"
+                                  stroke="#22c55e" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M244 185 Q258 172 255 158" fill="none"
+                                  stroke="#4ade80" stroke-width="2.5" stroke-linecap="round"/>
+                            <ellipse cx="232" cy="160" rx="9" ry="13"
+                                     fill="#4ade80" opacity="0.7"
+                                     transform="rotate(-25 232 160)"/>
+                            <ellipse cx="256" cy="157" rx="9" ry="13"
+                                     fill="#22c55e" opacity="0.7"
+                                     transform="rotate(25 256 157)"/>
+
+                            <!-- ── Bicycle ── -->
+                            <!-- Wheels -->
+                            <circle cx="108" cy="230" r="28" fill="none"
+                                    stroke="rgba(255,255,255,0.65)" stroke-width="3"/>
+                            <circle cx="192" cy="230" r="28" fill="none"
+                                    stroke="rgba(255,255,255,0.65)" stroke-width="3"/>
+                            <!-- Wheel hubs -->
+                            <circle cx="108" cy="230" r="4"
+                                    fill="rgba(255,255,255,0.8)"/>
+                            <circle cx="192" cy="230" r="4"
+                                    fill="rgba(255,255,255,0.8)"/>
+                            <!-- Spokes left -->
+                            <line x1="108" y1="202" x2="108" y2="258"
+                                  stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/>
+                            <line x1="80"  y1="230" x2="136" y2="230"
+                                  stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/>
+                            <line x1="88"  y1="210" x2="128" y2="250"
+                                  stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
+                            <line x1="128" y1="210" x2="88"  y2="250"
+                                  stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
+                            <!-- Spokes right -->
+                            <line x1="192" y1="202" x2="192" y2="258"
+                                  stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/>
+                            <line x1="164" y1="230" x2="220" y2="230"
+                                  stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/>
+                            <line x1="172" y1="210" x2="212" y2="250"
+                                  stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
+                            <line x1="212" y1="210" x2="172" y2="250"
+                                  stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
+                            <!-- Frame -->
+                            <polyline points="150,200 192,230 150,230 108,230"
+                                      fill="none"
+                                      stroke="rgba(255,255,255,0.75)" stroke-width="2.5"
+                                      stroke-linejoin="round"/>
+                            <line x1="150" y1="200" x2="108" y2="230"
+                                  stroke="rgba(255,255,255,0.55)" stroke-width="2.5"/>
+                            <line x1="150" y1="200" x2="150" y2="215"
+                                  stroke="rgba(255,255,255,0.6)" stroke-width="2.5"/>
+                            <!-- Handlebar -->
+                            <line x1="192" y1="215" x2="200" y2="205"
+                                  stroke="rgba(255,255,255,0.7)" stroke-width="2.5"/>
+                            <line x1="197" y1="203" x2="207" y2="203"
+                                  stroke="rgba(255,255,255,0.7)" stroke-width="3"
+                                  stroke-linecap="round"/>
+                            <!-- Seat -->
+                            <line x1="150" y1="200" x2="140" y2="192"
+                                  stroke="rgba(255,255,255,0.6)" stroke-width="2.5"/>
+                            <line x1="134" y1="192" x2="148" y2="192"
+                                  stroke="rgba(255,255,255,0.8)" stroke-width="3.5"
+                                  stroke-linecap="round"/>
+
+                            <!-- Floating sparkles -->
+                            <text x="30"  y="100" font-size="14"
+                                  fill="rgba(255,255,255,0.5)">✦</text>
+                            <text x="265" y="95"  font-size="10"
+                                  fill="rgba(255,255,255,0.4)">✦</text>
+                            <text x="250" y="130" font-size="18"
+                                  fill="rgba(255,255,255,0.25)">+</text>
+                            <text x="28"  y="160" font-size="10"
+                                  fill="rgba(255,255,255,0.3)">+</text>
+
+                        </svg>
+                    </div>
+                </div><!-- /hero-banner -->
+
+                <!-- Two stat cards below the hero -->
+                <div class="stat-row">
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-body">
+                                <p class="stat-label">Total Users</p>
+                                <p class="stat-value"
+                                   th:text="${totalUsers != null ? totalUsers : '1,245'}">1,245</p>
+                                <div class="stat-trend trend-up">
+                                    <i class="fa-solid fa-arrow-trend-up"></i>
+                                    <span class="trend-pct">+12.5%</span>
+                                    <span class="trend-vs">vs last month</span>
+                                </div>
+                            </div>
+                            <div class="stat-icon-box sib-purple">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-bar-track">
+                            <div class="stat-bar-fill" style="width:68%"></div>
+                        </div>
+                        <p class="stat-bar-label">68% of monthly target</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-body">
+                                <p class="stat-label">Total Categories</p>
+                                <p class="stat-value"
+                                   th:text="${totalCategories != null ? totalCategories : '48'}">48</p>
+                                <div class="stat-trend trend-up">
+                                    <i class="fa-solid fa-arrow-trend-up"></i>
+                                    <span class="trend-pct">+18.6%</span>
+                                    <span class="trend-vs">vs last month</span>
+                                </div>
+                            </div>
+                            <div class="stat-icon-box sib-indigo">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+                        </div>
+                        <div class="stat-bar-track">
+                            <div class="stat-bar-fill" style="width:48%"></div>
+                        </div>
+                        <p class="stat-bar-label">48% growth this quarter</p>
+                    </div>
+
+                </div><!-- /stat-row -->
+
+            </div><!-- /center-col -->
+
+
+            <!-- ══════════════════════════════
+                 RIGHT COLUMN — Calendar
+                 ══════════════════════════════ -->
+            <div class="right-col">
+
+                <div class="cal-card">
+                    <div class="cal-card-header">
+                        <div>
+                            <h3 class="cal-card-title">Calendar</h3>
+                            <p class="cal-card-sub">Schedule &amp; events</p>
+                        </div>
+                    </div>
+
+                    <div class="cal-nav-row">
+                        <button class="cal-nav-btn" id="calPrev">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <span class="cal-month-label" id="calTitle"></span>
+                        <button class="cal-nav-btn" id="calNext">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="cal-grid">
+                        <div class="cal-day-name">S</div>
+                        <div class="cal-day-name">M</div>
+                        <div class="cal-day-name">T</div>
+                        <div class="cal-day-name">W</div>
+                        <div class="cal-day-name">T</div>
+                        <div class="cal-day-name">F</div>
+                        <div class="cal-day-name">S</div>
+                    </div>
+                    <div class="cal-body" id="calBody"></div>
+                </div>
+
+                <!-- Quick actions below calendar -->
+                <div class="quick-actions">
+                    <p class="qa-title">Quick Actions</p>
+                    <a th:href="@{/admin/user/register}" class="qa-item">
+                        <span class="qa-icon qa-purple">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </span>
+                        <span class="qa-label">Add User</span>
+                        <i class="fa-solid fa-chevron-right qa-arrow"></i>
+                    </a>
+                    <a th:href="@{/admin/category/register}" class="qa-item">
+                        <span class="qa-icon qa-green">
+                            <i class="fa-solid fa-folder-plus"></i>
+                        </span>
+                        <span class="qa-label">Add Category</span>
+                        <i class="fa-solid fa-chevron-right qa-arrow"></i>
+                    </a>
+                    <a th:href="@{/admin/edit(email=${admin != null ? admin.email : ''})}" class="qa-item">
+                        <span class="qa-icon qa-amber">
+                            <i class="fa-solid fa-user-gear"></i>
+                        </span>
+                        <span class="qa-label">Profile Settings</span>
+                        <i class="fa-solid fa-chevron-right qa-arrow"></i>
+                    </a>
+                </div>
+
+            </div><!-- /right-col -->
+
+        </div><!-- /home-grid -->
+
+    </main>
+</div>
+
+<script>
+    /* ======================================================
+       MINI CALENDAR
+    ====================================================== */
+    (function () {
+        const MONTHS = [
+            'January','February','March','April','May','June',
+            'July','August','September','October','November','December'
+        ];
+        const DOT_DAYS = [3, 8, 14, 20, 22, 28];
+
+        let current   = new Date();
+        let viewYear  = current.getFullYear();
+        let viewMonth = current.getMonth();
+
+        function render() {
+            document.getElementById('calTitle').textContent =
+                MONTHS[viewMonth] + ' ' + viewYear;
+
+            const body      = document.getElementById('calBody');
+            const firstDay  = new Date(viewYear, viewMonth, 1).getDay();
+            const daysInMon = new Date(viewYear, viewMonth + 1, 0).getDate();
+            const daysInPrev= new Date(viewYear, viewMonth, 0).getDate();
+            const today     = current;
+
+            let cells = '';
+            for (let i = firstDay - 1; i >= 0; i--)
+                cells += `<div class="cal-cell cal-other">${daysInPrev - i}</div>`;
+
+            for (let d = 1; d <= daysInMon; d++) {
+                const isToday = (d === today.getDate() &&
+                    viewMonth === today.getMonth() &&
+                    viewYear  === today.getFullYear());
+                const hasDot  = DOT_DAYS.includes(d);
+                cells += `<div class="cal-cell${isToday ? ' cal-today' : ''}">
+                          ${d}${hasDot ? '<span class="cal-dot"></span>' : ''}
+                      </div>`;
+            }
+
+            const remaining = 42 - (firstDay + daysInMon);
+            for (let d = 1; d <= remaining; d++)
+                cells += `<div class="cal-cell cal-other">${d}</div>`;
+
+            body.innerHTML = cells;
+        }
+
+        document.getElementById('calPrev').addEventListener('click', () => {
+            if (--viewMonth < 0) { viewMonth = 11; viewYear--; }
+            render();
+        });
+        document.getElementById('calNext').addEventListener('click', () => {
+            if (++viewMonth > 11) { viewMonth = 0; viewYear++; }
+            render();
+        });
+
+        render();
+    })();
+</script>
+
+</body>
+</html>

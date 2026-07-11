@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div th:fragment="userNavbar">
+
+    <script>
+        // Prevent layout shifts / flickering during transitions
+        (function() {
+            if (localStorage.getItem('sidebar-collapsed') === 'true') {
+                document.body.classList.add('collapsed');
+                document.documentElement.style.setProperty('--sidebar-width', '70px');
+            }
+        })();
+    </script>
+
+    <aside class="admin-sidebar">
+
+        <!-- LOGO -->
+        <div class="sidebar-logo">
+            <div class="logo-left-wrap" style="display:flex; align-items:center; gap:12px;">
+                <div class="logo-icon">
+                    E
+                </div>
+                <span>Elvora</span>
+            </div>
+            <button type="button" class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Sidebar" style="background:transparent; border:none; cursor:pointer; padding:6px; color:#817b9d; display:flex; align-items:center; justify-content:center; border-radius:6px; transition: background 0.2s;">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="sidebar-menu">
+
+
+            <!-- DASHBOARD -->
+
+            <a th:href="@{/user/home}"
+               class="sidebar-link">
+
+                <i class="fa-solid fa-table-columns"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <!-- EXPENSES -->
+
+            <div class="sidebar-dropdown">
+
+                <button type="button"
+                        class="sidebar-link dropdown-button"
+                        onclick="toggleUserMenu('expenseMenu', this)">
+
+                    <div class="menu-left">
+
+                        <i class="fa-solid fa-wallet"></i>
+
+                        <span>Expenses</span>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+
+                </button>
+
+                <div class="dropdown-menu"
+                     id="expenseMenu">
+
+                    <a th:href="@{/expense/add}">
+                        Add Expense
+                    </a>
+
+                    <a th:href="@{/expense/showall}">
+                        Expense History
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- CATEGORY -->
+
+            <div class="sidebar-dropdown">
+
+                <button type="button"
+                        class="sidebar-link dropdown-button"
+                        onclick="toggleUserMenu('categoryMenu', this)">
+
+                    <div class="menu-left">
+
+                        <i class="fa-solid fa-tags"></i>
+
+                        <span>Category</span>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+
+                </button>
+
+                <div class="dropdown-menu"
+                     id="categoryMenu">
+
+                    <a th:href="@{/category/register}">
+                        Add Category
+                    </a>
+
+                    <a th:href="@{/category/showall}">
+                        View Categories
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUDGET -->
+
+            <div class="sidebar-dropdown">
+
+                <button type="button"
+                        class="sidebar-link dropdown-button"
+                        onclick="toggleUserMenu('budgetMenu', this)">
+
+                    <div class="menu-left">
+
+                        <i class="fa-solid fa-coins"></i>
+
+                        <span>Budget</span>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+
+                </button>
+
+                <div class="dropdown-menu"
+                     id="budgetMenu">
+
+                    <a th:href="@{/budget/add}">
+                        Set Monthly Budget
+                    </a>
+
+                    <a th:href="@{/budget/show}">
+                        View Budget
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- REPORTS -->
+
+            <div class="sidebar-dropdown">
+
+                <button type="button"
+                        class="sidebar-link dropdown-button"
+                        onclick="toggleUserMenu('reportMenu', this)">
+
+                    <div class="menu-left">
+
+                        <i class="fa-solid fa-chart-line"></i>
+
+                        <span>Reports</span>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+
+                </button>
+
+                <div class="dropdown-menu"
+                     id="reportMenu">
+
+                    <a th:href="@{/report/monthly}">
+                        Monthly Report
+                    </a>
+
+                    <a th:href="@{/report/yearly}">
+                        Yearly Report
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFILE -->
+
+            <a th:href="@{/user/profile(email=${session.email})}"
+               class="sidebar-link">
+
+                <i class="fa-regular fa-user"></i>
+
+                <span>Profile</span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- BOTTOM MENU -->
+
+        <div class="sidebar-bottom">
+
+            <a th:href="@{/logout}"
+               class="sidebar-link">
+
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+            <!-- LIGHT / DARK TOGGLE -->
+
+            <div class="theme-toggle"
+                 id="userThemeToggle"
+                 onclick="toggleUserTheme(this)">
+
+                <div class="toggle-thumb"></div>
+
+                <span class="toggle-option light-option active">
+                    <i class="fa-solid fa-sun"></i>
+                </span>
+
+                <span class="toggle-option dark-option">
+                    <i class="fa-solid fa-moon"></i>
+                </span>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <script>
+
+        function toggleUserMenu(menuId, button) {
+
+            const menu = document.getElementById(menuId);
+
+            const arrow = button.querySelector(".dropdown-arrow");
+
+            menu.classList.toggle("show-menu");
+
+            arrow.classList.toggle("rotate-arrow");
+
+        }
+
+        function toggleUserTheme(toggle) {
+
+            const isDark = toggle.classList.toggle("dark");
+
+            toggle.querySelector(".light-option").classList.toggle("active", !isDark);
+            toggle.querySelector(".dark-option").classList.toggle("active", isDark);
+
+            localStorage.setItem("elvora-theme", isDark ? "dark" : "light");
+
+            if (document.startViewTransition) {
+                document.startViewTransition(() => {
+                    document.body.classList.toggle("dark-theme", isDark);
+                });
+            } else {
+                document.body.classList.toggle("dark-theme", isDark);
+            }
+
+        }
+
+        (function () {
+
+            const saved = localStorage.getItem("elvora-theme");
+
+            const toggle = document.getElementById("userThemeToggle");
+
+            if (saved === "dark" && toggle) {
+
+                toggle.classList.add("dark");
+
+                toggle.querySelector(".light-option").classList.remove("active");
+
+                toggle.querySelector(".dark-option").classList.add("active");
+
+                document.body.classList.add("dark-theme");
+
+            }
+
+        })();
+
+        // Sidebar Collapse Toggle logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const COLLAPSED_WIDTH = '70px';
+            const EXPANDED_WIDTH  = '250px';
+            const STORAGE_KEY     = 'sidebar-collapsed';
+
+            function applySidebarState(collapsed) {
+                document.body.classList.toggle('collapsed', collapsed);
+                document.documentElement.style.setProperty(
+                    '--sidebar-width',
+                    collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH
+                );
+            }
+
+            // Restore state immediately (no flash)
+            const savedState = localStorage.getItem(STORAGE_KEY) === 'true';
+            applySidebarState(savedState);
+
+            const toggleBtn = document.getElementById('sidebarToggleBtn');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    const collapsed = !document.body.classList.contains('collapsed');
+                    applySidebarState(collapsed);
+                    localStorage.setItem(STORAGE_KEY, collapsed);
+                });
+            }
+        });
+    </script>
+
+</div>
+
+</body>
+
+</html>

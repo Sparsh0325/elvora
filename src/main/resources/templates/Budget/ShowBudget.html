@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Budget Overview – Elvora</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/UserNavbar.css}">
+    <link rel="stylesheet" th:href="@{/css/UserTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/UserDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/User/Budget.css}">
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div th:replace="~{User/UserNavbar :: userNavbar}"></div>
+
+<div class="admin-main">
+
+    <!-- Topbar -->
+    <div th:replace="~{User/UserTopbar :: userTopbar}"></div>
+
+    <main class="admin-content">
+
+        <!-- Budget Header -->
+        <div class="budget-header">
+            <h1>Budget Management</h1>
+            <p>Set, edit, and track your financial budgets and category allocations</p>
+        </div>
+
+        <!-- Filter Card -->
+        <div class="filter-card">
+            <form th:action="@{/budget/show}" method="get" class="filter-form">
+                <div class="form-group-filter">
+                    <label>Select Month</label>
+                    <select name="month" class="filter-select">
+                        <option value="1" th:selected="${month == 1}">January</option>
+                        <option value="2" th:selected="${month == 2}">February</option>
+                        <option value="3" th:selected="${month == 3}">March</option>
+                        <option value="4" th:selected="${month == 4}">April</option>
+                        <option value="5" th:selected="${month == 5}">May</option>
+                        <option value="6" th:selected="${month == 6}">June</option>
+                        <option value="7" th:selected="${month == 7}">July</option>
+                        <option value="8" th:selected="${month == 8}">August</option>
+                        <option value="9" th:selected="${month == 9}">September</option>
+                        <option value="10" th:selected="${month == 10}">October</option>
+                        <option value="11" th:selected="${month == 11}">November</option>
+                        <option value="12" th:selected="${month == 12}">December</option>
+                    </select>
+                </div>
+                <div class="form-group-filter">
+                    <label>Select Year</label>
+                    <input type="number" name="year" th:value="${year}" class="filter-input" placeholder="e.g. 2026">
+                </div>
+                <button type="submit" class="filter-btn">
+                    <i class="fa-solid fa-filter"></i>
+                    Apply Filter
+                </button>
+            </form>
+        </div>
+
+        <!-- Budget Grid -->
+        <div class="budget-grid">
+
+            <!-- Monthly Budget Card -->
+            <div class="budget-card">
+                <h2 class="card-title">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    Monthly Overview
+                </h2>
+
+                <div class="stat-list">
+                    <div class="stat-item">
+                        <div class="stat-item-left">
+                            <span class="stat-item-label">Allocated Budget</span>
+                            <span class="stat-item-value" th:text="'₹' + ${#numbers.formatDecimal(monthlyBudget, 1, 'COMMA', 0, 'POINT')}">₹0</span>
+                        </div>
+                        <div class="stat-item-icon">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-item-left">
+                            <span class="stat-item-label">Total Spent</span>
+                            <span class="stat-item-value" style="color:#ef4444;" th:text="'₹' + ${#numbers.formatDecimal(monthlyExpense, 1, 'COMMA', 0, 'POINT')}">₹0</span>
+                        </div>
+                        <div class="stat-item-icon" style="color:#ef4444;">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-item-left">
+                            <span class="stat-item-label">Remaining Balance</span>
+                            <span class="stat-item-value" style="color:#059669;" th:text="'₹' + ${#numbers.formatDecimal(monthlyRemaining, 1, 'COMMA', 0, 'POINT')}">₹0</span>
+                        </div>
+                        <div class="stat-item-icon" style="color:#059669;">
+                            <i class="fa-solid fa-vault"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="budget-actions">
+                    <a th:if="${budget != null}" th:href="@{/budget/edit(id=${budget.budget_id})}" class="btn-primary-budget">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Edit Monthly Budget
+                    </a>
+                    <a th:if="${budget == null}" th:href="@{/budget/add}" class="btn-primary-budget">
+                        <i class="fa-solid fa-plus"></i>
+                        Set Monthly Budget
+                    </a>
+                </div>
+            </div>
+
+            <!-- Yearly Summary Card -->
+            <div class="budget-card">
+                <h2 class="card-title">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Yearly Overview
+                </h2>
+
+                <div class="stat-list">
+                    <div class="stat-item">
+                        <div class="stat-item-left">
+                            <span class="stat-item-label">Yearly Budget</span>
+                            <span class="stat-item-value" th:text="'₹' + ${#numbers.formatDecimal(yearlyBudget, 1, 'COMMA', 0, 'POINT')}">₹0</span>
+                        </div>
+                        <div class="stat-item-icon">
+                            <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-item-left">
+                            <span class="stat-item-label">Yearly Spent</span>
+                            <span class="stat-item-value" style="color:#ef4444;" th:text="'₹' + ${#numbers.formatDecimal(yearlyExpense, 1, 'COMMA', 0, 'POINT')}">₹0</span>
+                        </div>
+                        <div class="stat-item-icon" style="color:#ef4444;">
+                            <i class="fa-solid fa-money-bill-trend-up"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-item-left">
+                            <span class="stat-item-label">Yearly Savings</span>
+                            <span class="stat-item-value" style="color:#059669;" th:text="'₹' + ${#numbers.formatDecimal(yearlyRemaining, 1, 'COMMA', 0, 'POINT')}">₹0</span>
+                        </div>
+                        <div class="stat-item-icon" style="color:#059669;">
+                            <i class="fa-solid fa-piggy-bank"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="budget-actions">
+                    <a th:href="@{/report/yearly(year=${year})}" class="btn-secondary-budget">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        View Yearly Reports
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

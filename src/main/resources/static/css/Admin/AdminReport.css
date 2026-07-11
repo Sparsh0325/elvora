@@ -1,0 +1,552 @@
+/* =========================================================
+   ADMIN REPORTS PAGE  (uses variables/reset from AdminNavbar.css)
+   ========================================================= */
+
+/* ---------- CONTENT AREA ---------- */
+.admin-content {
+    padding: 20px 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ---------- PAGE HEADER ROW ---------- */
+.report-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.page-titles h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.page-titles p {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.report-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.date-range-btn,
+.export-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    cursor: pointer;
+}
+
+.date-range-btn i:first-child {
+    color: var(--purple);
+}
+
+.date-range-btn i:last-child {
+    font-size: 10px;
+    color: #b7b0d9;
+}
+
+.export-btn {
+    background: var(--purple);
+    border-color: var(--purple);
+    color: #fff;
+}
+
+.export-btn:hover {
+    background: var(--purple-dark);
+}
+
+/* ---------- STAT CARDS ---------- */
+.report-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.stat-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.stat-card-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.icon-users {
+    background: var(--purple-light);
+    color: var(--purple);
+}
+
+.icon-transactions {
+    background: #e3f2ff;
+    color: #2f8fe0;
+}
+
+.icon-budget {
+    background: #e3faf0;
+    color: #23a970;
+}
+
+.icon-expense {
+    background: #ffe6ea;
+    color: #e0355f;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.stat-corner {
+    margin-left: auto;
+    font-size: 12px;
+    color: #c3c3d6;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.stat-trend {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.stat-trend em {
+    font-weight: 500;
+    color: var(--muted);
+    font-style: normal;
+}
+
+.stat-trend.up {
+    color: #1fa971;
+}
+
+.stat-trend.down {
+    color: #e0355f;
+}
+
+.stat-trend i {
+    font-size: 10px;
+}
+
+/* ---------- SHARED PANEL ---------- */
+.panel {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+}
+
+.panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.panel-head h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.mini-select,
+.view-all-btn {
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+}
+
+.mini-select i {
+    margin-left: 6px;
+    font-size: 10px;
+}
+
+/* ---------- CHART + SUMMARY ROW ---------- */
+.report-mid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 16px;
+    align-items: start;
+}
+
+.report-mid:first-of-type .overview-panel {
+    min-height: 340px;
+}
+
+/* ---------- DONUT SUMMARY ---------- */
+.donut-wrap {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 18px;
+}
+
+.donut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.donut-center span {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.donut-center strong {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.summary-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.summary-legend li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink);
+}
+
+.summary-legend li strong {
+    margin-left: auto;
+    font-size: 12.5px;
+    font-weight: 700;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dot-budget {
+    background: var(--purple);
+}
+
+.dot-expense {
+    background: #e0355f;
+}
+
+/* ---------- TOP CATEGORIES ---------- */
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.category-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cat-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.cat-food { background: #fdece0; color: #e07a23; }
+.cat-shopping { background: #ffe6f0; color: #e03b8f; }
+.cat-travel { background: #e3f2ff; color: #2f8fe0; }
+.cat-entertainment { background: var(--purple-light); color: var(--purple); }
+.cat-others { background: #f1f1f5; color: #7a7a90; }
+
+.cat-name {
+    width: 130px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    flex-shrink: 0;
+}
+
+.cat-bar {
+    flex: 1;
+    height: 8px;
+    border-radius: 6px;
+    background: var(--purple-lighter);
+    overflow: hidden;
+}
+
+.cat-fill {
+    height: 100%;
+    border-radius: 6px;
+    background: var(--purple);
+}
+
+.cat-amount {
+    width: 78px;
+    text-align: right;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    flex-shrink: 0;
+}
+
+.cat-pct {
+    width: 46px;
+    text-align: right;
+    font-size: 12px;
+    color: var(--muted);
+    flex-shrink: 0;
+}
+
+/* ---------- RECENT ACTIVITY ---------- */
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.activity-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.act-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.act-user { background: var(--purple-light); color: var(--purple); }
+.act-txn { background: #e3f2ff; color: #2f8fe0; }
+.act-budget { background: #e3faf0; color: #23a970; }
+
+.act-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.act-body strong {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.act-body span {
+    font-size: 11.5px;
+    color: var(--muted);
+}
+
+.act-value {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.act-value.expense {
+    color: #e0355f;
+}
+
+.act-value.income {
+    color: #1fa971;
+}
+
+@media (max-width: 1200px) {
+    .report-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .report-mid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .report-stats {
+        grid-template-columns: 1fr;
+    }
+}
+/* =========================================================
+   BOTTOM REPORT CARDS
+   EQUAL WIDTH + EQUAL HEIGHT + EVEN ROW SPACING
+   ========================================================= */
+
+.report-mid:has(.categories-panel) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    align-items: stretch;
+}
+
+
+/* ---------- SAME CARD SIZE ---------- */
+
+.categories-panel,
+.activity-panel {
+    width: 100%;
+    height: 300px;
+    min-height: 300px;
+    max-height: 300px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ---------- CARD HEADER ---------- */
+
+.categories-panel .panel-head,
+.activity-panel .panel-head {
+    flex-shrink: 0;
+    margin-bottom: 8px;
+}
+
+
+/* ---------- LIST AREA ---------- */
+
+.categories-panel .category-list,
+.activity-panel .activity-list {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-evenly;
+
+    margin: 0;
+    padding: 0;
+
+    gap: 0;
+}
+
+
+/* ---------- CATEGORY ROW ---------- */
+
+.categories-panel .category-list li {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    width: 100%;
+}
+
+
+/* ---------- ACTIVITY ROW ---------- */
+
+.activity-panel .activity-list li {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    width: 100%;
+}
+
+
+/* ---------- ACTIVITY BODY ---------- */
+
+.activity-panel .act-body {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 2px;
+}
+
+
+/* ---------- ACTIVITY VALUE ---------- */
+
+.activity-panel .act-value {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 1200px) {
+
+    .report-mid:has(.categories-panel) {
+        grid-template-columns: 1fr;
+    }
+
+    .categories-panel,
+    .activity-panel {
+        height: 300px;
+        min-height: 300px;
+        max-height: 300px;
+    }
+
+}

@@ -1,0 +1,121 @@
+/* =========================================================
+   ADMIN TOPBAR — shared fixed bar across every /admin/* page
+   Import once per page (link tag) alongside AdminNavbar.css.
+   Pairs with the AdminTopbar.html fragment (th:fragment="adminTopbar").
+   ========================================================= */
+
+.admin-topbar {
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-width);
+    right: 0;
+
+    height: var(--topbar-height);
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 14px;
+
+    padding: 0 36px;
+
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+
+    z-index: 90;
+
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Push page content below the fixed bar so nothing sits underneath it,
+   and so the bar never slides away while the page scrolls. */
+.admin-content {
+    margin-top: var(--topbar-height);
+}
+
+.topbar-icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7a7a90;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    transition: border-color 0.15s, color 0.15s;
+}
+
+.topbar-icon-btn:hover {
+    border-color: var(--purple);
+    color: var(--purple);
+}
+
+.topbar-icon-btn .notif-dot {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+}
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px 6px 6px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+.topbar-user .avatar-sm {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--purple);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+.topbar-user .user-meta {
+    line-height: 1.25;
+}
+
+.topbar-user .user-meta strong {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+}
+
+.topbar-user .user-meta span {
+    font-size: 11.5px;
+    color: var(--muted);
+}
+
+.topbar-user i.fa-chevron-down {
+    font-size: 11px;
+    color: #c3c3d6;
+    margin-left: 2px;
+}

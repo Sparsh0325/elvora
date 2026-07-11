@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/AdminNavbar.css}">
+    <link rel="stylesheet" th:href="@{/css/AdminTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/AdminDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin/EditAdmin.css}">
+</head>
+
+<body>
+
+<div th:replace="~{Admin/AdminNavbar :: adminNavbar}"></div>
+
+<div class="admin-main">
+
+    <div th:replace="~{Admin/AdminTopbar :: adminTopbar}"></div>
+
+    <main class="admin-content">
+
+        <!-- ===== Page header ===== -->
+        <div class="ep-page-header">
+            <nav class="breadcrumb">
+                <a th:href="@{/admin/home}" class="bc-link">Dashboard</a>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <a th:href="@{/admin/profile(email=${admin.email})}" class="bc-link">Profile</a>
+                <i class="fa-solid fa-chevron-right bc-sep"></i>
+                <span class="bc-current">Edit Profile</span>
+            </nav>
+            <h1>Edit Profile</h1>
+            <p class="ep-page-sub">Update your personal details and keep your account secure</p>
+        </div>
+
+        <!-- ===== Row 1 : two-column layout ===== -->
+        <div class="ep-layout">
+
+            <!-- ---- LEFT: form card ---- -->
+            <div class="ep-form-card">
+
+                <div class="ep-card-header">
+                    <div class="ep-card-icon">
+                        <i class="fa-regular fa-id-card"></i>
+                    </div>
+                    <div>
+                        <p class="ep-card-title">Personal Information</p>
+                        <p class="ep-card-sub">Update your personal details</p>
+                    </div>
+                </div>
+
+                <form th:action="@{/admin/edit}" method="post" class="ep-form" id="editForm">
+
+                    <!-- Hidden email for POST binding -->
+                    <input type="hidden" name="email" th:value="${admin.email}">
+
+                    <!-- Two-column inputs row: Full Name + Email -->
+                    <div class="ep-fields-row">
+
+                        <!-- Full Name -->
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-user input-icon"></i>
+                                <input type="text"
+                                       id="adminnameInput"
+                                       name="adminname"
+                                       class="form-input"
+                                       placeholder="Enter your full name"
+                                       th:value="${admin.adminname}"
+                                       required>
+                            </div>
+                            <p class="form-hint">Enter your full name</p>
+                        </div>
+
+                        <!-- Email Address (readonly) -->
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-envelope input-icon"></i>
+                                <input type="email"
+                                       name="emailDisplay"
+                                       class="form-input form-input-readonly"
+                                       placeholder="Enter your email address"
+                                       th:value="${admin.email}"
+                                       readonly>
+                            </div>
+                            <p class="form-hint">Enter your email address</p>
+                        </div>
+
+                    </div>
+
+                    <!-- Contact Number -->
+                    <div class="form-group">
+                        <label class="form-label">Contact Number</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-phone input-icon"></i>
+                            <input type="number"
+                                   id="contactInput"
+                                   name="contact"
+                                   class="form-input"
+                                   placeholder="Enter your contact number"
+                                   th:value="${admin.contact}"
+                                   required>
+                        </div>
+                        <p class="form-hint">Enter your contact number</p>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="form-group">
+                        <label class="form-label">Address</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-location-dot input-icon"></i>
+                            <input type="text"
+                                   id="addressInput"
+                                   name="address"
+                                   class="form-input"
+                                   placeholder="Enter your full address"
+                                   th:value="${admin.address}"
+                                   required>
+                        </div>
+                        <p class="form-hint">Enter your full address</p>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="form-actions">
+                        <a th:href="@{/admin/profile(email=${admin.email})}" class="btn-cancel">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn-submit">
+                            <i class="fa-solid fa-check"></i>
+                            Update Profile
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- ---- RIGHT: profile preview card ---- -->
+            <div class="preview-card">
+
+                <!-- Decorative dots -->
+                <span class="pv-dot pv-dot-tr"></span>
+                <span class="pv-dot pv-dot-ml"></span>
+                <span class="pv-dot pv-dot-br"></span>
+
+                <div class="preview-header">
+                    <p class="preview-title">Profile Preview</p>
+                    <p class="preview-sub">This is how your profile appears</p>
+                </div>
+
+                <!-- Avatar -->
+                <div class="preview-avatar-wrap">
+                    <div class="preview-avatar" id="previewAvatar">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="preview-avatar-cam">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+                </div>
+
+                <!-- Name live preview -->
+                <p class="preview-name" id="previewName"
+                   th:text="${admin.adminname}">Admin Name</p>
+
+                <!-- Role badge -->
+                <span class="preview-role">Administrator</span>
+
+                <div class="preview-divider"></div>
+
+                <!-- Info rows -->
+                <ul class="preview-info-list">
+                    <li class="pil-row">
+                        <span class="pil-icon"><i class="fa-regular fa-envelope"></i></span>
+                        <span class="pil-text" th:text="${admin.email}">email@example.com</span>
+                    </li>
+                    <li class="pil-row">
+                        <span class="pil-icon"><i class="fa-solid fa-phone"></i></span>
+                        <span class="pil-text" id="previewContact" th:text="${admin.contact}">—</span>
+                    </li>
+                    <li class="pil-row">
+                        <span class="pil-icon"><i class="fa-solid fa-location-dot"></i></span>
+                        <span class="pil-text" id="previewAddress" th:text="${admin.address}">—</span>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <!-- ===== Row 2 : Security Settings (full-width) ===== -->
+        <div class="security-card">
+
+            <div class="security-header">
+                <div class="security-icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div>
+                    <p class="security-title">Security Settings</p>
+                    <p class="security-sub">Manage your account security and password</p>
+                </div>
+
+                <a th:href="@{/admin/changePassword}" class="btn-change-password">
+                    <i class="fa-solid fa-lock"></i>
+                    Change Password
+                </a>
+            </div>
+
+            <div class="security-divider"></div>
+
+            <!-- Password row -->
+            <div class="security-row">
+                <span class="sr-label">Password</span>
+                <span class="sr-dots">••••••••••</span>
+                <span class="sr-meta">Last changed: Jul 05, 2026</span>
+                <i class="fa-solid fa-chevron-right sr-arrow"></i>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+<script>
+    /* ---- Live preview: name ---- */
+    const nameInput     = document.getElementById('adminnameInput');
+    const previewName   = document.getElementById('previewName');
+
+    if (nameInput && previewName) {
+        nameInput.addEventListener('input', () => {
+            previewName.textContent = nameInput.value.trim() || 'Admin Name';
+        });
+    }
+
+    /* ---- Live preview: contact ---- */
+    const contactInput   = document.getElementById('contactInput');
+    const previewContact = document.getElementById('previewContact');
+
+    if (contactInput && previewContact) {
+        contactInput.addEventListener('input', () => {
+            previewContact.textContent = contactInput.value.trim() || '—';
+        });
+    }
+
+    /* ---- Live preview: address ---- */
+    const addressInput   = document.getElementById('addressInput');
+    const previewAddress = document.getElementById('previewAddress');
+
+    if (addressInput && previewAddress) {
+        addressInput.addEventListener('input', () => {
+            previewAddress.textContent = addressInput.value.trim() || '—';
+        });
+    }
+</script>
+
+</body>
+</html>

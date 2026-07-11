@@ -1,0 +1,527 @@
+/* =========================================================
+   DELETE USER PAGE  — new design
+   ========================================================= */
+
+.admin-content {
+    padding: 20px 28px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+/* ════════════════════════════════
+   PAGE HEADER
+   ════════════════════════════════ */
+
+.du-page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.du-page-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #1a1b35;
+    margin: 0;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bc-link {
+    font-size: 12.5px;
+    color: #8a8cb0;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+.bc-link:hover { color: #7557f6; }
+
+.bc-sep { font-size: 9px; color: #b0b3cc; }
+
+.bc-current {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #ef4444;
+}
+
+/* ════════════════════════════════
+   FULL-WIDTH AMBER ALERT BANNER
+   ════════════════════════════════ */
+
+.du-alert-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.du-alert-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #fef3c7;
+    color: #d97706;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.du-alert-text {
+    font-size: 13px;
+    color: #92400e;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* ════════════════════════════════
+   TWO-COLUMN LAYOUT
+   ════════════════════════════════ */
+
+.du-layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
+    width: 100%;
+}
+
+/* ════════════════════════════════
+   LEFT CARD
+   ════════════════════════════════ */
+
+.du-info-card {
+    background: #ffffff;
+    border: 1px solid #e8e3ff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(117, 87, 246, 0.06);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Purple hero header ── */
+.du-hero {
+    position: relative;
+    min-height: 108px;
+    padding: 20px 22px;
+    background: linear-gradient(130deg, #c4b5fd 0%, #a78bfa 40%, #8b6cf7 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+/* Decorative blob */
+.du-hero-blob {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.du-hero-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.du-avatar {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #7c5cfc, #5b3fdd);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 6px 20px rgba(100, 70, 220, 0.35),
+    0 0 0 4px rgba(255,255,255,0.25);
+}
+
+.du-avatar-letter {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.du-hero-meta { display: flex; flex-direction: column; gap: 5px; }
+
+.du-name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.du-user-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+}
+
+.du-status-badge {
+    font-size: 10.5px;
+    font-weight: 600;
+    background: #d1fae5;
+    color: #059669;
+    border-radius: 999px;
+    padding: 3px 12px;
+}
+
+.du-sparkle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+}
+
+.du-user-id {
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.75);
+    margin: 0;
+}
+
+/* Shield SVG on the right */
+.du-hero-right {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+}
+
+.du-shield-svg {
+    width: 70px;
+    height: auto;
+    filter: drop-shadow(0 8px 18px rgba(80,50,200,0.35));
+}
+
+/* ── Section label ── */
+.du-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px 10px;
+}
+
+.du-section-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: #f0ecfe;
+    color: #7557f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.du-section-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #2d2f55;
+    margin: 0;
+}
+
+/* ── Info rows ── */
+.du-info-rows {
+    margin: 0 16px;
+    border: 1px solid #ede9ff;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.du-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 16px;
+    border-bottom: 1px solid #ede9ff;
+    gap: 10px;
+    background: #ffffff;
+    transition: background 0.12s;
+}
+.du-info-row:hover  { background: #fdfcff; }
+.du-info-row-last   { border-bottom: none; }
+
+.du-info-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+.du-info-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: #f5f2ff;
+    color: #8b72e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11.5px;
+    flex-shrink: 0;
+}
+
+.du-info-label {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #737696;
+    min-width: 110px;
+}
+
+.du-info-value {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #1c1e38;
+    text-align: right;
+}
+
+.du-role-badge {
+    font-size: 11px;
+    font-weight: 600;
+    background: #f0ecfe;
+    color: #6949f5;
+    border: 1px solid #ddd5ff;
+    border-radius: 999px;
+    padding: 3px 14px;
+}
+
+/* ── Blue info note (replaces amber warning) ── */
+.du-info-note {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin: 14px 16px 18px;
+    padding: 13px 16px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+}
+
+.du-info-note-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #3b82f6;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.du-info-note-text {
+    font-size: 11.5px;
+    color: #1e40af;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.du-info-note-strong {
+    font-weight: 700;
+    color: #1d4ed8;
+}
+
+/* ════════════════════════════════
+   RIGHT CARD — full pink bg
+   ════════════════════════════════ */
+
+.du-confirm-card {
+    background: linear-gradient(160deg, #fff5f5 0%, #fff1f2 60%, #ffe4e6 100%);
+    border: 1px solid #fecdd3;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(239, 68, 68, 0.07);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Illustration ── */
+.du-illustration {
+    padding: 22px 16px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-shrink: 0;
+}
+
+.du-trash-svg {
+    width: 260px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 10px 22px rgba(244, 63, 94, 0.2));
+}
+
+/* ── Confirm title ── */
+.du-confirm-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1a1b35;
+    margin: 6px 20px 8px;
+    text-align: center;
+}
+
+.du-confirm-sub {
+    font-size: 12.5px;
+    color: #6b6e92;
+    line-height: 1.65;
+    margin: 0 auto 14px;
+    max-width: 340px;
+    padding: 0 16px;
+    text-align: center;
+}
+
+.du-confirm-sub strong {
+    color: #f43f5e;
+    font-weight: 700;
+}
+
+/* ── Consequences box ── */
+.du-consequences {
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid #fecdd3;
+    border-radius: 12px;
+    margin: 0 16px 14px;
+    padding: 12px 14px;
+    backdrop-filter: blur(4px);
+}
+
+.du-consequences-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: #e11d48;
+    margin: 0 0 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.du-consequences-list {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.du-consequences-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 12px;
+    color: #9f1239;
+    line-height: 1.45;
+}
+
+.du-con-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fecdd3;
+    color: #e11d48;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9.5px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+/* ── Action buttons ── */
+.du-confirm-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 16px 10px;
+    margin-top: auto;
+}
+
+.du-btn-cancel {
+    flex: 1;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid #ddd5ff;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #4b4d7a;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.du-btn-cancel:hover {
+    border-color: #7557f6;
+    color: #7557f6;
+    background: #faf8ff;
+}
+
+.du-btn-delete {
+    flex: 1.4;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(90deg, #ff3c4d, #f43f5e);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(244, 63, 80, 0.32);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.du-btn-delete:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(244, 63, 80, 0.42);
+}
+
+/* ── Secure note at bottom ── */
+.du-secure-note {
+    font-size: 11.5px;
+    color: #9ca3af;
+    text-align: center;
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+.du-secure-note i { color: #7557f6; font-size: 12px; }
+
+/* ════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════ */
+@media (max-width: 900px) {
+    .du-layout { grid-template-columns: 1fr; }
+    .du-confirm-card { order: -1; }
+}
+@media (max-width: 580px) {
+    .admin-content { padding: 14px 12px 40px; }
+    .du-info-rows  { margin-left: 10px; margin-right: 10px; }
+    .du-info-note  { margin-left: 10px; margin-right: 10px; }
+    .du-consequences { margin-left: 10px; margin-right: 10px; }
+    .du-confirm-actions { padding-left: 10px; padding-right: 10px; }
+}

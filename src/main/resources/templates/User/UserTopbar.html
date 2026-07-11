@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<header th:fragment="userTopbar"
+        class="user-topbar">
+
+    <!--
+        Date-range picker.
+        - `startDate` / `endDate` / `rangeLabel` are model attributes added by
+          whichever controller renders the page (see UserController#userProfile
+          for the pattern). If a controller doesn't add them yet, this just
+          falls back to "Select date range" and empty inputs -- it won't error.
+        - On "Apply", JS rebuilds the CURRENT page's URL with startDate/endDate
+          query params and reloads, so each page decides for itself how to use
+          them (Profile page currently uses them for Account Summary only).
+    -->
+    <div class="date-range-wrap">
+
+        <button type="button"
+                class="date-range-btn"
+                id="dateRangeBtn">
+
+            <i class="fa-regular fa-calendar"></i>
+
+            <span id="dateRangeLabel"
+                  th:text="${rangeLabel != null ? rangeLabel : 'Select date range'}">
+                Jul 01, 2026 - Jul 08, 2026
+            </span>
+
+            <i class="fa-solid fa-chevron-down"></i>
+
+        </button>
+
+        <div class="date-range-panel" id="dateRangePanel">
+
+            <div class="date-range-field">
+                <label for="dateRangeStart">From</label>
+                <input type="date" id="dateRangeStart" th:value="${startDate}">
+            </div>
+
+            <div class="date-range-field">
+                <label for="dateRangeEnd">To</label>
+                <input type="date" id="dateRangeEnd" th:value="${endDate}">
+            </div>
+
+            <button type="button" class="date-range-apply" id="dateRangeApply">
+                Apply
+            </button>
+
+        </div>
+
+    </div>
+
+    <button type="button"
+            class="topbar-icon-btn"
+            aria-label="Search">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+    </button>
+
+    <button type="button"
+            class="topbar-icon-btn"
+            aria-label="Notifications">
+
+        <i class="fa-regular fa-bell"></i>
+
+        <span class="notif-dot">1</span>
+
+    </button>
+
+    <a th:href="@{/user/profile}"
+       class="topbar-user">
+
+        <div class="avatar-sm"
+             th:text="${session.displayName != null && !#strings.isEmpty(session.displayName) ? #strings.substring(session.displayName, 0, 1).toUpperCase() : 'U'}">
+            U
+        </div>
+
+        <div class="user-meta">
+
+            <strong th:text="${session.displayName != null ? session.displayName : 'User'}">
+                User
+            </strong>
+
+            <span th:text="${session.email}">
+                user@mail.com
+            </span>
+
+        </div>
+
+        <i class="fa-solid fa-chevron-down"></i>
+
+    </a>
+
+    <script>
+        (function () {
+            const btn = document.getElementById('dateRangeBtn');
+            const panel = document.getElementById('dateRangePanel');
+            const applyBtn = document.getElementById('dateRangeApply');
+
+            if (!btn || !panel || !applyBtn) return;
+
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                panel.classList.toggle('show-panel');
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!panel.contains(e.target) && e.target !== btn) {
+                    panel.classList.remove('show-panel');
+                }
+            });
+
+            applyBtn.addEventListener('click', function () {
+                const start = document.getElementById('dateRangeStart').value;
+                const end = document.getElementById('dateRangeEnd').value;
+
+                if (!start || !end) {
+                    alert('Please pick both a start and end date.');
+                    return;
+                }
+
+                if (start > end) {
+                    alert('Start date must be before end date.');
+                    return;
+                }
+
+                const url = new URL(window.location.href);
+                url.searchParams.set('startDate', start);
+                url.searchParams.set('endDate', end);
+                window.location.href = url.toString();
+            });
+        })();
+    </script>
+
+</header>
+
+</body>
+
+</html>
