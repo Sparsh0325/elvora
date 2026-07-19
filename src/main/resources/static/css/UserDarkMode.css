@@ -1,0 +1,163 @@
+/* =========================================================
+   USER DARK MODE
+   Inherits all common styles from AdminDarkMode.css and
+   applies them to user-specific page components.
+   ========================================================= */
+
+@import "AdminDarkMode.css";
+
+/* =========================================================
+   USER TOPBAR
+   ========================================================= */
+body.dark-theme .user-topbar {
+    background: #1a1726;
+    border-bottom-color: #2c2740;
+}
+
+/* =========================================================
+   USER DASHBOARD (UserHome / UserDashboard)
+   ========================================================= */
+body.dark-theme .admin-content {
+    background: #13111c;
+}
+
+body.dark-theme .dashboard-greet h1 {
+    color: #f0ecff;
+}
+
+body.dark-theme .dashboard-greet p {
+    color: #8a84a8;
+}
+
+body.dark-theme .date-select-btn {
+    background: #1e1b2e;
+    border-color: #2c2740;
+    color: #e4e0f0;
+}
+
+body.dark-theme .date-select-btn:hover {
+    background: #252240;
+    border-color: #7557f6;
+}
+
+body.dark-theme .top-stat-card {
+    background: #1e1b2e;
+    border-color: #2c2740;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme .top-stat-card:hover {
+    box-shadow: 0 4px 16px rgba(117, 87, 246, 0.2);
+}
+
+body.dark-theme .stat-value {
+    color: #f0ecff;
+}
+
+body.dark-theme .stat-label {
+    color: #8a84a8;
+}
+
+body.dark-theme .stat-trend {
+    color: #34d399;
+}
+
+body.dark-theme .stat-card-right {
+    background: #262040;
+    color: #a78bfa;
+}
+
+/* =========================================================
+   USER BUDGET & CATEGORIES
+   ========================================================= */
+body.dark-theme .budget-card,
+body.dark-theme .category-card,
+body.dark-theme .expense-card {
+    background: #1e1b2e;
+    border-color: #2c2740;
+}
+
+/* =========================================================
+   USER REPORTS (Reports.css)
+   ========================================================= */
+body.dark-theme .report-header-panel h1 {
+    color: #f0ecff;
+}
+
+body.dark-theme .report-header-panel p {
+    color: #8a84a8;
+}
+
+body.dark-theme .filter-card-wrap {
+    background: #1e1b2e;
+    border-color: #2c2740;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme .form-group-item label {
+    color: #b8b0d4;
+}
+
+body.dark-theme .filter-select-field,
+body.dark-theme .filter-input-field {
+    background: #16132a;
+    border-color: #2c2740;
+    color: #e4e0f0;
+}
+
+body.dark-theme .filter-select-field:focus,
+body.dark-theme .filter-input-field:focus {
+    border-color: #7557f6;
+}
+
+/* =========================================================
+   REPORTS DETAILS
+   ========================================================= */
+body.dark-theme .report-detail-card {
+    background: #1e1b2e;
+    border-color: #2c2740;
+}
+
+body.dark-theme .report-meta-label {
+    color: #8a84a8;
+}
+
+body.dark-theme .report-meta-value {
+    color: #f0ecff;
+}
+
+/* =========================================================
+   BUDGET DETAILS (Budget.css)
+   ========================================================= */
+body.dark-theme .budget-item-card {
+    background: #1e1b2e;
+    border-color: #2c2740;
+}
+
+body.dark-theme .budget-label {
+    color: #8a84a8;
+}
+
+body.dark-theme .budget-amount {
+    color: #f0ecff;
+}
+
+body.dark-theme .progress-bar-bg {
+    background: #262040;
+}
+
+/* =========================================================
+   SHOW EXPENSE (ShowExpense.css)
+   ========================================================= */
+body.dark-theme .expense-filter-card {
+    background: #1e1b2e;
+    border-color: #2c2740;
+}
+
+body.dark-theme .expense-item-row {
+    border-bottom-color: #2c2740;
+}
+
+body.dark-theme .expense-item-row:hover {
+    background: #221f38;
+}

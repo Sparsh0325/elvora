@@ -1,0 +1,234 @@
+/* =========================================================
+   USER REPORTS STYLES
+   Provides isolated dashboard styles for Report views
+   ========================================================= */
+
+:root {
+    --purple: #7557f6;
+    --purple-dark: #6341e8;
+    --purple-light: #e9e3ff;
+    --purple-lighter: #f1edff;
+    --ink: #17152d;
+    --muted: #817b9d;
+    --border: #ddd5ff;
+}
+
+.admin-content {
+    padding: 24px 28px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Page Header */
+.report-header-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.report-header-panel h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ink);
+    margin: 0;
+}
+
+.report-header-panel p {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin: 0;
+}
+
+/* Filter Card */
+.filter-card-wrap {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(117,87,246,0.05);
+}
+
+.filter-form-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.form-group-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group-item label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.filter-select-field, .filter-input-field {
+    height: 40px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    padding: 0 12px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+    min-width: 140px;
+}
+.filter-select-field:focus, .filter-input-field:focus {
+    border-color: var(--purple);
+}
+
+.submit-filter-btn {
+    align-self: flex-end;
+    height: 40px;
+    padding: 0 20px;
+    background: var(--purple);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.16s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.submit-filter-btn:hover {
+    background: var(--purple-dark);
+}
+
+/* Summary Title Row */
+.summary-title-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.summary-title-bar h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink);
+    margin: 0;
+}
+
+/* 3 Stat Cards */
+.report-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 768px) {
+    .report-stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.report-stat-item {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(117,87,246,0.04);
+}
+
+.report-stat-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.report-stat-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-top: 4px;
+}
+
+.report-stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--purple-lighter);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--purple);
+}
+
+/* Report Table */
+.report-table-section {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(117,87,246,0.04);
+    margin-top: 10px;
+}
+
+.report-table-section h3 {
+    margin: 20px 20px 10px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.report-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+}
+
+.report-data-table th {
+    background: #f8f7ff;
+    padding: 14px 18px;
+    font-weight: 700;
+    color: var(--ink);
+    border-bottom: 1.5px solid var(--border);
+}
+
+.report-data-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink);
+}
+
+.report-data-table tbody tr:hover {
+    background: var(--purple-lighter);
+}
+
+.category-badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    text-transform: uppercase;
+    background: #ede9fe;
+    color: #7557f6;
+}
+
+.empty-report-card {
+    text-align: center;
+    padding: 40px 18px;
+    color: var(--muted);
+}
+.empty-report-card i {
+    font-size: 32px;
+    margin-bottom: 12px;
+}

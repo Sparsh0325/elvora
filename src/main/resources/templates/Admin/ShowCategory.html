@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>All Categories – Elvora</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/AdminNavbar.css}">
+    <link rel="stylesheet" th:href="@{/css/AdminTopbar.css}">
+    <link rel="stylesheet" th:href="@{/css/AdminDarkMode.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin/ShowCategory.css}">
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div th:replace="~{Admin/AdminNavbar :: adminNavbar}"></div>
+
+<div class="admin-main">
+
+    <!-- Topbar -->
+    <div th:replace="~{Admin/AdminTopbar :: adminTopbar}"></div>
+
+    <main class="admin-content">
+
+        <!-- Page Header -->
+        <div class="category-header">
+            <div class="page-titles">
+                <h1>All Categories</h1>
+                <p>Manage all your categories in one place</p>
+            </div>
+
+            <a th:href="@{/category/register}">
+                <button type="button" class="add-category-btn">
+                    <i class="fa-solid fa-plus"></i>
+                    Add Category
+                </button>
+            </a>
+        </div>
+
+        <!-- Summary Card -->
+        <section class="category-summary-card">
+
+            <!-- Left: stats -->
+            <div class="summary-left">
+                <div class="summary-icon">
+                    <i class="fa-regular fa-calendar"></i>
+                </div>
+                <div class="summary-text">
+                    <span class="summary-label">Total Categories</span>
+                    <strong class="summary-value" th:text="${categories.size()}">0</strong>
+                    <span class="summary-sub">Active categories</span>
+                </div>
+            </div>
+
+            <!-- Right: illustration -->
+            <div class="summary-illustration">
+                <span class="sc-dot sc-dot-tl"></span>
+                <span class="sc-dot sc-dot-ml"></span>
+                <span class="sc-dot sc-dot-br"></span>
+
+                <svg class="folder-svg" viewBox="0 0 160 130" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="82" cy="123" rx="50" ry="7" fill="#c4b5f4" opacity="0.35"/>
+                    <rect x="34" y="52" width="96" height="66" rx="10" fill="#c4b5f4"/>
+                    <path d="M34 60 Q34 52 43 52 L72 52 Q80 52 82 60 Z" fill="#a78bfa"/>
+                    <rect x="26" y="60" width="104" height="60" rx="10" fill="#a78bfa"/>
+                    <rect x="52" y="32" width="42" height="54" rx="5" fill="#ffffff" opacity="0.92" transform="rotate(-10 73 59)"/>
+                    <line x1="60" y1="48" x2="84" y2="44" stroke="#ddd6fe" stroke-width="2.5" stroke-linecap="round" transform="rotate(-10 73 59)"/>
+                    <line x1="60" y1="56" x2="84" y2="52" stroke="#ddd6fe" stroke-width="2.5" stroke-linecap="round" transform="rotate(-10 73 59)"/>
+                    <rect x="66" y="28" width="40" height="50" rx="5" fill="#ede9fe" opacity="0.88" transform="rotate(8 86 53)"/>
+                    <circle cx="120" cy="36" r="9" fill="#f9a8d4" opacity="0.9"/>
+                    <circle cx="120" cy="36" r="5" fill="#ffffff" opacity="0.75"/>
+                </svg>
+            </div>
+
+        </section>
+
+        <!-- Categories Table -->
+        <section class="categories-table-panel">
+
+            <table class="categories-table">
+                <thead>
+                <tr>
+                    <th>Category ID</th>
+                    <th>Category Name</th>
+                    <th>Created By</th>
+                    <th>Created On</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="category : ${categories}">
+                    <td>
+                        <span class="id-badge" th:text="${category.category_id}"></span>
+                    </td>
+                    <td class="cat-name-cell" th:text="${category.category_name}"></td>
+                    <td th:text="${category.created_by}"></td>
+                    <td>
+                        <div class="created-on-cell">
+                            <i class="fa-regular fa-calendar created-on-icon"></i>
+                            <span class="created-on-text">
+                                <span class="created-date"
+                                      th:if="${category.createdAt != null}"
+                                      th:text="${#temporals.format(category.createdAt, 'MMM dd, yyyy')}">
+                                    Jul 10, 2026
+                                </span>
+                                <span class="created-date" th:unless="${category.createdAt != null}">—</span>
+                                <span class="created-time"
+                                      th:if="${category.createdAt != null}"
+                                      th:text="${#temporals.format(category.createdAt, 'hh:mm a')}">
+                                    10:15 AM
+                                </span>
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-active">
+                            <span class="status-dot"></span>
+                            Active
+                        </span>
+                    </td>
+                    <td class="actions-cell">
+                        <a th:if="${category.created_by == email}"
+                           th:href="@{/category/edit(id=${category.category_id})}"
+                           class="action-btn edit-btn"
+                           title="Edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                        <a th:if="${category.created_by == email}"
+                           th:href="@{/category/delete(id=${category.category_id})}"
+                           class="action-btn delete-btn"
+                           title="Delete">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                        <span th:unless="${category.created_by == email}" class="not-allowed">
+                            Not editable
+                        </span>
+                    </td>
+                </tr>
+
+                <tr th:if="${categories.isEmpty()}">
+                    <td colspan="6" class="empty-row">No categories found.</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Table Footer -->
+            <div class="table-footer">
+                <span class="footer-count">
+                    Showing 1 to <span th:text="${categories.size()}">0</span> of <span th:text="${categories.size()}">0</span> categories
+                </span>
+                <div class="pagination">
+                    <button class="page-btn page-nav" disabled title="Previous">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button class="page-btn page-active">1</button>
+                    <button class="page-btn page-nav" disabled title="Next">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>
